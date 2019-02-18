@@ -2,7 +2,7 @@ package com.wd.tech.util;
 
 import android.os.Environment;
 
-import com.gj.weidumovie.core.WDApplication;
+import com.wd.tech.core.WDApplication;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

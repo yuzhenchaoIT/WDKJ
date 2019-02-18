@@ -16,10 +16,6 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import java.io.File;
 
 
-/**
- * @name: MyApplication
- * @remark:
- */
 public class WDApplication extends Application {
     /** 主线程ID */
     private static int mMainThreadId = -1;

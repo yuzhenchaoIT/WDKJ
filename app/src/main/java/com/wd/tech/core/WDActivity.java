@@ -15,17 +15,10 @@ import android.view.KeyEvent;
 import android.view.WindowManager;
 
 
-import com.wd.tech.util.StatusBarCompat;
-
 import butterknife.ButterKnife;
 import me.jessyan.autosize.internal.CustomAdapt;
 
-/**
- * @author dingtao
- * @date 2018/12/29 14:00
- * qq:1940870847
- */
-public abstract class WDActivity extends AppCompatActivity implements CustomAdapt {
+public abstract class WDActivity extends AppCompatActivity{
 
     public final static int PHOTO = 0;// 相册选取
     public final static int CAMERA = 1;// 拍照
@@ -35,18 +28,6 @@ public abstract class WDActivity extends AppCompatActivity implements CustomAdap
      * 记录处于前台的Activity
      */
     private static WDActivity mForegroundActivity = null;
-
-   // public UserBean LOGIN_USER;
-
-    @Override
-    public boolean isBaseOnWidth() {
-        return false;
-    }
-
-    @Override
-    public float getSizeInDp() {
-        return 720;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -128,8 +109,8 @@ public abstract class WDActivity extends AppCompatActivity implements CustomAdap
     protected void onStart() {
         super.onStart();
         mForegroundActivity = this;
-        //沉浸式状态栏
-        StatusBarCompat.translucentStatusBar(this);
+        //透明状态栏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
     /**

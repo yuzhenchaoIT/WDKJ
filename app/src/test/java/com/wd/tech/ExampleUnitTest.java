@@ -1,4 +1,4 @@
-package tech.wd.com;
+package com.wd.tech;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package tech.wd.com;
+package com.wd.tech;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("tech.wd.com", appContext.getPackageName());
+        assertEquals("com.wd.tech", appContext.getPackageName());
     }
 }
