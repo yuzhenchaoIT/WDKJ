@@ -5,7 +5,8 @@ package com.wd.tech.core.http;
 
 
 
-import com.wd.tech.core.app.WDKJApp;
+import com.wd.tech.core.WDApplication;
+
 
 import java.io.IOException;
 
@@ -23,8 +24,8 @@ public class OkHeaderInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
 
-        int userId = WDKJApp.getShare().getInt("userId", 0);
-        String sessionId = WDKJApp.getShare().getString("sessionId", "");
+        int userId = WDApplication.getShare().getInt("userId", 0);
+        String sessionId = WDApplication.getShare().getString("sessionId", "");
         Request.Builder builder = chain.request().newBuilder();
         builder.addHeader("userId", userId + "");
         builder.addHeader("sessionId", sessionId);
