@@ -1,4 +1,4 @@
-package tech.wd.com;
+package com.wd.tech;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
