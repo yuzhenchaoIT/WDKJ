@@ -43,6 +43,7 @@ public class AddCircleActivity extends WDActivity {
         textSum = findViewById(R.id.id_editor_detail_font_count);
         editTex = findViewById(R.id.id_editor_detail);
 
+
     }
 
     @Override
