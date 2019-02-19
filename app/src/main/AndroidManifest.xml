@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".core.WDApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
@@ -29,6 +30,9 @@
         <activity android:name=".view.AddCircleActivity">
 
         </activity>
+
+        <activity android:name=".view.LoginActivity" />
+        <activity android:name=".view.RegisterActivity"></activity>
     </application>
 
 </manifest>

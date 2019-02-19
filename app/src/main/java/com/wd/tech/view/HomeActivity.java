@@ -2,9 +2,14 @@ package com.wd.tech.view;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,7 +25,7 @@ import com.wd.tech.frag.FragCommunity;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class HomeActivity extends WDActivity {
+public class HomeActivity extends AppCompatActivity {
 
 
     private FragInForMation frag_InForMation;
@@ -32,19 +37,16 @@ public class HomeActivity extends WDActivity {
     private DrawerLayout mdraw;
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_home;
-    }
-
-    @Override
-    protected void initView() {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        //透明状态栏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setContentView(R.layout.activity_home);
         //绑定
         ButterKnife.bind(this);
         //初始化控件
-        mradio = findViewById(R.id.mRadio);
-        mlinearhome = findViewById(R.id.mLinearHome);
-        mlinear = findViewById(R.id.mLinear);
-        mdraw = findViewById(R.id.mDraw);
+        Initialize();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         frag_InForMation = new FragInForMation();
         frag_Message = new FragMessage();
@@ -85,6 +87,7 @@ public class HomeActivity extends WDActivity {
             }
         });
     }
+    //点击切换页面
     @OnClick({R.id.mRB1,R.id.mRB2,R.id.mRB3})
     public void onView(View view){
         FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
@@ -108,8 +111,18 @@ public class HomeActivity extends WDActivity {
         }
         transaction1.commit();
     }
-    @Override
-    protected void destoryData() {
-
+    //初始化控件方法
+    private void Initialize() {
+        mradio = findViewById(R.id.mRadio);
+        mlinearhome = findViewById(R.id.mLinearHome);
+        mlinear = findViewById(R.id.mLinear);
+        mdraw = findViewById(R.id.mDraw);
+    }
+    //点击跳转登录页
+    @OnClick(R.id.mLinearJump)
+    public void mlinearJump(){
+        //跳转
+        Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+        startActivity(intent);
     }
 }
