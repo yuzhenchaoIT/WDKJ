@@ -7,11 +7,7 @@ import android.widget.BaseAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author dingtao
- * @date 2019/1/10 16:39
- * qq:1940870847
- */
+
 public abstract class WDListAdpater<T,MH extends WDListAdpater.Hodler> extends BaseAdapter {
 
     List<T> mList = new ArrayList<>();

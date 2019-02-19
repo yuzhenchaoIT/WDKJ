@@ -1,8 +1,5 @@
 package com.wd.tech.core.http;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import java.util.concurrent.TimeUnit;
 
@@ -12,16 +9,10 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * @author dingtao
- * @date 2018/12/28 10:07
- * qq:1940870847
- */
 public class NetworkManager {
 
     private static NetworkManager mInstance;
     private Retrofit retrofit;
-    //    private static final String BASE_URL = "http://mobile.bwstudent.com/small/";
     private static final String BASE_URL = "http://mobile.bwstudent.com/";
 
     private NetworkManager() {
@@ -44,7 +35,6 @@ public class NetworkManager {
                 .connectTimeout(60, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
-                .addInterceptor(new OkHeaderInterceptor())
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();
 
