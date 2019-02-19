@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <TextView
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/com_recy"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="3"/>
-</LinearLayout>
+        android:layout_marginTop="20dp"></com.jcodecraeer.xrecyclerview.XRecyclerView>
+</RelativeLayout>
