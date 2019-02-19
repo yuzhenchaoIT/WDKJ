@@ -26,6 +26,9 @@
             android:value="640" />
 
         <activity android:name=".view.HomeActivity"></activity>
+        <activity android:name=".view.AddCircleActivity">
+
+        </activity>
     </application>
 
 </manifest>
