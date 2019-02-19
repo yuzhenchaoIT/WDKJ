@@ -62,8 +62,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="start"
-        android:background="@color/colorAccent">
-
+        android:background="@drawable/beijing">
+        <ImageView
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@drawable/login_icon_n"
+            android:layout_gravity="center"/>
     </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

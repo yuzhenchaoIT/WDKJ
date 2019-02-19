@@ -10,11 +10,11 @@ import android.view.ViewGroup;
 
 import com.wd.tech.R;
 
-public class Frag_02 extends Fragment {
+public class FragInForMation extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_02,container,false);
+        View view = inflater.inflate(R.layout.frag_01,container,false);
         return view;
     }
 }

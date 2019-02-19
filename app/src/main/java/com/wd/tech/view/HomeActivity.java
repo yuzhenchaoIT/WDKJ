@@ -13,9 +13,9 @@ import android.widget.RadioGroup;
 
 import com.wd.tech.R;
 import com.wd.tech.core.WDActivity;
-import com.wd.tech.frag.Frag_01;
-import com.wd.tech.frag.Frag_02;
-import com.wd.tech.frag.Frag_03;
+import com.wd.tech.frag.FragInForMation;
+import com.wd.tech.frag.FragMessage;
+import com.wd.tech.frag.FragCommunity;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -23,9 +23,9 @@ import butterknife.OnClick;
 public class HomeActivity extends WDActivity {
 
 
-    private Frag_01 frag_01;
-    private Frag_02 frag_02;
-    private Frag_03 frag_03;
+    private FragInForMation frag_InForMation;
+    private FragMessage frag_Message;
+    private FragCommunity frag_Community;
     private RadioGroup mradio;
     private LinearLayout mlinearhome;
     private LinearLayout mlinear;
@@ -46,15 +46,15 @@ public class HomeActivity extends WDActivity {
         mlinear = findViewById(R.id.mLinear);
         mdraw = findViewById(R.id.mDraw);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        frag_01 = new Frag_01();
-        frag_02 = new Frag_02();
-        frag_03 = new Frag_03();
-        transaction.add(R.id.mFrame,frag_01);
-        transaction.add(R.id.mFrame,frag_02);
-        transaction.add(R.id.mFrame,frag_03);
-        transaction.show(frag_01);
-        transaction.hide(frag_02);
-        transaction.hide(frag_03);
+        frag_InForMation = new FragInForMation();
+        frag_Message = new FragMessage();
+        frag_Community = new FragCommunity();
+        transaction.add(R.id.mFrame, frag_InForMation);
+        transaction.add(R.id.mFrame, frag_Message);
+        transaction.add(R.id.mFrame, frag_Community);
+        transaction.show(frag_InForMation);
+        transaction.hide(frag_Message);
+        transaction.hide(frag_Community);
         transaction.commit();
         //默认选中第一个
         mradio.check(mradio.getChildAt(0).getId());
@@ -90,19 +90,19 @@ public class HomeActivity extends WDActivity {
         FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
         switch (view.getId()){
             case R.id.mRB1:
-                transaction1.show(frag_01);
-                transaction1.hide(frag_02);
-                transaction1.hide(frag_03);
+                transaction1.show(frag_InForMation);
+                transaction1.hide(frag_Message);
+                transaction1.hide(frag_Community);
                 break;
             case R.id.mRB2:
-                transaction1.show(frag_02);
-                transaction1.hide(frag_01);
-                transaction1.hide(frag_03);
+                transaction1.show(frag_Message);
+                transaction1.hide(frag_InForMation);
+                transaction1.hide(frag_Community);
                 break;
             case R.id.mRB3:
-                transaction1.show(frag_03);
-                transaction1.hide(frag_01);
-                transaction1.hide(frag_02);
+                transaction1.show(frag_Community);
+                transaction1.hide(frag_InForMation);
+                transaction1.hide(frag_Message);
                 break;
 
         }
