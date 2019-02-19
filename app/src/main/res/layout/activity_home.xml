@@ -2,28 +2,31 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mDraw"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.HomeActivity"
     android:orientation="vertical"
-    android:id="@+id/mDraw">
+    tools:context=".view.HomeActivity">
+
     <LinearLayout
         android:id="@+id/mLinearHome"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <FrameLayout
             android:id="@+id/mFrame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1">
-        </FrameLayout>
+            android:layout_weight="1"></FrameLayout>
+
         <RadioGroup
             android:id="@+id/mRadio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
+
             <RadioButton
                 android:id="@+id/mRB1"
                 android:layout_width="wrap_content"
@@ -33,7 +36,8 @@
                 android:drawableTop="@drawable/sel_but1"
                 android:gravity="center"
                 android:paddingTop="5dp"
-                android:text="资讯"/>
+                android:text="资讯" />
+
             <RadioButton
                 android:id="@+id/mRB2"
                 android:layout_width="wrap_content"
@@ -43,7 +47,8 @@
                 android:drawableTop="@drawable/sel_but2"
                 android:gravity="center"
                 android:paddingTop="10dp"
-                android:text="消息"/>
+                android:text="消息" />
+
             <RadioButton
                 android:id="@+id/mRB3"
                 android:layout_width="wrap_content"
@@ -53,21 +58,52 @@
                 android:drawableTop="@drawable/sel_but3"
                 android:gravity="center"
                 android:paddingTop="10dp"
-                android:text="社区"/>
+                android:text="社区" />
         </RadioGroup>
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/mLinear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:layout_gravity="start"
-        android:background="@drawable/beijing">
-        <ImageView
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:src="@drawable/login_icon_n"
-            android:layout_gravity="center"/>
+        android:background="@drawable/beijing"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/mLinearJump"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true">
+
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/mImage"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    app:placeholderImage="@drawable/login_icon"
+                    app:roundAsCircle="true" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="12dp"
+                    android:layout_toRightOf="@+id/mImage"
+                    android:text="登录/注册"
+                    android:textColor="#fff"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
+
     </LinearLayout>
 
 </android.support.v4.widget.DrawerLayout>

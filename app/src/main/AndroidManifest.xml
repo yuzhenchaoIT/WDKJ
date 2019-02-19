@@ -29,6 +29,11 @@
         <activity android:name=".view.HomeActivity" />
         <activity android:name=".view.SortActivity" />
         <activity android:name=".view.SearchActivity"></activity>
+        <activity android:name=".view.HomeActivity"></activity>
+        <activity android:name=".view.AddCircleActivity"></activity>
+
+
+        <activity android:name=".view.RegisterActivity"></activity>
     </application>
 
 </manifest>
