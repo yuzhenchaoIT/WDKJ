@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".core.WDApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
@@ -25,7 +26,9 @@
             android:name="design_height_in_dp"
             android:value="640" />
 
-        <activity android:name=".view.HomeActivity"></activity>
+        <activity android:name=".view.HomeActivity" />
+        <activity android:name=".view.SortActivity" />
+        <activity android:name=".view.SearchActivity"></activity>
     </application>
 
 </manifest>
