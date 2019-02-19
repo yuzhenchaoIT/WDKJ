@@ -52,4 +52,12 @@ public abstract class BasePresenter {
                     }
                 });
     }
+
+    /**
+     * 释放内存
+     */
+    public void unBind() {
+        dataCall = null;
+    }
+
 }
