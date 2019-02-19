@@ -13,7 +13,7 @@ public class NetworkManager {
 
     private static NetworkManager mInstance;
     private Retrofit retrofit;
-    private static final String BASE_URL = "http://mobile.bwstudent.com/";
+    private static final String BASE_URL = "https://mobile.bwstudent.com/";
 
     private NetworkManager() {
         init();
