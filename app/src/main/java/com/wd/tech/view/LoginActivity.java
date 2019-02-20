@@ -1,8 +1,10 @@
 package com.wd.tech.view;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
+import com.google.gson.Gson;
 import com.wd.tech.R;
 import com.wd.tech.core.WDActivity;
 
@@ -20,7 +22,7 @@ public class LoginActivity extends WDActivity {
     @Override
     protected void initView() {
         //绑定
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
         closeSwipeBack();
     }
     //点击跳转注册页
@@ -28,6 +30,12 @@ public class LoginActivity extends WDActivity {
     public void mregsiter(){
         //跳转
         intent(RegisterActivity.class);
+    }
+    //点击登录
+    @OnClick(R.id.mLogin)
+    public void mlogin(){
+        //跳转
+        finish();
     }
     @Override
     protected void destoryData() {
