@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:fresco="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_toRightOf="@+id/image">
+                android:layout_toRightOf="@id/com_item_image">
                 <TextView
                     android:id="@+id/nickname"
                     android:layout_width="wrap_content"
@@ -45,6 +45,7 @@
                     android:textColor="#999"/>
             </LinearLayout>
             <TextView
+                android:id="@+id/com_item_gq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="我的撒打开撒谎"
@@ -67,36 +68,54 @@
             android:text="aaa"
             android:textColor="#666"
             android:textSize="12sp"/>
-        <com.wd.tech.view.MyGridView
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/grid_view"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:scrollbars="none"
-            android:listSelector="@null"
+            android:layout_height="wrap_content"
             android:padding="20dp">
-        </com.wd.tech.view.MyGridView>
+        </android.support.v7.widget.RecyclerView>
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:layout_marginTop="4dp">
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp" />
-            <CheckBox
-                android:id="@+id/add_zan"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:button="@null"
+                android:orientation="horizontal"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="70dp"/>
-            <TextView
-                android:id="@+id/circle_sum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="50dp"
-                android:text="0" />
+                android:layout_marginRight="12dp">
+                <ImageView
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:src="@drawable/common_icon_comment"
+                    android:layout_marginRight="6dp"/>
+                <TextView
+                    android:id="@+id/circle_com_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="20dp"
+                    android:textSize="12sp"
+                    android:textColor="#666"/>
+                <CheckBox
+                    android:id="@+id/add_zan"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:button="@null"
+                    android:background="@drawable/sel_com"
+                    android:layout_marginRight="6dp"/>
+                <TextView
+                    android:id="@+id/circle_sum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="0"
+                    android:layout_gravity="center"
+                    android:textSize="12sp"
+                    android:textColor="#666"/>
+            </LinearLayout>
+
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

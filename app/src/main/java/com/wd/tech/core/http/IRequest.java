@@ -1,6 +1,7 @@
 package com.wd.tech.core.http;
 
 
+import com.wd.tech.bean.CommunityListBean;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
@@ -68,6 +69,12 @@ public interface IRequest {
                                                          @Query("plateId") int plateId,
                                                          @Query("page") int page,
                                                          @Query("count") int count);
-
+    /**
+     * 社区列表
+     */
+    @GET("community/v1/findCommunityList")
+    Observable<Result<List<CommunityListBean>>> communityList(
+//            @Header("userId") int userId, @Header("sessionId") String sessionId,
+            @Query("page") int page, @Query("count") int count);
 
 }
