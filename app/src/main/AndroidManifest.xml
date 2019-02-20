@@ -3,6 +3,8 @@
     package="com.wd.tech">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".core.WDApplication"
@@ -29,7 +31,7 @@
         <activity android:name=".view.HomeActivity" />
         <activity android:name=".view.SortActivity" />
         <activity android:name=".view.SearchActivity"></activity>
-        <activity android:name=".view.HomeActivity"></activity>
+        <activity android:name=".view.LoginActivity"></activity>
         <activity android:name=".view.AddCircleActivity"></activity>
 
 

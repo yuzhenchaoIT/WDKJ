@@ -32,10 +32,12 @@ public interface IRequest {
      * @param count
      * @return
      */
-    @GET("techApi/information/v1/infoRecommendList")
+    @GET("information/v1/infoRecommendList")
     Observable<Result<List<HomeListBean>>> recommendList(@Header("userId") int userId,
                                                          @Header("sessionId") String sessionId,
+                                                         @Query("plateId") int plateId,
                                                          @Query("page") int page,
                                                          @Query("count") int count);
+
 
 }
