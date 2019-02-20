@@ -1,5 +1,6 @@
 package com.wd.tech.view;
 
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.view.View;
 import android.widget.EditText;
@@ -34,6 +35,7 @@ public class AddCircleActivity extends WDActivity {
 //            UIHelper.getShortToast(self, (String) StringUtils.getResourceContent(self, Convention.RESOURCE_TYPE_STRING, R.string.string_editor_detail_input_limit));
 //            islMaxCount = false;
 //        }
+        RecyclerView recyclerView;
         if (detailLength==300){
             Toast.makeText(this, "别输入了,", Toast.LENGTH_SHORT).show();
         }
@@ -42,8 +44,6 @@ public class AddCircleActivity extends WDActivity {
     protected void initView() {
         textSum = (TextView) findViewById(R.id.id_editor_detail_font_count);
         editTex = (EditText) findViewById(R.id.id_editor_detail);
-
-
     }
 
     @Override

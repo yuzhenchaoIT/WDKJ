@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 
 import com.wd.tech.R;
 import com.wd.tech.core.WDActivity;
@@ -35,7 +36,8 @@ public class HomeActivity extends AppCompatActivity {
     private LinearLayout mlinearhome;
     private LinearLayout mlinear;
     private DrawerLayout mdraw;
-
+    private RelativeLayout mRelative;
+    private LinearLayout mLinearShow;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +88,8 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+      /*  mRelative.setVisibility(View.GONE);
+        mLinearShow.setVisibility(View.VISIBLE);*/
     }
     //点击切换页面
     @OnClick({R.id.mRB1,R.id.mRB2,R.id.mRB3})
@@ -117,6 +121,8 @@ public class HomeActivity extends AppCompatActivity {
         mlinearhome = findViewById(R.id.mLinearHome);
         mlinear = findViewById(R.id.mLinear);
         mdraw = findViewById(R.id.mDraw);
+        mRelative =  findViewById(R.id.mRelative);
+        mLinearShow =  findViewById(R.id.mLinearShow);
     }
     //点击跳转登录页
     @OnClick(R.id.mLinearJump)

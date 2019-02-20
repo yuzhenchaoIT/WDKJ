@@ -10,11 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.wd.tech.HomeListAdapter;
+import com.wd.tech.adapter.HomeListAdapter;
 import com.wd.tech.R;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.Result;
@@ -67,8 +66,8 @@ public class FragInForMation extends Fragment implements XRecyclerView.LoadingLi
         //添加下拉和刷新的监听器
         mHomeXrecyclerView.setLoadingListener(this);
 
-//        mHomeXrecyclerView.refresh();
-
+        mHomeXrecyclerView.refresh();
+        mRecommendPresenter.request(18, "15320748258726", 12, 1, 10);
 
         return view;
     }
@@ -88,12 +87,38 @@ public class FragInForMation extends Fragment implements XRecyclerView.LoadingLi
 
     @Override
     public void onRefresh() {
-        mRecommendPresenter.request(true, 0, "", 5);
+        mRecommendPresenter.request(18, "15320748258726", 12, 1, 10);
     }
 
     @Override
     public void onLoadMore() {
-        mRecommendPresenter.request(false, 0, "", 5);
+        mRecommendPresenter.request(18, "15320748258726", 12, 1, 10);
+    }
+
+
+    /**
+     * 内部类
+     */
+    class HomeListCall implements DataCall<Result> {
+
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")) {
+                mHomeXrecyclerView.refreshComplete();//结束刷新
+                mHomeXrecyclerView.loadMoreComplete();//结束加载更多
+                Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+                List<HomeListBean> beanList = (List<HomeListBean>) data.getResult();
+                mHomeListAdapter.addItem(beanList);
+                mHomeListAdapter.notifyDataSetChanged();
+            } else {
+                Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+            Toast.makeText(getContext(), e + "失败", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -108,34 +133,6 @@ public class FragInForMation extends Fragment implements XRecyclerView.LoadingLi
     public void onDestroy() {
         super.onDestroy();
         mRecommendPresenter.unBind();
-    }
-
-    /**
-     * 内部类
-     */
-    class HomeListCall implements DataCall<Result> {
-
-        @Override
-        public void success(Result data) {
-            if (data.getStatus().equals("0000")) {
-                mHomeXrecyclerView.refreshComplete();//结束刷新
-                mHomeXrecyclerView.loadMoreComplete();//结束加载更多
-                Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
-                List<HomeListBean> beanList = (List<HomeListBean>) data.getResult();
-                if (mRecommendPresenter.isResresh()) {
-                    mHomeListAdapter.remove();
-                }
-                mHomeListAdapter.addItem(beanList);
-                mHomeListAdapter.notifyDataSetChanged();
-            } else {
-                Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
-            }
-        }
-
-        @Override
-        public void fail(ApiException e) {
-            Toast.makeText(getContext(), e + "", Toast.LENGTH_SHORT).show();
-        }
     }
 
 

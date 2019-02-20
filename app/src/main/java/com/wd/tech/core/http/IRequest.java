@@ -16,11 +16,6 @@ import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
-/**
- * @author dingtao
- * @date 2018/12/28 10:00
- * qq:1940870847
- */
 public interface IRequest {
 
     /**
@@ -32,10 +27,12 @@ public interface IRequest {
      * @param count
      * @return
      */
-    @GET("techApi/information/v1/infoRecommendList")
+    @GET("information/v1/infoRecommendList")
     Observable<Result<List<HomeListBean>>> recommendList(@Header("userId") int userId,
                                                          @Header("sessionId") String sessionId,
+                                                         @Query("plateId") int plateId,
                                                          @Query("page") int page,
                                                          @Query("count") int count);
+
 
 }

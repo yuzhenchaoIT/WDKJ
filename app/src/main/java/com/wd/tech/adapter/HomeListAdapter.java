@@ -1,4 +1,4 @@
-package com.wd.tech;
+package com.wd.tech.adapter;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,10 +7,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.wd.tech.R;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.util.DateUtils;
 
@@ -57,7 +57,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.VH> {
             e.printStackTrace();
         }
         vh.collect.setText(homeListBean.getCollection() + "");
-        vh.share.setText(homeListBean.getShare());
+        vh.share.setText(homeListBean.getShare() + "");
     }
 
     @Override
