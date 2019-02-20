@@ -10,11 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
-import com.wd.tech.HomeListAdapter;
+import com.wd.tech.adapter.HomeListAdapter;
 import com.wd.tech.R;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.Result;
