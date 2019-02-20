@@ -12,7 +12,6 @@ import com.wd.tech.core.WDActivity;
  */
 public class SearchActivity extends WDActivity {
 
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_search;
