@@ -1,20 +1,17 @@
-package com.wd.tech.view;
+package com.wd.tech.myview;
 
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
 import com.wd.tech.R;
 import com.wd.tech.core.WDActivity;
 
-/**
- * 搜索页面
- *
- * @author lmx
- * @date 2019/2/19
- */
-public class SearchActivity extends WDActivity {
+public class CollectionActivity extends WDActivity {
+
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_search;
+        return R.layout.activity_collection;
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.wd.tech.core;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -12,8 +13,16 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
+import android.view.View;
 import android.view.WindowManager;
 
+
+import com.wd.tech.bean.User;
+import com.wd.tech.dao.DaoMaster;
+import com.wd.tech.dao.DaoSession;
+import com.wd.tech.dao.UserDao;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
@@ -60,7 +69,17 @@ public abstract class WDActivity extends SwipeBackActivity {
     protected void closeSwipeBack() {
         setSwipeBackEnable(false);
     }
-
+    //查询数据库
+    public static User getUser(Context context){
+        DaoSession daoSession = DaoMaster.newDevSession(context, UserDao.TABLENAME);
+        UserDao userDao = daoSession.getUserDao();
+        List<User> list = userDao.queryBuilder().where(UserDao.Properties.Statu.eq("1")).build().list();
+        if (list.size()>0){
+            User user = list.get(0);
+            return user;
+        }
+        return null;
+    }
     /**
      * 设置layoutId
      * @return

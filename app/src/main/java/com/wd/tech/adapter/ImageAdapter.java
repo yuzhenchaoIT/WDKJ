@@ -1,58 +1,62 @@
 package com.wd.tech.adapter;
 
+import android.content.Intent;
 import android.net.Uri;
-import android.view.LayoutInflater;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class ImageAdapter extends BaseAdapter {
+public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
     private List<String> mList = new ArrayList<>();
 
-    public void addAll(List<String> list){
+    public void addAll(List<String> list) {
         mList.addAll(list);
     }
 
+    @NonNull
     @Override
-    public int getCount() {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = View.inflate(viewGroup.getContext(), R.layout.circle_image_item, null);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i) {
+        viewHolder.image.setImageURI(Uri.parse(mList.get(i)));
+//        viewHolder.image.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(viewHolder.itemView.getContext(), ImageActivity.class);
+//                intent.putExtra("image", mList.get(i));
+//                viewHolder.itemView.getContext().startActivity(intent);
+//            }
+//        });
+    }
+
+    @Override
+    public int getItemCount() {
         return mList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return mList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        MyHodler myHodler ;
-        if (convertView==null){
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.circle_image_item,parent,false);
-            myHodler = new MyHodler();
-            myHodler.image = convertView.findViewById(R.id.circle_image);
-            convertView.setTag(myHodler);
-        }
-        myHodler = (MyHodler) convertView.getTag();
-        myHodler.image.setImageURI(Uri.parse(mList.get(position)));
-        return convertView;
     }
 
     public void clear() {
         mList.clear();
     }
 
-    class MyHodler {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         SimpleDraweeView image;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            image = itemView.findViewById(R.id.circle_image);
+        }
     }
 }
