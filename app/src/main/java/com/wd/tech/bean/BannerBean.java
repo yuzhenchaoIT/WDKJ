@@ -2,6 +2,7 @@ package com.wd.tech.bean;
 
 public class BannerBean {
 
+
     /**
      * imageUrl : http://172.17.8.100/images/tech/banner/073040514318.jpg
      * jumpUrl : wd://information?infoId=1

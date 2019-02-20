@@ -1,6 +1,7 @@
 package com.wd.tech.core.http;
 
 
+import com.wd.tech.bean.BannerBean;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.Result;
 
@@ -30,9 +31,16 @@ public interface IRequest {
     @GET("information/v1/infoRecommendList")
     Observable<Result<List<HomeListBean>>> recommendList(@Header("userId") int userId,
                                                          @Header("sessionId") String sessionId,
-                                                         @Query("plateId") int plateId,
                                                          @Query("page") int page,
                                                          @Query("count") int count);
+
+    /**
+     * 轮播图
+     *
+     * @return
+     */
+    @GET("information/v1/bannerShow")
+    Observable<Result<List<BannerBean>>> bannerShow();
 
 
 }

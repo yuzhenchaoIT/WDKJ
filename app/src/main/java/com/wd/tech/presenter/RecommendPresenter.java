@@ -1,7 +1,6 @@
 package com.wd.tech.presenter;
 
-import com.wd.tech.bean.HomeListBean;
-import com.wd.tech.bean.Result;
+
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.core.http.IRequest;
 import com.wd.tech.core.http.NotWorkUtils;
@@ -12,28 +11,27 @@ import io.reactivex.Observable;
 
 public class RecommendPresenter extends BasePresenter {
 
-//    private int page = 1;
-//    private boolean isRefresh = true;
+    private int page = 1;
 
     public RecommendPresenter(DataCall dataCall) {
         super(dataCall);
     }
 
-    @Override
-    public Observable observable(Object... args) {
-//        isRefresh = (Boolean) args[0];//是否需要刷新
-//        if (isRefresh) {//刷新
-//            page = 1;
-//        } else {
-//            page++;
-//        }
-        IRequest iRequest = NotWorkUtils.getInstance().create(IRequest.class);
-        Observable<Result<List<HomeListBean>>> recommendList = iRequest.recommendList((int) args[0], (String) args[1], (int) args[2], (int) args[3],(int) args[4]);
-        return recommendList;
+    public int getPage() {
+        return page;
     }
 
-//    public boolean isResresh() {
-//        return isRefresh;
-//    }
+    @Override
+    public Observable observable(Object... args) {
+        IRequest iRequest = NotWorkUtils.getInstance().create(IRequest.class);
+        boolean refresh = (Boolean) args[0];
+        if (refresh) {
+            page = 1;
+        } else {
+            page++;
+        }
+        return iRequest.recommendList((int) args[1], (String) args[2], page, 100);
+    }
+
 
 }
