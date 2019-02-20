@@ -32,8 +32,6 @@
         <activity android:name=".view.SearchActivity"></activity>
         <activity android:name=".view.LoginActivity"></activity>
         <activity android:name=".view.AddCircleActivity"></activity>
-
-
         <activity android:name=".view.RegisterActivity"></activity>
     </application>
 

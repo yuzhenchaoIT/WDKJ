@@ -22,7 +22,7 @@ public class LoginActivity extends WDActivity {
     @Override
     protected void initView() {
         //绑定
-        ButterKnife.bind(this);
+//        ButterKnife.bind(this);
         closeSwipeBack();
     }
     //点击跳转注册页
