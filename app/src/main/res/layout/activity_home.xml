@@ -117,12 +117,13 @@
                 android:layout_marginTop="76dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/head"
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/mSimple"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginRight="10dp"/>
+                    android:layout_marginRight="10dp"
+                    app:roundAsCircle="true"/>
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -131,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/name"
+                        android:id="@+id/mTextName"
                         android:textSize="14sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -140,7 +141,7 @@
                         android:text="11111111"/>
 
                     <TextView
-                        android:id="@+id/qian"
+                        android:id="@+id/mTextQian"
                         android:textSize="12sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -179,7 +180,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:layout_gravity="center"
+                        android:gravity="center"
                         android:text="签到"/>
 
                 </LinearLayout>
@@ -217,7 +218,7 @@
                         android:layout_weight="1"/>
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="10dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="20dp"
                         android:src="@drawable/my_icon_next_n"/>
@@ -252,7 +253,7 @@
                         android:layout_weight="1"/>
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="10dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="20dp"
                         android:src="@drawable/my_icon_next_n"/>
@@ -288,7 +289,7 @@
                         android:layout_weight="1"/>
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="10dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="20dp"
                         android:src="@drawable/my_icon_next_n"/>
@@ -298,7 +299,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/mLineartz"
+                    android:id="@+id/mLinearno"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
@@ -322,7 +323,7 @@
                         android:layout_weight="1"/>
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="10dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="20dp"
                         android:src="@drawable/my_icon_next_n"/>
@@ -358,7 +359,7 @@
                         android:layout_weight="1"/>
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="10dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="20dp"
                         android:src="@drawable/my_icon_next_n"/>
@@ -393,7 +394,7 @@
                         android:layout_weight="1"/>
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="10dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="20dp"
                         android:src="@drawable/my_icon_next_n"/>
@@ -428,7 +429,7 @@
                         android:layout_weight="1"/>
 
                     <ImageView
-                        android:layout_width="wrap_content"
+                        android:layout_width="10dp"
                         android:layout_height="20dp"
                         android:layout_marginRight="20dp"
                         android:src="@drawable/my_icon_next_n"/>

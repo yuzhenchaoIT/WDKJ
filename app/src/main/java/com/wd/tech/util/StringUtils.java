@@ -8,6 +8,12 @@ import android.os.Build;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 
+import com.wd.tech.bean.User;
+import com.wd.tech.dao.DaoMaster;
+import com.wd.tech.dao.DaoSession;
+import com.wd.tech.dao.UserDao;
+
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,7 +41,7 @@ public class StringUtils {
      * @param mobiles
      * @return [0-9]{5,9}
      */
-    public boolean isMobileNO(String mobiles) {
+    public static boolean isMobileNO(String mobiles) {
         try {
             Pattern p = Pattern
                     .compile("^((13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
@@ -45,7 +51,6 @@ public class StringUtils {
         }
         return false;
     }
-
     /**
      * 根据Uri获取图片的绝对路径
      *

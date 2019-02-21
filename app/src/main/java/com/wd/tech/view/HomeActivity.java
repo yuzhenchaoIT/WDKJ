@@ -16,12 +16,29 @@ import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.bean.QueryUser;
+import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
+import com.wd.tech.core.exception.ApiException;
+import com.wd.tech.core.http.DataCall;
 import com.wd.tech.frag.FragInForMation;
 import com.wd.tech.frag.FragMessage;
 import com.wd.tech.frag.FragCommunity;
+import com.wd.tech.myview.CollectionActivity;
+import com.wd.tech.myview.FocusOnActivity;
+import com.wd.tech.myview.IntegralActivity;
+import com.wd.tech.myview.NoticeActivity;
+import com.wd.tech.myview.PostActivity;
+import com.wd.tech.myview.SetUpActivity;
+import com.wd.tech.myview.TaskActivity;
+import com.wd.tech.presenter.QueryUserPresenter;
+import com.wd.tech.util.StringUtils;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -38,6 +55,10 @@ public class HomeActivity extends AppCompatActivity {
     private DrawerLayout mdraw;
     private RelativeLayout mRelative;
     private LinearLayout mLinearShow;
+    private QueryUserPresenter queryUserPresenter;
+    private SimpleDraweeView mSimple;
+    private TextView mTextName,mTextQian;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,8 +109,6 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-      /*  mRelative.setVisibility(View.GONE);
-        mLinearShow.setVisibility(View.VISIBLE);*/
     }
     //点击切换页面
     @OnClick({R.id.mRB1,R.id.mRB2,R.id.mRB3})
@@ -123,6 +142,9 @@ public class HomeActivity extends AppCompatActivity {
         mdraw = findViewById(R.id.mDraw);
         mRelative =  findViewById(R.id.mRelative);
         mLinearShow =  findViewById(R.id.mLinearShow);
+        mSimple = findViewById(R.id.mSimple);
+        mTextName = findViewById(R.id.mTextName);
+        mTextQian = findViewById(R.id.mTextQian);
     }
     //点击跳转登录页
     @OnClick(R.id.mLinearJump)
@@ -130,5 +152,79 @@ public class HomeActivity extends AppCompatActivity {
         //跳转
         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        User user = WDActivity.getUser(this);
+        if (user!=null){
+            mRelative.setVisibility(View.GONE);
+            mLinearShow.setVisibility(View.VISIBLE);
+            queryUserPresenter = new QueryUserPresenter(new QueryUserCall());
+            queryUserPresenter.request(user.getUserId(),user.getSessionId());
+        }else {
+            mRelative.setVisibility(View.VISIBLE);
+            mLinearShow.setVisibility(View.GONE);
+        }
+    }
+    //实现查询用户信息接口
+    class QueryUserCall implements DataCall<Result<QueryUser>>{
+
+        @Override
+        public void success(Result<QueryUser> data) {
+            if (data.getStatus().equals("0000")){
+                QueryUser result = data.getResult();
+                mSimple.setImageURI(result.getHeadPic());
+                mTextName.setText(result.getNickName());
+                mTextQian.setText(result.getSignature());
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+    //点击跳转页面
+    @OnClick({R.id.mLinearsc,R.id.mLineargz,R.id.mLineartz,R.id.mLinearno,R.id.mLinearjf,R.id.mLinearrw,R.id.mLinearsz})
+    public void tiaozhuan(View view){
+        switch (view.getId()){
+            case R.id.mLinearsc:
+                //跳转
+                Intent intent1 = new Intent(HomeActivity.this, CollectionActivity.class);
+                startActivity(intent1);
+                break;
+            case R.id.mLineargz:
+                //跳转
+                Intent intent2 = new Intent(HomeActivity.this, FocusOnActivity.class);
+                startActivity(intent2);
+                break;
+            case R.id.mLineartz:
+                //跳转
+                Intent intent3 = new Intent(HomeActivity.this, PostActivity.class);
+                startActivity(intent3);
+                break;
+            case R.id.mLinearno:
+                //跳转
+                Intent intent4 = new Intent(HomeActivity.this, NoticeActivity.class);
+                startActivity(intent4);
+                break;
+            case R.id.mLinearjf:
+                //跳转
+                Intent intent5 = new Intent(HomeActivity.this, IntegralActivity.class);
+                startActivity(intent5);
+                break;
+            case R.id.mLinearrw:
+                //跳转
+                Intent intent6 = new Intent(HomeActivity.this, TaskActivity.class);
+                startActivity(intent6);
+                break;
+            case R.id.mLinearsz:
+                //跳转
+                Intent intent7 = new Intent(HomeActivity.this, SetUpActivity.class);
+                startActivity(intent7);
+                break;
+        }
     }
 }
