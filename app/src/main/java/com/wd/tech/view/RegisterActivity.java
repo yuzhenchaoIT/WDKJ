@@ -50,7 +50,7 @@ public class RegisterActivity extends WDActivity {
             Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!(pass.length() >=16 &&pass.length()<=7)){
+        if (!(pass.length() >=16) &&pass.length()<=7){
             Toast.makeText(this, "请输入至少8-16位的密码", Toast.LENGTH_SHORT).show();
             return;
         }
