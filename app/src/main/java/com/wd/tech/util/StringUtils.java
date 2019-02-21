@@ -44,7 +44,7 @@ public class StringUtils {
     public static boolean isMobileNO(String mobiles) {
         try {
             Pattern p = Pattern
-                    .compile("^((13[0-9])|(15[^4,\\D])|(18[0-9]))\\d{8}$");
+                    .compile("^((1[0-9])|(1[^4,\\D])|(1[0-9]))\\d{9}$");
             Matcher m = p.matcher(mobiles);
             return m.matches();
         } catch (Exception e) {

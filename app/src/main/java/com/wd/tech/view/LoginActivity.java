@@ -76,14 +76,14 @@ public class LoginActivity extends WDActivity {
         //获取输入框的值
         String phone = mEditPhone.getText().toString().trim();
         String pass = mEditPass.getText().toString().trim();
-        if (!StringUtils.isMobileNO(phone)&&phone.length()<=11){
+      /*  if (!StringUtils.isMobileNO(phone)&&phone.length()<=11){
             Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
             return;
         }
         if (!(pass.length() >=16) &&pass.length()<=7){
             Toast.makeText(this, "请输入至少8-16位的密码", Toast.LENGTH_SHORT).show();
             return;
-        }
+        }*/
         loginPresenter = new LoginPresenter(new LoginCall());
         try {
             loginPresenter.request(phone,RsaCoder.encryptByPublicKey(pass));
