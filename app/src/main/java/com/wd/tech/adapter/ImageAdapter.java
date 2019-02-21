@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -25,7 +26,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = View.inflate(viewGroup.getContext(), R.layout.circle_image_item, null);
+
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.circle_image_item,viewGroup,false);
         return new ViewHolder(view);
     }
 

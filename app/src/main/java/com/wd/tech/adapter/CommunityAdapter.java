@@ -71,7 +71,7 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
             myHodler.imageAdapter.clear();
             Log.e("llll",Arrays.asList(images).toString()+"0.0.0.");
              myHodler.imageAdapter.addAll(Arrays.asList(images));
-             myHodler.gridLayoutManager.setSpanCount(imageCount);
+             myHodler.gridLayoutManager.setSpanCount(colNum);
              myHodler.imageAdapter.notifyDataSetChanged();
         }
     }
