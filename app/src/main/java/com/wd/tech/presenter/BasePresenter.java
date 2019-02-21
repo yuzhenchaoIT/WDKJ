@@ -16,6 +16,8 @@ import io.reactivex.schedulers.Schedulers;
 public abstract class BasePresenter {
     private DataCall dataCall;
 
+    private boolean running;
+
     public BasePresenter(DataCall dataCall) {
         this.dataCall = dataCall;
     }
@@ -25,6 +27,10 @@ public abstract class BasePresenter {
 
     //请求方法
     public void request(Object... args) {
+        if (running) {
+            return;
+        }
+        running = true;
         observable(args)
                 .compose(ResponseTransformer.handleResult())
                 .compose(new ObservableTransformer() {
@@ -38,6 +44,7 @@ public abstract class BasePresenter {
                 .subscribe(new Consumer<Result>() {
                     @Override
                     public void accept(Result result) throws Exception {
+                        running = false;
                         if (dataCall != null) {
                             dataCall.success(result);
                         }
@@ -46,12 +53,22 @@ public abstract class BasePresenter {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
                         //处理异常
+                        running = false;
                         if (dataCall != null) {
                             dataCall.fail(CustomException.handleException(throwable));
                         }
                     }
                 });
     }
+
+
+    /**
+     * 暴露一个运行的方法
+     */
+    public boolean isRunning() {
+        return running;
+    }
+
 
     /**
      * 释放内存

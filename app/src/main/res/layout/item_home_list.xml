@@ -131,10 +131,10 @@
 
     </LinearLayout>
 
-    <view
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_alignParentBottom="true"
-        android:background="#F6F6F6"></view>
+        android:background="#F6F6F6"></View>
 
 </RelativeLayout>

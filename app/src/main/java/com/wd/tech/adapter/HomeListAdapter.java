@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.VH> {
+public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyViewHolder> {
 
     private List<HomeListBean> mList = new ArrayList<>();
 
@@ -38,44 +38,46 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.VH> {
 
     @NonNull
     @Override
-    public VH onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.item_home_list, viewGroup, false);
-        VH vh = new VH(view);
-        return vh;
+//        View view = View.inflate(mContext, R.layout.item_home_list, null);
+        MyViewHolder myViewHolder = new MyViewHolder(view);
+        return myViewHolder;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull VH vh, int i) {
+    public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         HomeListBean homeListBean = mList.get(i);
-        vh.img.setImageURI(Uri.parse(homeListBean.getThumbnail()));
-        vh.title.setText(homeListBean.getTitle());
-        vh.summary.setText(homeListBean.getSummary());
-        vh.source.setText(homeListBean.getSource());
+        myViewHolder.img.setImageURI(Uri.parse(homeListBean.getThumbnail()));
+        myViewHolder.title.setText(homeListBean.getTitle());
+        myViewHolder.summary.setText(homeListBean.getSummary());
+        myViewHolder.source.setText(homeListBean.getSource());
         try {
-            vh.time.setText(DateUtils.dateFormat(new Date(homeListBean.getReleaseTime()), DateUtils.DATE_PATTERN));
+            myViewHolder.time.setText(DateUtils.dateFormat(new Date(homeListBean.getReleaseTime()), DateUtils.DATE_PATTERN));
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        vh.collect.setText(homeListBean.getCollection() + "");
-        vh.share.setText(homeListBean.getShare() + "");
+        myViewHolder.collect.setText(homeListBean.getCollection()+"");
+        myViewHolder.share.setText(homeListBean.getShare()+"");
     }
+
 
     @Override
     public int getItemCount() {
         return mList.size();
     }
 
-    public void remove() {
+    public void clear() {
         mList.clear();
         notifyDataSetChanged();
     }
 
     //内部类
-    class VH extends RecyclerView.ViewHolder {
+    class MyViewHolder extends RecyclerView.ViewHolder {
         private SimpleDraweeView img;
         private TextView title, summary, source, time, collect, share;
 
-        public VH(@NonNull View itemView) {
+        public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             img = itemView.findViewById(R.id.item_home_list_img);
             title = itemView.findViewById(R.id.item_home_list_title);
