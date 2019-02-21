@@ -48,7 +48,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         HomeListBean homeListBean = mList.get(i);
-        myViewHolder.img.setImageURI(Uri.parse(homeListBean.getThumbnail()));
+        myViewHolder.img.setImageURI((homeListBean.getThumbnail()));
         myViewHolder.title.setText(homeListBean.getTitle());
         myViewHolder.summary.setText(homeListBean.getSummary());
         myViewHolder.source.setText(homeListBean.getSource());
@@ -57,8 +57,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        myViewHolder.collect.setText(homeListBean.getCollection()+"");
-        myViewHolder.share.setText(homeListBean.getShare()+"");
+        myViewHolder.collect.setText(homeListBean.getCollection() + "");
+        myViewHolder.share.setText(homeListBean.getShare() + "");
     }
 
 
