@@ -1,6 +1,9 @@
 package com.wd.tech.frag;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,11 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wd.tech.R;
 import com.wd.tech.adapter.FragmentViewAdapter;
 import com.wd.tech.core.WDFragment;
+import com.wd.tech.view.AddFriendsActivity;
+import com.wd.tech.view.FlockActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +34,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class FragMessage extends WDFragment {
+public class FragMessage extends WDFragment implements View.OnClickListener {
     @BindView(R.id.my_message)
     TextView myMessage;
     @BindView(R.id.my_message_contact)
@@ -36,6 +44,9 @@ public class FragMessage extends WDFragment {
     @BindView(R.id.my_message_view_pager)
     ViewPager myMessageViewPager;
     Unbinder unbinder;
+    private PopupWindow popupWindow;
+    private ImageView imageadd;
+
 
     @Override
     public String getPageName() {
@@ -48,19 +59,23 @@ public class FragMessage extends WDFragment {
     }
 
     @Override
-    protected void initView() {}
+    protected void initView() {
+    }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_02,container,false);
+        View view = inflater.inflate(R.layout.frag_02, container, false);
+
         unbinder = ButterKnife.bind(this, view);
+        imageadd = view.findViewById(R.id.my_message_add);
+        imageadd.setOnClickListener(this);
         myMessage.setTextColor(Color.WHITE);
         myMessage.setBackgroundResource(R.drawable.text_magess_shape);
         List<Fragment> list = new ArrayList<>();
         list.add(new FragOneMessage());
         list.add(new FragOneContact());
-        FragmentPagerAdapter fragmentPagerAdapter = new FragmentViewAdapter(getActivity().getSupportFragmentManager(),list);
+        FragmentPagerAdapter fragmentPagerAdapter = new FragmentViewAdapter(getActivity().getSupportFragmentManager(), list);
         myMessageViewPager.setAdapter(fragmentPagerAdapter);
         myMessageViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -70,12 +85,12 @@ public class FragMessage extends WDFragment {
 
             @Override
             public void onPageSelected(int i) {
-                if (i==0){
+                if (i == 0) {
                     myMessage.setTextColor(Color.WHITE);
                     myMessage.setBackgroundResource(R.drawable.text_magess_shape);
                     myMessageContact.setTextColor(Color.BLACK);
                     myMessageContact.setBackgroundResource(R.drawable.text_magess_n_shape);
-                }else {
+                } else {
                     myMessageContact.setTextColor(Color.WHITE);
                     myMessageContact.setBackgroundResource(R.drawable.text_magess_shape);
                     myMessage.setTextColor(Color.BLACK);
@@ -90,6 +105,7 @@ public class FragMessage extends WDFragment {
         });
         return view;
     }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -104,14 +120,14 @@ public class FragMessage extends WDFragment {
                 myMessage.setBackgroundResource(R.drawable.text_magess_shape);
                 myMessageContact.setTextColor(Color.BLACK);
                 myMessageContact.setBackgroundResource(R.drawable.text_magess_n_shape);
-                myMessageViewPager.setCurrentItem(0,false);
+                myMessageViewPager.setCurrentItem(0, false);
                 break;
             case R.id.my_message_contact:
                 myMessageContact.setTextColor(Color.WHITE);
                 myMessageContact.setBackgroundResource(R.drawable.text_magess_shape);
                 myMessage.setTextColor(Color.BLACK);
                 myMessage.setBackgroundResource(R.drawable.text_magess_n_shape);
-                myMessageViewPager.setCurrentItem(1,false );
+                myMessageViewPager.setCurrentItem(1, false);
                 break;
             case R.id.my_message_add:
 
@@ -119,4 +135,31 @@ public class FragMessage extends WDFragment {
         }
     }
 
+    @Override
+    public void onClick(View v) {
+        View view = View.inflate(getContext(), R.layout.append_popwind, null);
+        popupWindow = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow.setOutsideTouchable(true);
+        TextView text_you=view.findViewById(R.id.text_you);
+        text_you.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AddFriendsActivity.class);
+                startActivity(intent);
+            }
+        });
+        TextView text_qun=view.findViewById(R.id.text_qun);
+        text_qun.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), FlockActivity.class);
+                startActivity(intent);
+            }
+        });
+        popupWindow.showAsDropDown(imageadd,0,55);
+
+
+    }
 }
