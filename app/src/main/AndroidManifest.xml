@@ -4,8 +4,8 @@
     package="com.wd.tech">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".core.WDApplication"
@@ -41,7 +41,8 @@
         <activity android:name=".myview.NoticeActivity" />
         <activity android:name=".myview.IntegralActivity" />
         <activity android:name=".myview.TaskActivity" />
-        <activity android:name=".myview.SetUpActivity"></activity>
+        <activity android:name=".myview.SetUpActivity" />
+        <activity android:name=".view.SortListActivity"></activity>
     </application>
 
 </manifest>

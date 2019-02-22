@@ -1,6 +1,7 @@
 package com.wd.tech.core.http;
 
 
+import com.wd.tech.bean.AllInfoPlateBean;
 import com.wd.tech.bean.BannerBean;
 import com.wd.tech.bean.CommunityListBean;
 import com.wd.tech.bean.HomeListBean;
@@ -23,6 +24,7 @@ import retrofit2.http.Query;
 public interface IRequest {
     /**
      * 注册
+     *
      * @param phone
      * @param name
      * @param pwd
@@ -30,23 +32,25 @@ public interface IRequest {
      */
     @POST("user/v1/register")
     @FormUrlEncoded
-    Observable<Result> register(@Field("phone")String phone,
-                                @Field("nickName")String name,
-                                @Field("pwd")String pwd);
+    Observable<Result> register(@Field("phone") String phone,
+                                @Field("nickName") String name,
+                                @Field("pwd") String pwd);
 
     /**
      * 登录
+     *
      * @param phone
      * @param pwd
      * @return
      */
     @POST("user/v1/login")
     @FormUrlEncoded
-    Observable<Result<User>> login(@Field("phone")String phone,
-                                   @Field("pwd")String pwd);
+    Observable<Result<User>> login(@Field("phone") String phone,
+                                   @Field("pwd") String pwd);
 
     /**
      * 根据用户ID查询用户信息
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -71,6 +75,22 @@ public interface IRequest {
                                                          @Query("count") int count);
 
     /**
+     * 资讯分类跳转列表
+     *
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("information/v1/infoRecommendList")
+    Observable<Result<List<HomeListBean>>> plateList(@Header("userId") int userId,
+                                                     @Header("sessionId") String sessionId,
+                                                     @Query("plateId") int plateId,
+                                                     @Query("page") int page,
+                                                     @Query("count") int count);
+
+    /**
      * 轮播图
      *
      * @return
@@ -86,4 +106,6 @@ public interface IRequest {
 //            @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Query("page") int page, @Query("count") int count);
 
+    @GET("information/v1/findAllInfoPlate")
+    Observable<Result<List<AllInfoPlateBean>>> allInfoPlate();
 }

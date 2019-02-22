@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".view.SortListActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,26 +14,27 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/home_menu"
+            android:id="@+id/sort_list_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="12dp"
-            android:src="@drawable/home_nav_btn_menu_n" />
+            android:src="@drawable/common_nav_btn_back_n" />
 
 
         <TextView
+            android:id="@+id/sort_list_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="资讯"
+            android:text="忍者神龟"
             android:textColor="#000"
             android:textSize="20sp" />
 
         <ImageView
-            android:id="@+id/home_search"
+            android:id="@+id/sort_list_search"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_gravity="center_vertical"
@@ -42,7 +45,7 @@
 
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
+        android:id="@+id/sort_list_refreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:srlAccentColor="#00000000"
@@ -65,19 +68,9 @@
                     android:layout_height="2dp"
                     android:background="#f2f2f2" />
 
-                <com.zhouwei.mzbanner.MZBannerView
-                    android:id="@+id/home_banner"
-                    android:layout_width="match_parent"
-                    android:layout_height="160dp"
-                    android:layout_marginTop="20dp"
-                    app:canLoop="true"
-                    app:indicatorAlign="center"
-                    app:indicatorPaddingLeft="10dp"
-                    app:open_mz_mode="true" />
-
 
                 <android.support.v7.widget.RecyclerView
-                    android:id="@+id/home_xrecyclerView"
+                    android:id="@+id/sort_list_recy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -90,6 +83,5 @@
 
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
 
 </LinearLayout>
