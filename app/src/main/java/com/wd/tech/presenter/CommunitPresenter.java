@@ -25,6 +25,6 @@ public class CommunitPresenter extends BasePresenter {
             page++;
         }
         IRequest iRequest = NotWorkUtils.getInstance().create(IRequest.class);
-        return iRequest.communityList(/*(int)(args[0]),(String) args[1]*/page,5);
+        return iRequest.communityList(/*(int)(args[0]),(String) args[1]*/page,10);
     }
 }
