@@ -32,6 +32,9 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
     public void addList(List<CommunityListBean> list){
         mlist.addAll(list);
     }
+    public void clearlist(){
+        mlist.clear();
+    }
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -56,10 +59,8 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
         } else {
             myHodler.gridView.setVisibility(View.VISIBLE);
             String[] images = mlist.get(i).getFile().split(",");
-
 //            int imageCount = (int) (Math.random() * 9) + 1;
             int imageCount = images.length;
-
             int colNum;//列数
             if (imageCount == 1) {
                 colNum = 1;
