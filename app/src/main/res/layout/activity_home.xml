@@ -5,7 +5,6 @@
     android:id="@+id/mDraw"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".view.HomeActivity">
 
     <LinearLayout
@@ -67,7 +66,7 @@
         android:id="@+id/mLinear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
+        android:layout_gravity="left"
         android:background="@drawable/beijing"
         android:orientation="vertical">
 

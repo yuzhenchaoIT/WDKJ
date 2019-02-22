@@ -34,6 +34,7 @@ import com.wd.tech.myview.CollectionActivity;
 import com.wd.tech.myview.FocusOnActivity;
 import com.wd.tech.myview.IntegralActivity;
 import com.wd.tech.myview.NoticeActivity;
+import com.wd.tech.myview.PerfectActivity;
 import com.wd.tech.myview.PostActivity;
 import com.wd.tech.myview.SetUpActivity;
 import com.wd.tech.myview.TaskActivity;
@@ -84,7 +85,7 @@ public class HomeActivity extends AppCompatActivity {
         //默认选中第一个
         mradio.check(mradio.getChildAt(0).getId());
         //点击侧滑
-        mdraw.setDrawerListener(new DrawerLayout.DrawerListener() {
+        mdraw.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View view, float v) {
                 //获取屏幕的宽高
@@ -109,6 +110,7 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+
     }
     //点击切换页面
     @OnClick({R.id.mRB1,R.id.mRB2,R.id.mRB3})
@@ -145,6 +147,13 @@ public class HomeActivity extends AppCompatActivity {
         mSimple = findViewById(R.id.mSimple);
         mTextName = findViewById(R.id.mTextName);
         mTextQian = findViewById(R.id.mTextQian);
+    }
+    //点击头像跳转
+    @OnClick(R.id.mSimple)
+    public void msim(){
+        //跳转
+        Intent intent = new Intent(HomeActivity.this, PerfectActivity.class);
+        startActivity(intent);
     }
     //点击跳转登录页
     @OnClick(R.id.mLinearJump)

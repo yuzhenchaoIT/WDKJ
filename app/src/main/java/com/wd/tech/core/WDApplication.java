@@ -42,10 +42,10 @@ public class WDApplication extends Application {
         mMainThreadHandler = new Handler();
         mMainLooper = getMainLooper();
         sharedPreferences = getSharedPreferences("share.xml",MODE_PRIVATE);
-        Fresco.initialize(this,getConfig());//图片加载框架初始化
+        Fresco.initialize(this);//图片加载框架初始化
     }
 
-    private ImagePipelineConfig getConfig() {
+   /* private ImagePipelineConfig getConfig() {
         File file = new File(Environment.getExternalStorageDirectory()+File.separator+"image");
         if (!file.exists()){
             file.mkdir();
@@ -55,7 +55,7 @@ public class WDApplication extends Application {
                         .setBaseDirectoryPath(file).build())
                 .build();
         return config;
-    }
+    }*/
 
     public static SharedPreferences getShare(){
         return sharedPreferences;

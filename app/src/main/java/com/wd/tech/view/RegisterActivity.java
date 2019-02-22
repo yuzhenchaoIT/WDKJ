@@ -51,7 +51,7 @@ public class RegisterActivity extends WDActivity {
         String phone = mEditPhoneReg.getText().toString().trim();
         String pass = mEditPassReg.getText().toString().trim();
         boolean b = compileExChar(name);
-        if (!b){
+        if (b){
             Toast.makeText(this, "不能有特殊符号", Toast.LENGTH_SHORT).show();
             return;
         }

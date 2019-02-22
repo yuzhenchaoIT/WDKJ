@@ -1,6 +1,7 @@
 package com.wd.tech.core.http;
 
 
+import com.wd.tech.bean.AllInfo;
 import com.wd.tech.bean.BannerBean;
 import com.wd.tech.bean.CommunityListBean;
 import com.wd.tech.bean.HomeListBean;
@@ -55,6 +56,19 @@ public interface IRequest {
     Observable<Result<QueryUser>> getUserInfoByUserId(@Header("userId") int userId,
                                                       @Header("sessionId") String sessionId);
 
+    /**
+     * 用户收藏列表
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("user/verify/v1/findAllInfoCollection")
+    Observable<Result<List<AllInfo>>> findAllInfoCollection(@Header("userId") int userId,
+                                                            @Header("sessionId") String sessionId,
+                                                            @Query("page")int page,
+                                                            @Query("count")int count);
     /**
      * 资讯推荐展示列表
      *

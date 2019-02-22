@@ -25,6 +25,15 @@ public class QueryUser {
     private int userId;
     private int whetherVip;
     private int whetherFaceId;
+    private long birthday;
+
+    public long getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(long birthday) {
+        this.birthday = birthday;
+    }
 
     public String getEmail() {
         return email;

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".myview.CollectionActivity"
+    tools:context=".myview.PerfectActivity"
     android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
@@ -25,38 +25,13 @@
             android:textSize="20sp"
             android:textColor="#666666"
             android:layout_centerInParent="true" />
-        <ImageView
-            android:id="@+id/mImageDelete"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/common_nav_delete_n"
+        <TextView
+            android:id="@+id/mTextFinish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="完成"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"/>
-    </RelativeLayout>
-    <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/mSmart"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-        <com.jcodecraeer.xrecyclerview.XRecyclerView
-            android:id="@+id/mXRecycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="12dp"
-            android:layout_marginLeft="12dp">
-
-        </com.jcodecraeer.xrecyclerview.XRecyclerView>
-    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-    <RelativeLayout
-        android:id="@+id/mRelativeCol"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/nodata"
-            android:layout_centerInParent="true"/>
     </RelativeLayout>
 </LinearLayout>
