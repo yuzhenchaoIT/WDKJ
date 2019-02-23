@@ -1,96 +1,79 @@
 package com.wd.tech.adapter;
 
-import android.app.Activity;
-import android.content.Context;
 
+import android.app.Activity;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
-import com.bumptech.glide.request.RequestOptions;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.AllInfo;
-import com.wd.tech.core.SideslipView;
 
-
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
-public class AllInfoAdapter extends XRecyclerView.Adapter<AllInfoAdapter.MyViewHolder>  {
-    private List<AllInfo> mDatas = new ArrayList<>();
+public class AllInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>  {
+    private List<AllInfo> list = new ArrayList<>();
     private Activity activity;
     private LayoutInflater inflater;
-    Shan shan;
 
     public AllInfoAdapter(Activity activity) {
         this.activity = activity;
         inflater = LayoutInflater.from(activity);
     }
 
-    public void getShan(Shan shan){
-        this.shan=shan;
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+        View view = inflater.inflate(R.layout.allinfo_item,viewGroup,false);
+        MyHolder holder = new MyHolder(view);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
+        MyHolder myHolder = (MyHolder) holder;
+        myHolder.draweeView.setImageURI(list.get(i).getThumbnail());
+        myHolder.textView1.setText(list.get(i).getTitle());
+        long createTime = list.get(i).getCreateTime();
+        Date date = new Date(createTime);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        String s = format.format(date);
+        myHolder.textView2.setText(s);
     }
 
     @Override
     public int getItemCount() {
-        return mDatas.size();
-    }
-
-    //填充onCreateViewHolder方法返回的holder中的控件
-    @Override
-    public void onBindViewHolder(final MyViewHolder holder, final int position) {
-        Glide.with(activity).load(mDatas.get(position).getThumbnail())
-                .apply(RequestOptions.bitmapTransform(new CircleCrop()))
-                .into(holder.head);
-        holder.name.setText(""+mDatas.get(position).getTitle());
-        holder.sideslipView.close();
-        holder.shanchu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shan.onshan(position);
-            }
-        });
-    }
-
-    //重写onCreateViewHolder方法，返回一个自定义的ViewHolder
-    @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.allinfo_item,parent,false);
-        MyViewHolder holder=new MyViewHolder(view);
-        return holder;
+        return list.size();
     }
 
     public void addAll(List<AllInfo> result) {
-        if (mDatas!=null){
-            mDatas.addAll(result);
+        if (result!=null){
+            list.addAll(result);
         }
     }
 
-    class MyViewHolder extends XRecyclerView.ViewHolder { //承载Item视图的子布局
-        ImageView  head;
-        TextView  name;
-        TextView qian;
-        TextView shanchu;
-        SideslipView sideslipView;
+    public void clear() {
+        list.clear();
+    }
 
-        public MyViewHolder(View view) {
-            super(view);
-            head = view.findViewById(R.id.head);
-           name = view.findViewById(R.id.name);
-           qian = view.findViewById(R.id.qian);
-           shanchu = view.findViewById(R.id.shanchu);
-            sideslipView = view.findViewById(R.id.side);
+    class MyHolder extends RecyclerView.ViewHolder{
+        SimpleDraweeView draweeView;
+        TextView textView1,textView2;
+        public MyHolder(@NonNull View itemView) {
+            super(itemView);
+            draweeView = itemView.findViewById(R.id.mSimpleAll);
+            textView1 = itemView.findViewById(R.id.mTextNameAll);
+            textView2 = itemView.findViewById(R.id.mTextAll);
         }
     }
 
-    public interface Shan{
-        void onshan(int i);
-    }
 }

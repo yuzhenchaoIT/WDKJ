@@ -5,6 +5,7 @@ import com.wd.tech.bean.AllInfo;
 import com.wd.tech.bean.AllInfoPlateBean;
 import com.wd.tech.bean.BannerBean;
 import com.wd.tech.bean.CommunityListBean;
+import com.wd.tech.bean.FollowUser;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
@@ -60,6 +61,27 @@ public interface IRequest {
                                                       @Header("sessionId") String sessionId);
 
     /**
+     * 完善用户信息
+     * @param userId
+     * @param sessionId
+     * @param name
+     * @param sex
+     * @param signature
+     * @param birthday
+     * @param email
+     * @return
+     */
+    @POST("user/verify/v1/perfectUserInfo")
+    @FormUrlEncoded
+    Observable<Result> perfectUserInfo(@Header("userId") int userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Field("nickName")String name,
+                                       @Field("sex")int sex,
+                                       @Field("signature")String signature,
+                                       @Field("birthday")String birthday,
+                                       @Field("email")String email);
+
+    /**
      * 用户收藏列表
      * @param userId
      * @param sessionId
@@ -69,6 +91,20 @@ public interface IRequest {
      */
     @GET("user/verify/v1/findAllInfoCollection")
     Observable<Result<List<AllInfo>>> findAllInfoCollection(@Header("userId") int userId,
+                                                            @Header("sessionId") String sessionId,
+                                                            @Query("page")int page,
+                                                            @Query("count")int count);
+
+    /**
+     * 用户关注列表
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("user/verify/v1/findFollowUserList")
+    Observable<Result<List<FollowUser>>> findFollowUserList(@Header("userId") int userId,
                                                             @Header("sessionId") String sessionId,
                                                             @Query("page")int page,
                                                             @Query("count")int count);

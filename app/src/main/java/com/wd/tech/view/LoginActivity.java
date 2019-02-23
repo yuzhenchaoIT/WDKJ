@@ -106,6 +106,8 @@ public class LoginActivity extends WDActivity {
                 userDao.insertOrReplace(result);
                 //跳转
                 finish();
+            }else {
+                Toast.makeText(LoginActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 
