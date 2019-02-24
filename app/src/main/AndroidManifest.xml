@@ -33,7 +33,9 @@
         <activity android:name=".view.DetailActivity" />
         <activity android:name=".view.SearchActivity" />
         <activity android:name=".view.LoginActivity" />
-        <activity android:name=".view.AddCircleActivity" />
+        <activity android:name=".view.AddCircleActivity" >
+
+        </activity>
         <activity android:name=".view.RegisterActivity" />
         <activity android:name=".myview.CollectionActivity" />
         <activity android:name=".myview.FocusOnActivity" />

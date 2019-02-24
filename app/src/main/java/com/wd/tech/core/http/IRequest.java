@@ -86,4 +86,6 @@ public interface IRequest {
 //            @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Query("page") int page, @Query("count") int count);
 
+    @POST("community/verify/v1/releasePost")
+    Observable<Result> fabuquanzi(@Header("userId") int userId, @Header("sessionId") String sessionId,@Body MultipartBody body);
 }
