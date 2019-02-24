@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -93,6 +94,11 @@ public class HomeActivity extends AppCompatActivity {
                 Display display = manager.getDefaultDisplay();
                 //设置右面的布局位置  根据左面菜单的right作为右面布局的left   左面的right+屏幕的宽度（或者right的宽度这里是相等的）为右面布局的right
                 mlinearhome.layout(mlinear.getRight(), 0, mlinear.getRight() + display.getWidth(), display.getHeight());
+                //滑动过程中不断回调 slideOffset:0~1
+                /*View content = mdraw.getChildAt(0);
+                float scale = 1 - v;//1~0
+                content.setTranslationX(mdraw.getMeasuredWidth() * (1 - scale));//0~width*/
+
             }
 
             @Override
@@ -110,7 +116,8 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-
+        mRelative.setVisibility(View.VISIBLE);
+        mLinearShow.setVisibility(View.GONE);
     }
     //点击切换页面
     @OnClick({R.id.mRB1,R.id.mRB2,R.id.mRB3})

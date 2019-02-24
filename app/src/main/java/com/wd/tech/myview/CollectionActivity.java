@@ -4,10 +4,16 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.adapter.AllInfoAdapter;
 import com.wd.tech.bean.AllInfo;
@@ -31,8 +37,11 @@ import butterknife.OnClick;
 public class CollectionActivity extends WDActivity {
 
     private AllInfoPresenter allInfoPresenter;
-    private XRecyclerView mXRecycler;
+    private RecyclerView mRecycler;
     private AllInfoAdapter infoAdapter;
+    private SmartRefreshLayout mSmartRefresh;
+    private RelativeLayout mRelativeCol;
+    private User user;
 
     @Override
     protected int getLayoutId() {
@@ -44,16 +53,32 @@ public class CollectionActivity extends WDActivity {
         //绑定
         ButterKnife.bind(this);
         //初始化控件
-        mXRecycler = (XRecyclerView) findViewById(R.id.mXRecycler);
+        mRecycler = (RecyclerView) findViewById(R.id.mRecycler);
+        mSmartRefresh = (SmartRefreshLayout) findViewById(R.id.mSmartRefresh);
+        mRelativeCol = (RelativeLayout) findViewById(R.id.mRelativeCol);
+        mSmartRefresh.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000);
+                allInfoPresenter.request(user.getUserId(),user.getSessionId(),true,5);
+            }
+        });
+        mSmartRefresh.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+                refreshlayout.finishRefresh(2000);
+                allInfoPresenter.request(user.getUserId(),user.getSessionId(),false,5);
+            }
+        });
         //查询数据库
-        User user = WDActivity.getUser(this);
+        user = WDActivity.getUser(this);
         //设置适配器
         infoAdapter = new AllInfoAdapter(this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        mXRecycler.setLayoutManager(linearLayoutManager);
-        mXRecycler.setAdapter(infoAdapter);
+        mRecycler.setLayoutManager(linearLayoutManager);
+        mRecycler.setAdapter(infoAdapter);
         allInfoPresenter = new AllInfoPresenter(new AllInfoCall());
-        allInfoPresenter.request(user.getUserId(),user.getSessionId(),1,5);
+        allInfoPresenter.request(user.getUserId(), user.getSessionId(),true,5);
     }
     //实现收藏列表的接口
     class AllInfoCall implements DataCall<Result<List<AllInfo>>>{
@@ -61,9 +86,19 @@ public class CollectionActivity extends WDActivity {
         public void success(Result<List<AllInfo>> data) {
             if (data.getStatus().equals("0000")){
                 List<AllInfo> result = data.getResult();
-                infoAdapter.addAll(result);
-                infoAdapter.notifyDataSetChanged();
-                Toast.makeText(CollectionActivity.this, ""+result.toString(), Toast.LENGTH_SHORT).show();
+                if(result!=null) {
+                    mSmartRefresh.setVisibility(View.VISIBLE);
+                    mRelativeCol.setVisibility(View.GONE);
+                    //添加列表并刷新
+                    if (allInfoPresenter.getPage() == 1) {
+                        infoAdapter.clear();
+                    }
+                    infoAdapter.addAll(result);
+                    infoAdapter.notifyDataSetChanged();
+                }else {
+                    mSmartRefresh.setVisibility(View.GONE);
+                    mRelativeCol.setVisibility(View.VISIBLE);
+                }
             }
         }
 

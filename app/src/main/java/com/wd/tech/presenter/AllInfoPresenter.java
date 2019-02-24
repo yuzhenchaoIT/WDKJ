@@ -7,13 +7,24 @@ import com.wd.tech.core.http.NotWorkUtils;
 import io.reactivex.Observable;
 
 public class AllInfoPresenter extends BasePresenter{
+    private int page = 1;
     public AllInfoPresenter(DataCall dataCall) {
         super(dataCall);
+    }
+
+    public int getPage() {
+        return page;
     }
 
     @Override
     public Observable observable(Object... args) {
         IRequest iRequest = NotWorkUtils.getInstance().create(IRequest.class);
-        return iRequest.findAllInfoCollection((int)args[0],(String) args[1],(int)args[2],(int)args[3]);
+        boolean refresh = (boolean) args[2];
+        if (refresh){
+            page = 1;
+        }else {
+            page++;
+        }
+        return iRequest.findAllInfoCollection((int)args[0],(String) args[1],page,(int)args[3]);
     }
 }

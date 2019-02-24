@@ -1,72 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_height="76dp">
-
-    <com.wd.tech.view.SideslipView
-        android:id="@+id/side"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:layout_width="match_parent">
-
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_marginTop="10dp"
+            android:id="@+id/mSimpleAll"
+            android:layout_width="140dp"
+            android:layout_height="92dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="12dp"
+            app:roundedCornerRadius="8dp"/>
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:background="#fff">
-
-            <ImageView
-                android:id="@+id/head"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_marginLeft="12dp"
-                android:layout_gravity="center"/>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_marginLeft="10dp"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/name"
-                    android:layout_marginTop="15dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:text="111111"/>
-                <TextView
-                    android:id="@+id/qian"
-                    android:textColor="#666666"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:textSize="12sp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="15dp"
-                    android:text="我是个性签名"/>
-
-            </RelativeLayout>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:background="#f00">
-
+            android:layout_height="100dp"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="12dp">
             <TextView
-                android:id="@+id/shanchu"
+                android:id="@+id/mTextNameAll"
+                android:layout_marginTop="12dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="哈哈"
+                android:textSize="14sp"
+                android:singleLine="true"
+                android:textColor="#333333"/>
+            <TextView
+                android:id="@+id/mTextAll"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="删除"
-                android:textColor="#fff"
-                android:textSize="16sp"
-                android:gravity="center"/>
-
+                android:text="嘻嘻"
+                android:gravity="bottom"
+                android:layout_marginBottom="10dp"
+                android:textSize="10sp"
+                android:textColor="#999999"/>
         </LinearLayout>
-    </com.wd.tech.view.SideslipView>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

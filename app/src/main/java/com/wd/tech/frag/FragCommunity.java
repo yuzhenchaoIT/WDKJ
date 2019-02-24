@@ -1,5 +1,6 @@
 package com.wd.tech.frag;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -20,6 +22,7 @@ import com.wd.tech.core.WDFragment;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.presenter.CommunitPresenter;
+import com.wd.tech.view.AddCircleActivity;
 
 import java.util.List;
 
@@ -30,7 +33,8 @@ import butterknife.ButterKnife;
 import retrofit2.http.Field;
 
 public class FragCommunity extends WDFragment  {
-
+    @BindView(R.id.frag03_xie)
+    ImageView imageView;
     @BindView(R.id.com_recy)
     XRecyclerView recycler;
     private CommunityAdapter communityAdapter;
@@ -48,6 +52,12 @@ public class FragCommunity extends WDFragment  {
 
     @Override
     protected void initView() {
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(),AddCircleActivity.class));
+            }
+        });
         communitPresenter = new CommunitPresenter(new ComData());
         communitPresenter.request(true);
         ButterKnife.bind(getActivity());
@@ -77,8 +87,6 @@ public class FragCommunity extends WDFragment  {
             }
         });
     }
-
-
 
     class ComData implements DataCall<Result<List<CommunityListBean>>>{
          @Override

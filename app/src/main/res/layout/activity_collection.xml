@@ -35,18 +35,16 @@
             android:layout_marginRight="10dp"/>
     </RelativeLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/mSmart"
+        android:id="@+id/mSmartRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
-        <com.jcodecraeer.xrecyclerview.XRecyclerView
-            android:id="@+id/mXRecycler"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/mRecycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginRight="12dp"
-            android:layout_marginLeft="12dp">
+            android:layout_height="match_parent">
 
-        </com.jcodecraeer.xrecyclerview.XRecyclerView>
+        </android.support.v7.widget.RecyclerView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <RelativeLayout
         android:id="@+id/mRelativeCol"
