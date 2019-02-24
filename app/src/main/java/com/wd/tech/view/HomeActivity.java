@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
@@ -34,6 +35,7 @@ import com.wd.tech.myview.CollectionActivity;
 import com.wd.tech.myview.FocusOnActivity;
 import com.wd.tech.myview.IntegralActivity;
 import com.wd.tech.myview.NoticeActivity;
+import com.wd.tech.myview.PerfectActivity;
 import com.wd.tech.myview.PostActivity;
 import com.wd.tech.myview.SetUpActivity;
 import com.wd.tech.myview.TaskActivity;
@@ -84,7 +86,7 @@ public class HomeActivity extends AppCompatActivity {
         //默认选中第一个
         mradio.check(mradio.getChildAt(0).getId());
         //点击侧滑
-        mdraw.setDrawerListener(new DrawerLayout.DrawerListener() {
+        mdraw.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View view, float v) {
                 //获取屏幕的宽高
@@ -92,6 +94,11 @@ public class HomeActivity extends AppCompatActivity {
                 Display display = manager.getDefaultDisplay();
                 //设置右面的布局位置  根据左面菜单的right作为右面布局的left   左面的right+屏幕的宽度（或者right的宽度这里是相等的）为右面布局的right
                 mlinearhome.layout(mlinear.getRight(), 0, mlinear.getRight() + display.getWidth(), display.getHeight());
+                //滑动过程中不断回调 slideOffset:0~1
+                /*View content = mdraw.getChildAt(0);
+                float scale = 1 - v;//1~0
+                content.setTranslationX(mdraw.getMeasuredWidth() * (1 - scale));//0~width*/
+
             }
 
             @Override
@@ -109,6 +116,8 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+        mRelative.setVisibility(View.VISIBLE);
+        mLinearShow.setVisibility(View.GONE);
     }
     //点击切换页面
     @OnClick({R.id.mRB1,R.id.mRB2,R.id.mRB3})
@@ -145,6 +154,13 @@ public class HomeActivity extends AppCompatActivity {
         mSimple = findViewById(R.id.mSimple);
         mTextName = findViewById(R.id.mTextName);
         mTextQian = findViewById(R.id.mTextQian);
+    }
+    //点击头像跳转
+    @OnClick(R.id.mSimple)
+    public void msim(){
+        //跳转
+        Intent intent = new Intent(HomeActivity.this, PerfectActivity.class);
+        startActivity(intent);
     }
     //点击跳转登录页
     @OnClick(R.id.mLinearJump)

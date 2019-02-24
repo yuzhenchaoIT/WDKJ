@@ -31,6 +31,7 @@
 
         <activity android:name=".view.HomeActivity" />
         <activity android:name=".view.SortActivity" />
+        <activity android:name=".view.DetailActivity" />
         <activity android:name=".view.SearchActivity" />
         <activity android:name=".view.LoginActivity" />
         <activity android:name=".view.AddCircleActivity" />
@@ -44,6 +45,9 @@
         <activity android:name=".myview.SetUpActivity"></activity>
         <activity android:name=".view.AddFriendsActivity"></activity>
         <activity android:name=".view.FlockActivity"></activity>
+        <activity android:name=".myview.SetUpActivity" />
+        <activity android:name=".view.SortListActivity"></activity>
+        <activity android:name=".myview.PerfectActivity"></activity>
     </application>
 
 </manifest>

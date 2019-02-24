@@ -8,6 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,10 @@ import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.wd.tech.R;
 import com.wd.tech.adapter.HomeListAdapter;
 import com.wd.tech.bean.BannerBean;
@@ -44,24 +49,25 @@ import butterknife.Unbinder;
  * @author lmx
  * @date 2019/2/19
  */
-public class FragInForMation extends Fragment implements XRecyclerView.LoadingListener {
+public class FragInForMation extends Fragment {
     @BindView(R.id.home_menu)
     ImageView mHomeMenu;
     @BindView(R.id.home_search)
     ImageView mHomeSearch;
     @BindView(R.id.home_xrecyclerView)
-    XRecyclerView mHomeXrecyclerView;
-//    @BindView(R.id.home_banner)
-//    MZBannerView mHomeBanner;
+    RecyclerView mHomeXrecyclerView;
+    @BindView(R.id.home_banner)
+    MZBannerView mHomeBanner;
     //p层
     private RecommendPresenter mRecommendPresenter = new RecommendPresenter(new HomeListCall());
-//    private BannerPresenter mBanPresenter = new BannerPresenter(new BannerCall());
+    private BannerPresenter mBanPresenter = new BannerPresenter(new BannerCall());
     //适配器
     private HomeListAdapter mHomeListAdapter;
     //线性布局
     private LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
     private View view;
     private Unbinder unbinder;
+    private SmartRefreshLayout mRefreshLayout;
 
 
     @Nullable
@@ -70,25 +76,35 @@ public class FragInForMation extends Fragment implements XRecyclerView.LoadingLi
         View view = inflater.inflate(R.layout.frag_01, container, false);
 
         unbinder = ButterKnife.bind(this, view);
+        mRefreshLayout = view.findViewById(R.id.refreshLayout);
 
-        //添加头部轮播
-//        View header = LayoutInflater.from(getContext()).inflate(R.layout.layout_header_banner, container, false);
+        mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshlayout) {
 
-//        mHomeXrecyclerView.addHeaderView(header);
+                refreshlayout.finishRefresh(2000);
+                mRecommendPresenter.request(true, 18, "15320748258726");
+            }
+        });
 
+        mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
+            @Override
+            public void onLoadmore(RefreshLayout refreshlayout) {
+
+                refreshlayout.finishLoadmore(2000);
+                mRecommendPresenter.request(false, 18, "15320748258726");
+            }
+        });
 
         //适配器
         mHomeListAdapter = new HomeListAdapter(getContext());
         mHomeXrecyclerView.setAdapter(mHomeListAdapter);
+
         //布局管理器
         mHomeXrecyclerView.setLayoutManager(mLinearLayoutManager);
-
-        //添加下拉和刷新的监听器
-        mHomeXrecyclerView.setLoadingListener(this);
-        //刷新
-        mHomeXrecyclerView.refresh();
+        mRecommendPresenter.request(true, 18, "15320748258726");
         //banner图请求数据
-//        mBanPresenter.request();
+        mBanPresenter.request();
 
 
         return view;
@@ -108,35 +124,16 @@ public class FragInForMation extends Fragment implements XRecyclerView.LoadingLi
 
 
     @Override
-    public void onRefresh() {
-        if (mRecommendPresenter.isRunning()) {
-            mHomeXrecyclerView.refreshComplete();
-            return;
-        }
-        mRecommendPresenter.request(true, 18, "15320748258726");
+    public void onPause() {
+        super.onPause();
+        mHomeBanner.pause();//暂停轮播
     }
 
     @Override
-    public void onLoadMore() {
-        if (mRecommendPresenter.isRunning()) {
-            mHomeXrecyclerView.loadMoreComplete();
-            return;
-        }
-        mRecommendPresenter.request(false, 18, "15320748258726");
+    public void onResume() {
+        super.onResume();
+        mHomeBanner.start();//开始轮播
     }
-
-
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        mHomeBanner.pause();//暂停轮播
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        mHomeBanner.start();//开始轮播
-//    }
 
     @Override
     public void onDestroyView() {
@@ -144,56 +141,57 @@ public class FragInForMation extends Fragment implements XRecyclerView.LoadingLi
         unbinder.unbind();
     }
 
+
     /**
      * 内部类
      */
 
 
     //魅族Banner
-//    class BannerCall implements DataCall<Result<List<BannerBean>>> {
-//
-//        @Override
-//        public void success(Result<List<BannerBean>> data) {
-//            if (data.getStatus().equals("0000")) {
-//                mHomeBanner.setIndicatorVisible(false);
-//                mHomeBanner.setPages(data.getResult(), new MZHolderCreator<BannerViewHolder>() {
-//                    @Override
-//                    public BannerViewHolder createViewHolder() {
-//                        return new BannerViewHolder();
-//                    }
-//                });
-//                mHomeBanner.start();
-//            } else {
-//                Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
-//            }
-//
-//        }
-//
-//        @Override
-//        public void fail(ApiException e) {
-//            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//
-//    class BannerViewHolder implements MZViewHolder<BannerBean> {
-//
-//        private SimpleDraweeView mImageView;
-//
-//        @Override
-//        public View createView(Context context) {
-//            // 返回页面布局
-//            View view = LayoutInflater.from(context).inflate(R.layout.banner_item, null);
-//            mImageView = view.findViewById(R.id.banner_image);
-//            return view;
-//        }
-//
-//        @Override
-//        public void onBind(Context context, int position, BannerBean data) {
-//            // 数据绑定
-//            mImageView.setImageURI(Uri.parse(data.getImageUrl()));
-//        }
-//
-//    }
+    class BannerCall implements DataCall<Result<List<BannerBean>>> {
+
+        @Override
+        public void success(Result<List<BannerBean>> data) {
+            if (data.getStatus().equals("0000")) {
+                mHomeBanner.setIndicatorVisible(false);
+                mHomeBanner.setPages(data.getResult(), new MZHolderCreator<BannerViewHolder>() {
+                    @Override
+                    public BannerViewHolder createViewHolder() {
+                        return new BannerViewHolder();
+                    }
+                });
+                mHomeBanner.start();
+            } else {
+                Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    class BannerViewHolder implements MZViewHolder<BannerBean> {
+
+        private SimpleDraweeView mImageView;
+
+        @Override
+        public View createView(Context context) {
+            // 返回页面布局
+            View view = LayoutInflater.from(context).inflate(R.layout.banner_item, null);
+            mImageView = view.findViewById(R.id.banner_image);
+            return view;
+        }
+
+        @Override
+        public void onBind(Context context, int position, BannerBean data) {
+            // 数据绑定
+            mImageView.setImageURI(Uri.parse(data.getImageUrl()));
+        }
+
+    }
 
 
     //列表展示
@@ -201,15 +199,12 @@ public class FragInForMation extends Fragment implements XRecyclerView.LoadingLi
 
         @Override
         public void success(Result<List<HomeListBean>> data) {
-            mHomeXrecyclerView.refreshComplete();//结束刷新
-            mHomeXrecyclerView.loadMoreComplete();//结束加载更多
             if (data.getStatus().equals("0000")) {
                 Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 //添加列表并刷新
                 if (mRecommendPresenter.getPage() == 1) {
                     mHomeListAdapter.clear();
                 }
-//                List<HomeListBean> beanList = (List<HomeListBean>) data.getResult();
                 mHomeListAdapter.addItem(data.getResult());
                 mHomeListAdapter.notifyDataSetChanged();
             } else {
@@ -219,8 +214,6 @@ public class FragInForMation extends Fragment implements XRecyclerView.LoadingLi
 
         @Override
         public void fail(ApiException e) {
-            mHomeXrecyclerView.refreshComplete();//结束刷新
-            mHomeXrecyclerView.loadMoreComplete();//结束加载更多
             Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }

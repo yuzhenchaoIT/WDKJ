@@ -19,7 +19,9 @@ allprojects {
     repositories {
         google()
         jcenter()
+        //魅族banner
         maven { url 'https://jitpack.io' }
+
 
     }
 }

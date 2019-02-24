@@ -58,15 +58,21 @@ public class FragCommunity extends WDFragment  {
         recycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-                recycler.refreshComplete();
-                recycler.loadMoreComplete();
+
+                if (communitPresenter.isRunning()){
+                    recycler.refreshComplete();
+                    recycler.loadMoreComplete();
+                }
+                communityAdapter.clearlist();
                     communitPresenter.request(true);
-                    Toast.makeText(getActivity(), "上拉", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onLoadMore() {
-                     Toast.makeText(getActivity(), "下拉", Toast.LENGTH_SHORT).show();
+                if (communitPresenter.isRunning()){
+                    recycler.refreshComplete();
+                    recycler.loadMoreComplete();
+                }
                      communitPresenter.request(false);
             }
         });
@@ -77,17 +83,25 @@ public class FragCommunity extends WDFragment  {
     class ComData implements DataCall<Result<List<CommunityListBean>>>{
          @Override
          public void success(Result<List<CommunityListBean>> data) {
-
-             Toast.makeText(getActivity(), data.getMessage()+"列表", Toast.LENGTH_SHORT).show();
+             recycler.refreshComplete();
+             recycler.loadMoreComplete();
+             //Toast.makeText(getActivity(), data.getStatus()+"列表", Toast.LENGTH_SHORT).show();
              communityAdapter.addList(data.getResult());
              communityAdapter.notifyDataSetChanged();
 
          }
          @Override
          public void fail(ApiException e) {
-
+             recycler.refreshComplete();
+             recycler.loadMoreComplete();
              Toast.makeText(getContext(), e + "失败", Toast.LENGTH_SHORT).show();
 
          }
      }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        communitPresenter.unBind();
+    }
 }
