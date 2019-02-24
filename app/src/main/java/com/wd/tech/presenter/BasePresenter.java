@@ -48,6 +48,7 @@ public abstract class BasePresenter {
                         if (dataCall != null) {
                             dataCall.success(result);
                         }
+
                     }
                 }, new Consumer<Throwable>() {
                     @Override

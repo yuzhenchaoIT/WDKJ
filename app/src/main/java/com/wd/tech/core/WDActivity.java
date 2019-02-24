@@ -1,5 +1,6 @@
 package com.wd.tech.core;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -7,16 +8,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 
 
+import com.wd.tech.R;
 import com.wd.tech.bean.User;
 import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.DaoSession;
@@ -44,6 +48,8 @@ public abstract class WDActivity extends SwipeBackActivity {
      */
     private SwipeBackLayout mSwipeBackLayout;
 
+    @SuppressLint("ResourceType")
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

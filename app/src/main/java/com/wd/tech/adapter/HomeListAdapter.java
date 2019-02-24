@@ -21,6 +21,7 @@ import java.util.List;
 
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyViewHolder> {
 
+
     private List<HomeListBean> mList = new ArrayList<>();
 
     private Context mContext;
@@ -71,6 +72,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
         mList.clear();
         notifyDataSetChanged();
     }
+
 
     //内部类
     class MyViewHolder extends RecyclerView.ViewHolder {

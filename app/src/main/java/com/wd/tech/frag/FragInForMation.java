@@ -123,17 +123,17 @@ public class FragInForMation extends Fragment {
     }
 
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        mHomeBanner.pause();//暂停轮播
-//    }
-//
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        mHomeBanner.start();//开始轮播
-//    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        mHomeBanner.pause();//暂停轮播
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mHomeBanner.start();//开始轮播
+    }
 
     @Override
     public void onDestroyView() {

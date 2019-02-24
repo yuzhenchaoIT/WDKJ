@@ -2,6 +2,7 @@ package com.wd.tech.view;
 
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -97,6 +98,7 @@ public class LoginActivity extends WDActivity {
         @Override
         public void success(Result<User> data) {
             if (data.getStatus().equals("0000")){
+                Log.i("aa", "success: "+data.getResult().getSessionId()+"    "+data.getResult().getUserId());
                 Toast.makeText(LoginActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
                 //添加数据库
                 User result = data.getResult();
@@ -106,6 +108,8 @@ public class LoginActivity extends WDActivity {
                 userDao.insertOrReplace(result);
                 //跳转
                 finish();
+            }else {
+                Toast.makeText(LoginActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 
