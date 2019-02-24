@@ -26,4 +26,10 @@
             android:textColor="#666666"
             android:layout_centerInParent="true" />
     </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/mRecyclerFoc"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>

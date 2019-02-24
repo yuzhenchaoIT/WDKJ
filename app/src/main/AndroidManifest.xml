@@ -43,8 +43,9 @@
         <activity android:name=".myview.IntegralActivity" />
         <activity android:name=".myview.TaskActivity" />
         <activity android:name=".myview.SetUpActivity" />
-        <activity android:name=".view.SortListActivity"></activity>
-        <activity android:name=".myview.PerfectActivity"></activity>
+        <activity android:name=".view.SortListActivity" />
+        <activity android:name=".myview.PerfectActivity" />
+        <activity android:name=".myview.SignatureActivity"></activity>
     </application>
 
 </manifest>
