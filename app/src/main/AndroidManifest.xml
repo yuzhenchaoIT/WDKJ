@@ -49,6 +49,9 @@
         <activity android:name=".myview.SetUpActivity" />
         <activity android:name=".view.SortListActivity" />
         <activity android:name=".myview.PerfectActivity" />
+        <activity android:name=".myview.SignatureActivity"></activity>
+        <activity android:name=".view.SortListActivity" />
+        <activity android:name=".myview.PerfectActivity" />
         <activity android:name=".view.InforDetailsActivity" />
     </application>
 

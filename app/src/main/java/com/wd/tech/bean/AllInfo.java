@@ -15,6 +15,15 @@ public class AllInfo {
     private int infoId;
     private String thumbnail;
     private String title;
+    private boolean ischeck = false;
+
+    public boolean isIscheck() {
+        return ischeck;
+    }
+
+    public void setIscheck(boolean ischeck) {
+        this.ischeck = ischeck;
+    }
 
     public long getCreateTime() {
         return createTime;

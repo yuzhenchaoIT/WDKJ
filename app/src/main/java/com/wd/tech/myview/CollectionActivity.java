@@ -42,12 +42,25 @@ public class CollectionActivity extends WDActivity {
     private SmartRefreshLayout mSmartRefresh;
     private RelativeLayout mRelativeCol;
     private User user;
+    private List<AllInfo> result;
 
     @Override
     protected int getLayoutId() {
         return R.layout.activity_collection;
     }
-
+    //点击删除
+    @OnClick(R.id.mImageDelete)
+    public void mimage(){
+        Toast.makeText(this, "111", Toast.LENGTH_SHORT).show();
+        for (int i = 0; i < result.size(); i++) {
+            boolean ischeck = result.get(i).isIscheck();
+            if (ischeck){
+                result.get(i).setIscheck(true);
+            }else {
+                result.get(i).setIscheck(false);
+            }
+        }
+    }
     @Override
     protected void initView() {
         //绑定
@@ -85,8 +98,8 @@ public class CollectionActivity extends WDActivity {
         @Override
         public void success(Result<List<AllInfo>> data) {
             if (data.getStatus().equals("0000")){
-                List<AllInfo> result = data.getResult();
-                if(result!=null) {
+                result = data.getResult();
+                if(result !=null) {
                     mSmartRefresh.setVisibility(View.VISIBLE);
                     mRelativeCol.setVisibility(View.GONE);
                     //添加列表并刷新

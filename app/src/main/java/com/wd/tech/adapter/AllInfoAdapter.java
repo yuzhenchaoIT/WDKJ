@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,6 +49,12 @@ public class AllInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String s = format.format(date);
         myHolder.textView2.setText(s);
+        boolean ischeck = list.get(i).isIscheck();
+        if (ischeck){
+            myHolder.checkBox.setVisibility(View.VISIBLE);
+        }else {
+            myHolder.checkBox.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -68,11 +75,13 @@ public class AllInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     class MyHolder extends RecyclerView.ViewHolder{
         SimpleDraweeView draweeView;
         TextView textView1,textView2;
+        CheckBox checkBox;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             draweeView = itemView.findViewById(R.id.mSimpleAll);
             textView1 = itemView.findViewById(R.id.mTextNameAll);
             textView2 = itemView.findViewById(R.id.mTextAll);
+            checkBox = itemView.findViewById(R.id.mCheckAll);
         }
     }
 

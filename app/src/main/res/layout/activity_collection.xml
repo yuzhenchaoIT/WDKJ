@@ -33,6 +33,15 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"/>
+        <TextView
+            android:id="@+id/mTextFinishAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="完成"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:visibility="gone"/>
     </RelativeLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/mSmartRefresh"
