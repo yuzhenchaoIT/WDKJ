@@ -44,7 +44,6 @@
         <activity android:name=".myview.NoticeActivity" />
         <activity android:name=".myview.IntegralActivity" />
         <activity android:name=".myview.TaskActivity" />
-        <activity android:name=".myview.SetUpActivity"></activity>
         <activity android:name=".view.AddFriendsActivity"></activity>
         <activity android:name=".view.FlockActivity"></activity>
         <activity android:name=".myview.SetUpActivity" />
