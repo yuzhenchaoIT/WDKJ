@@ -4,8 +4,8 @@
     package="com.wd.tech">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:name=".core.WDApplication"
@@ -34,7 +34,9 @@
         <activity android:name=".view.DetailActivity" />
         <activity android:name=".view.SearchActivity" />
         <activity android:name=".view.LoginActivity" />
-        <activity android:name=".view.AddCircleActivity" />
+        <activity android:name=".view.AddCircleActivity" >
+
+        </activity>
         <activity android:name=".view.RegisterActivity" />
         <activity android:name=".myview.CollectionActivity" />
         <activity android:name=".myview.FocusOnActivity" />
@@ -42,6 +44,9 @@
         <activity android:name=".myview.NoticeActivity" />
         <activity android:name=".myview.IntegralActivity" />
         <activity android:name=".myview.TaskActivity" />
+        <activity android:name=".myview.SetUpActivity"></activity>
+        <activity android:name=".view.AddFriendsActivity"></activity>
+        <activity android:name=".view.FlockActivity"></activity>
         <activity android:name=".myview.SetUpActivity" />
         <activity android:name=".view.SortListActivity" />
         <activity android:name=".myview.PerfectActivity" />
