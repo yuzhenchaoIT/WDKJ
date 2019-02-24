@@ -1,27 +1,57 @@
 package com.wd.tech.frag;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.wd.tech.R;
+import com.wd.tech.bean.FriendInfoList;
+import com.wd.tech.bean.InitFriendlist;
+import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
+import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.WDFragment;
+import com.wd.tech.core.exception.ApiException;
+import com.wd.tech.core.http.DataCall;
+import com.wd.tech.presenter.GroupListPersenter;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.OnClick;
 
 
 public class FragOneContact extends WDFragment {
-    //View
-    private ExpandableListView expandableListView;
 
+    @BindView(R.id.search_edit)
+    EditText searchEdit;
+    @BindView(R.id.search_image)
+    ImageView searchImage;
+    @BindView(R.id.x_recyclerview)
+    SmartRefreshLayout pullToRefreshScrollView;
+    @BindView(R.id.layout_newsyou)
+    LinearLayout layoutNewsyou;
+    @BindView(R.id.layout_qun)
+    LinearLayout layoutQun;
+    @BindView(R.id.ex_pandable_listview)
+    ExpandableListView exPandableListview;
     //Model：定义的数据
-    private String[] groups = {"我的好友", "我的家人", "黑名单"};
+    private List<InitFriendlist> groups;
+    private List<FriendInfoList> childs;
+
     //注意，字符数组不要写成{{"A1,A2,A3,A4"}, {"B1,B2,B3,B4，B5"}, {"C1,C2,C3,C4"}}*/
-    private String[][] childs={{"A1","A2","A3","A4"},{"A1","A2","A3", "B4"},{"A1","A2","A3","C4"}};
+    private GroupListPersenter listPresenter;
+    private String sessionId;
+    private int userId;
+    private User bean;
+
 
     @Override
     public String getPageName() {
@@ -30,49 +60,65 @@ public class FragOneContact extends WDFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.frag_one_contact;
+        return R.layout.linkman_layout;
     }
 
     @Override
     protected void initView() {
+        listPresenter = new GroupListPersenter(new InitFr());
+        bean = WDActivity.getUser(getContext());
+        if (bean != null) {
+            sessionId = bean.getSessionId();
+            userId = bean.getUserId();
+            listPresenter.request(userId,sessionId);
 
+        }
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_one_contact,container,false);
-        expandableListView = (ExpandableListView) view.findViewById(R.id.expandableListView);
+    public void onResume() {
+        super.onResume();
+        if (bean != null) {
+            sessionId = bean.getSessionId();
+            userId = bean.getUserId();
+            listPresenter.request(userId,sessionId);
 
-        expandableListView.setAdapter(new MyExpandableListView());
-
-        return view;
+        }
     }
-    //为ExpandableListView自定义适配器
+
+    @OnClick({R.id.layout_newsyou, R.id.layout_qun})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.layout_newsyou:
+                break;
+            case R.id.layout_qun:
+                break;
+        }
+    }
+
+
+
     class MyExpandableListView extends BaseExpandableListAdapter {
 
-        //返回一级列表的个数
+
         @Override
         public int getGroupCount() {
-            return groups.length;
+            return groups.size();
         }
 
-        //返回每个二级列表的个数
         @Override
-        public int getChildrenCount(int groupPosition) { //参数groupPosition表示第几个一级列表
-            Log.d("smyhvae", "-->" + groupPosition);
-            return childs[groupPosition].length;
+        public int getChildrenCount(int groupPosition) {
+            return groups.get(groupPosition).getFriendInfoList().size();
         }
 
-        //返回一级列表的单个item（返回的是对象）
         @Override
         public Object getGroup(int groupPosition) {
-            return groups[groupPosition];
+            return groups.get(groupPosition);
         }
 
-        //返回二级列表中的单个item（返回的是对象）
         @Override
         public Object getChild(int groupPosition, int childPosition) {
-            return childs[groupPosition][childPosition];  //不要误写成groups[groupPosition][childPosition]
+            return groups.get(groupPosition).getFriendInfoList().get(childPosition);
         }
 
         @Override
@@ -85,46 +131,83 @@ public class FragOneContact extends WDFragment {
             return childPosition;
         }
 
-        //每个item的id是否是固定？一般为true
         @Override
         public boolean hasStableIds() {
-            return true;
+            return false;
         }
 
-        //【重要】填充一级列表
-        @Override
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-
-            if (convertView == null) {
-                convertView = getLayoutInflater().inflate(R.layout.item_group, null);
-            }
-            TextView tv_group = (TextView) convertView.findViewById(R.id.tv_group);
-            tv_group.setText(groups[groupPosition]);
-            return convertView;
-        }
-
-        //【重要】填充二级列表
-        @Override
-        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-
-            if (convertView == null) {
-                convertView = getLayoutInflater().inflate(R.layout.item_child, null);
-            }
-
-            ImageView iv_child = (ImageView) convertView.findViewById(R.id.iv_child);
-            TextView tv_child_name = (TextView) convertView.findViewById(R.id.tv_child_name);
-            TextView tv_child_qian = (TextView) convertView.findViewById(R.id.tv_child_qian);
-            //iv_child.setImageResource(resId);
-            tv_child_name.setText(childs[groupPosition][childPosition]);
-
-            return convertView;
-        }
-
-        //二级列表中的item是否能够被选中？可以改为true
         @Override
         public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return true;
+            return false;
+        }
+        //父布局
+        @Override
+        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
+            GroupHodler hodler;
+            if (convertView == null){
+                convertView = View.inflate(parent.getContext(),R.layout.expandablelistview_one_item,null);
+                hodler = new GroupHodler();
+                hodler.groupname = convertView.findViewById(R.id.tv_group);
+                hodler.groupsum=convertView.findViewById(R.id.tv_sum);
+                convertView.setTag(hodler);
+            }else{
+                hodler = (GroupHodler)convertView.getTag();
+            }
+            InitFriendlist initFriendlist = groups.get(groupPosition);
+
+            hodler.groupname.setText(initFriendlist.getGroupName());
+            hodler.groupsum.setText(initFriendlist.getCurrentNumber()+"");
+            return convertView;
+        }
+        //子布局
+        @Override
+        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+            MyHolder holder;
+            if (convertView == null){
+                convertView = View.inflate(parent.getContext(),R.layout.expandablelistview_two_item,null);
+                holder = new MyHolder();
+                holder.headric = convertView.findViewById(R.id.iv_child);
+                holder.qianming = convertView.findViewById(R.id.tv_child);
+                holder.name = convertView.findViewById(R.id.tv_qian);
+
+                convertView.setTag(holder);
+            }else{
+                holder = (MyHolder) convertView.getTag();
+            }
+            FriendInfoList friendInfoList = groups.get(groupPosition).getFriendInfoList().get(childPosition);
+            holder.headric.setImageURI(friendInfoList.getHeadPic());
+            holder.qianming.setText(friendInfoList.getRemarkName());//单价
+            holder.name.setText(friendInfoList.getSignature());//单价
+            return convertView;
+        }
+
+
+        //父框件
+        class GroupHodler {
+            TextView groupname,groupsum;
+
+        }
+        //子框件 (一个复选框 ,, 文字 ,, 价格 ,, 图片 ,, 还有自定义一个类)
+        class MyHolder{
+            SimpleDraweeView headric;
+            TextView qianming;
+            TextView name;
+
         }
     }
 
+    private class InitFr implements DataCall<Result<List<InitFriendlist>>> {
+        @Override
+        public void success(Result<List<InitFriendlist>> data) {
+            if (data.getStatus().equals("0000")){
+                groups = data.getResult();
+                exPandableListview.setAdapter(new MyExpandableListView());
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
 }

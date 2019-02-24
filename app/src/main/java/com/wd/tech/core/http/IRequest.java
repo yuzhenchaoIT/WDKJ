@@ -4,6 +4,7 @@ package com.wd.tech.core.http;
 import com.wd.tech.bean.BannerBean;
 import com.wd.tech.bean.CommunityListBean;
 import com.wd.tech.bean.HomeListBean;
+import com.wd.tech.bean.InitFriendlist;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
@@ -11,8 +12,6 @@ import com.wd.tech.bean.User;
 import java.util.List;
 
 import io.reactivex.Observable;
-import okhttp3.MultipartBody;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -85,5 +84,10 @@ public interface IRequest {
     Observable<Result<List<CommunityListBean>>> communityList(
 //            @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Query("page") int page, @Query("count") int count);
-
+    @GET("chat/verify/v1/initFriendList")
+    Observable<Result<List<InitFriendlist>>> groupList(
+//            @Header("userId") int userId, @Header("sessionId") String sessionId,
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId);
+   
 }
