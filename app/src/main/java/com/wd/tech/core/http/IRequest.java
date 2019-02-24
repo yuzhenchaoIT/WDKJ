@@ -9,6 +9,7 @@ import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
+import com.wd.tech.bean.details.InforDetailsBean;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ import retrofit2.http.Query;
 public interface IRequest {
     /**
      * 注册
+     *
      * @param phone
      * @param name
      * @param pwd
@@ -61,6 +63,7 @@ public interface IRequest {
 
     /**
      * 用户收藏列表
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -70,8 +73,9 @@ public interface IRequest {
     @GET("user/verify/v1/findAllInfoCollection")
     Observable<Result<List<AllInfo>>> findAllInfoCollection(@Header("userId") int userId,
                                                             @Header("sessionId") String sessionId,
-                                                            @Query("page")int page,
-                                                            @Query("count")int count);
+                                                            @Query("page") int page,
+                                                            @Query("count") int count);
+
     /**
      * 资讯推荐展示列表
      *
@@ -119,6 +123,18 @@ public interface IRequest {
 //            @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Query("page") int page, @Query("count") int count);
 
+    /**
+     * 所有分类板块查询
+     *
+     * @return
+     */
     @GET("information/v1/findAllInfoPlate")
     Observable<Result<List<AllInfoPlateBean>>> allInfoPlate();
+
+    @GET("information/v1/findInformationDetails")
+    Observable<Result<InforDetailsBean>> informationDetails(@Header("userId") int userId,
+                                                            @Header("sessionId") String sessionId,
+                                                            @Query("id") int id);
+
+
 }
