@@ -4,6 +4,7 @@ package com.wd.tech.core.http;
 import com.wd.tech.bean.AllInfo;
 import com.wd.tech.bean.AllInfoPlateBean;
 import com.wd.tech.bean.BannerBean;
+import com.wd.tech.bean.CommentList;
 import com.wd.tech.bean.CommunityListBean;
 import com.wd.tech.bean.FindUserByPhone;
 import com.wd.tech.bean.FollowUser;
@@ -177,7 +178,13 @@ public interface IRequest {
                                                             @Header("sessionId") String sessionId,
                                                             @Query("id") int id);
 
-
+    /**
+     * 发布圈子
+     * @param userId
+     * @param sessionId
+     * @param body
+     * @return
+     */
     @POST("community/verify/v1/releasePost")
     Observable<Result> fabuquanzi(@Header("userId") int userId, @Header("sessionId") String sessionId, @Body MultipartBody body);
     /**
@@ -193,4 +200,35 @@ public interface IRequest {
             @Header("sessionId") String sessionId,
             @Query("phone") String phone
     );
+
+    /**
+     * 评论列表
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("community/v1/findCommunityUserCommentList")
+    Observable<Result<List<CommentList>>> findCommunityUserCommentList(@Header("userId") int userId,
+                                                                 @Header("sessionId") String sessionId,
+                                                                 @Query("communityId") int communityId,
+                                                                 @Query("page") int page,
+                                                                 @Query("count") int count);
+
+    /**
+     * 圈子发布
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @param content
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityComment")
+    @FormUrlEncoded
+    Observable<Result> addCommunityComment(@Header("userId") int userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Field("communityId") int communityId,
+                                       @Field("content") String content);
 }

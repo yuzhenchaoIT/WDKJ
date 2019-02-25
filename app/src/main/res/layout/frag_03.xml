@@ -16,4 +16,28 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="80dp"
         android:layout_marginRight="8dp"/>
+    <LinearLayout
+        android:id="@+id/frag_03_line"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_alignParentBottom="true"
+        android:background="#fff">
+        <EditText
+            android:id="@+id/frag_03_edText"
+            android:layout_width="300dp"
+            android:layout_height="35dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/shape_com"/>
+        <TextView
+            android:id="@+id/frag_03_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="发送"
+            android:layout_gravity="center"
+            android:layout_marginLeft="12dp"/>
+    </LinearLayout>
 </RelativeLayout>
