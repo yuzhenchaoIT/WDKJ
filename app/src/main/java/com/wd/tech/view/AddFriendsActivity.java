@@ -1,10 +1,12 @@
 package com.wd.tech.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,6 +27,7 @@ import com.wd.tech.frag.FragOneContact;
 import com.wd.tech.presenter.GroupListPersenter;
 import com.wd.tech.presenter.PhoneUserPersenter;
 
+import java.io.InputStreamReader;
 import java.util.List;
 
 import butterknife.BindView;
@@ -88,7 +91,18 @@ public class AddFriendsActivity extends WDActivity {
     @Override
     protected void initView() {
         ButterKnife.bind(this);
-
+        findRNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(AddFriendsActivity.this,FindUserActivity.class);
+                intent.putExtra("name",userbypehone.getNickName());
+                intent.putExtra("headPic",userbypehone.getHeadPic());
+                intent.putExtra("phone",userbypehone.getPhone());
+                intent.putExtra("qian",userbypehone.getSignature());
+                intent.putExtra("userids",userbypehone.getUserId());
+                startActivity(intent);
+            }
+        });
         }
 
     private class UserPhone implements DataCall<Result<FindUserByPhone>> {
@@ -98,8 +112,9 @@ public class AddFriendsActivity extends WDActivity {
         public void success(Result<FindUserByPhone> data) {
             if (data.getStatus().equals("0000")) {
                 userbypehone = data.getResult();
-                findQName.setText(data.getResult().getNickName());
-                findQIcon.setImageURI(data.getResult().getHeadPic());
+                findRName.setText(userbypehone.getNickName());
+                findRIcon.setImageURI(userbypehone.getHeadPic());
+                Log.i("aa", "success: "+userbypehone.getNickName());
                 }
         }
 
@@ -124,10 +139,14 @@ public class AddFriendsActivity extends WDActivity {
             case R.id.find_relate_ren:
                 findROk.setVisibility(View.VISIBLE);
                 findQOk.setVisibility(View.GONE);
+                findRRelative.setVisibility(View.VISIBLE);
+                findQRelative.setVisibility(View.GONE);
                 break;
             case R.id.find_relate_qun:
                 findROk.setVisibility(View.GONE);
                 findQOk.setVisibility(View.VISIBLE);
+                findRRelative.setVisibility(View.GONE);
+                findQRelative.setVisibility(View.VISIBLE);
                 break;
             case R.id.find_search:
                 searchEdit = findSearchEdit.getText();

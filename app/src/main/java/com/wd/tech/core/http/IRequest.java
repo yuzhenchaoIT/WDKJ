@@ -1,6 +1,7 @@
 package com.wd.tech.core.http;
 
 
+import com.wd.tech.R;
 import com.wd.tech.bean.AllInfo;
 import com.wd.tech.bean.AllInfoPlateBean;
 import com.wd.tech.bean.BannerBean;
@@ -188,9 +189,25 @@ public interface IRequest {
      * @return
      */
     @GET("user/verify/v1/findUserByPhone")
-    Observable<Result<List<FindUserByPhone>>> findUserByPhone(
+    Observable<Result<FindUserByPhone>> findUserByPhone(
             @Header("userId") int userId,
             @Header("sessionId") String sessionId,
             @Query("phone") String phone
+    );
+
+    /**
+     * 添加好友
+     * @param userId
+     * @param sessionId
+     * @param friendUid
+     * @param remark
+     * @return
+     */
+    @POST("chat/verify/v1/addFriend")
+    Observable<Result> addFriend(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("friendUid") int friendUid,
+            @Query("remark") String remark
     );
 }
