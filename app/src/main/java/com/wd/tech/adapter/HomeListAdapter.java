@@ -1,6 +1,7 @@
 package com.wd.tech.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -12,7 +13,9 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.HomeListBean;
+import com.wd.tech.bean.details.InforDetailsBean;
 import com.wd.tech.util.DateUtils;
+import com.wd.tech.view.InforDetailsActivity;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -48,7 +51,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        HomeListBean homeListBean = mList.get(i);
+        final HomeListBean homeListBean = mList.get(i);
         myViewHolder.img.setImageURI((homeListBean.getThumbnail()));
         myViewHolder.title.setText(homeListBean.getTitle());
         myViewHolder.summary.setText(homeListBean.getSummary());
@@ -60,6 +63,14 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.MyView
         }
         myViewHolder.collect.setText(homeListBean.getCollection() + "");
         myViewHolder.share.setText(homeListBean.getShare() + "");
+        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, InforDetailsActivity.class);
+                intent.putExtra("homeListId", homeListBean.getId() + "");
+                mContext.startActivity(intent);
+            }
+        });
     }
 
 

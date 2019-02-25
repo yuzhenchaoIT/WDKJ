@@ -8,6 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <CheckBox
+            android:id="@+id/mCheckAll"
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
         <com.facebook.drawee.view.SimpleDraweeView
             android:layout_marginTop="10dp"
             android:id="@+id/mSimpleAll"

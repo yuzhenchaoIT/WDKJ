@@ -10,9 +10,6 @@ import android.view.animation.Transformation;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 
-/**
- * Created by asusone on 2016/6/24.
- */
 public class SideslipView extends LinearLayout {
 
     private ViewGroup viewContent;

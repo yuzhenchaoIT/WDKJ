@@ -11,10 +11,13 @@ import com.wd.tech.bean.InitFriendlist;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
+import com.wd.tech.bean.details.InforDetailsBean;
 
 import java.util.List;
 
 import io.reactivex.Observable;
+import okhttp3.MultipartBody;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -25,6 +28,7 @@ import retrofit2.http.Query;
 public interface IRequest {
     /**
      * 注册
+     *
      * @param phone
      * @param name
      * @param pwd
@@ -61,6 +65,7 @@ public interface IRequest {
 
     /**
      * 完善用户信息
+     *
      * @param userId
      * @param sessionId
      * @param name
@@ -74,14 +79,15 @@ public interface IRequest {
     @FormUrlEncoded
     Observable<Result> perfectUserInfo(@Header("userId") int userId,
                                        @Header("sessionId") String sessionId,
-                                       @Field("nickName")String name,
-                                       @Field("sex")int sex,
-                                       @Field("signature")String signature,
-                                       @Field("birthday")String birthday,
-                                       @Field("email")String email);
+                                       @Field("nickName") String name,
+                                       @Field("sex") int sex,
+                                       @Field("signature") String signature,
+                                       @Field("birthday") String birthday,
+                                       @Field("email") String email);
 
     /**
      * 用户收藏列表
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -91,11 +97,12 @@ public interface IRequest {
     @GET("user/verify/v1/findAllInfoCollection")
     Observable<Result<List<AllInfo>>> findAllInfoCollection(@Header("userId") int userId,
                                                             @Header("sessionId") String sessionId,
-                                                            @Query("page")int page,
-                                                            @Query("count")int count);
+                                                            @Query("page") int page,
+                                                            @Query("count") int count);
 
     /**
      * 用户关注列表
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -105,8 +112,9 @@ public interface IRequest {
     @GET("user/verify/v1/findFollowUserList")
     Observable<Result<List<FollowUser>>> findFollowUserList(@Header("userId") int userId,
                                                             @Header("sessionId") String sessionId,
-                                                            @Query("page")int page,
-                                                            @Query("count")int count);
+                                                            @Query("page") int page,
+                                                            @Query("count") int count);
+
     /**
      * 资讯推荐展示列表
      *
@@ -153,10 +161,27 @@ public interface IRequest {
     Observable<Result<List<CommunityListBean>>> communityList(
 //            @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Query("page") int page, @Query("count") int count);
+
     @GET("chat/verify/v1/initFriendList")
     Observable<Result<List<InitFriendlist>>> groupList(
 //            @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Header("userId") int userId,
             @Header("sessionId") String sessionId);
 
+    /**
+     * 所有分类板块查询
+     *
+     * @return
+     */
+    @GET("information/v1/findAllInfoPlate")
+    Observable<Result<List<AllInfoPlateBean>>> allInfoPlate();
+
+    @GET("information/v1/findInformationDetails")
+    Observable<Result<InforDetailsBean>> informationDetails(@Header("userId") int userId,
+                                                            @Header("sessionId") String sessionId,
+                                                            @Query("id") int id);
+
+
+    @POST("community/verify/v1/releasePost")
+    Observable<Result> fabuquanzi(@Header("userId") int userId, @Header("sessionId") String sessionId, @Body MultipartBody body);
 }
