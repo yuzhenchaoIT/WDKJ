@@ -69,7 +69,7 @@
                     android:id="@+id/home_banner"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="15dp"
                     app:canLoop="true"
                     app:indicatorAlign="center"
                     app:indicatorPaddingLeft="10dp"

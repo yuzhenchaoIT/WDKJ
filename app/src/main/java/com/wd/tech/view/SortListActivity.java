@@ -17,6 +17,7 @@ import com.wd.tech.R;
 import com.wd.tech.adapter.HomeListAdapter;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.presenter.PlateListPresenter;
@@ -35,7 +36,7 @@ import static com.wd.tech.core.WDApplication.getContext;
  * @author lmx
  * @date 2019/2/22
  */
-public class SortListActivity extends AppCompatActivity {
+public class SortListActivity extends WDActivity {
 
     @BindView(R.id.sort_list_back)
     ImageView mSortListBack;
@@ -52,9 +53,12 @@ public class SortListActivity extends AppCompatActivity {
     private LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sort_list);
+    protected int getLayoutId() {
+        return R.layout.activity_sort_list;
+    }
+
+    @Override
+    protected void initView() {
         ButterKnife.bind(this);
         //获取板块id 和板块名称
         final int plateId = Integer.parseInt(getIntent().getStringExtra("id"));
@@ -86,9 +90,8 @@ public class SortListActivity extends AppCompatActivity {
         //布局管理器
         mSortListRecy.setLayoutManager(mLinearLayoutManager);
         mPlateListP.request(true, 18, "15320748258726", plateId);
-
-
     }
+
 
     @OnClick({R.id.sort_list_back, R.id.sort_list_search})
     public void onClick(View v) {
@@ -126,4 +129,8 @@ public class SortListActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void destoryData() {
+
+    }
 }

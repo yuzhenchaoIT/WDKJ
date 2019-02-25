@@ -30,7 +30,7 @@ public class RecommendPresenter extends BasePresenter {
         } else {
             page++;
         }
-        return iRequest.recommendList((int) args[1], (String) args[2], page, 3);
+        return iRequest.recommendList((int) args[1], (String) args[2], (int) args[3], page, 10);
     }
 
 

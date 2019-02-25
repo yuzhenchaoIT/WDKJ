@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -83,7 +84,7 @@ public class FragInForMation extends Fragment {
             public void onRefresh(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishRefresh(2000);
-                mRecommendPresenter.request(true, 18, "15320748258726");
+                mRecommendPresenter.request(true, 18, "15320748258726", 0);
             }
         });
 
@@ -92,7 +93,7 @@ public class FragInForMation extends Fragment {
             public void onLoadmore(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishLoadmore(2000);
-                mRecommendPresenter.request(false, 18, "15320748258726");
+                mRecommendPresenter.request(false, 18, "15320748258726", 0);
             }
         });
 
@@ -102,7 +103,7 @@ public class FragInForMation extends Fragment {
 
         //布局管理器
         mHomeXrecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecommendPresenter.request(true, 18, "15320748258726");
+        mRecommendPresenter.request(true, 18, "15320748258726", 0);
         //banner图请求数据
         mBanPresenter.request();
 
@@ -153,6 +154,7 @@ public class FragInForMation extends Fragment {
         @Override
         public void success(Result<List<BannerBean>> data) {
             if (data.getStatus().equals("0000")) {
+                //指示器
                 mHomeBanner.setIndicatorVisible(false);
                 mHomeBanner.setPages(data.getResult(), new MZHolderCreator<BannerViewHolder>() {
                     @Override
@@ -176,12 +178,14 @@ public class FragInForMation extends Fragment {
     class BannerViewHolder implements MZViewHolder<BannerBean> {
 
         private SimpleDraweeView mImageView;
+        private TextView mBanName;
 
         @Override
         public View createView(Context context) {
             // 返回页面布局
             View view = LayoutInflater.from(context).inflate(R.layout.banner_item, null);
             mImageView = view.findViewById(R.id.banner_image);
+            mBanName = view.findViewById(R.id.banner_name);
             return view;
         }
 
@@ -189,6 +193,7 @@ public class FragInForMation extends Fragment {
         public void onBind(Context context, int position, BannerBean data) {
             // 数据绑定
             mImageView.setImageURI(Uri.parse(data.getImageUrl()));
+            mBanName.setText(data.getTitle());
         }
 
     }

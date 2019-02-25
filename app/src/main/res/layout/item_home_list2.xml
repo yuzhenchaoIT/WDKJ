@@ -1,32 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/item_home_list2_content"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
         android:layout_marginTop="10dp"
-        android:text="智慧男神哈或或或或或或或或或或或或或或或或或"
-        android:textColor="#333"
+        android:layout_marginRight="12dp"
+        android:text="滋滋滋滋滋滋我自知自我自知自我滋滋滋滋滋滋滋我自我姊姊"
+        android:textColor="#333333"
         android:textSize="12sp" />
+
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/item_home_list2_img"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="220dp"
+        android:layout_below="@id/item_home_list2_content"
+        android:layout_marginLeft="12dp"
         android:layout_marginTop="18dp"
-        app:roundedCornerRadius="8dp"
-        fresco:placeholderImage="@drawable/placeholder_image" />
+        android:layout_marginRight="12dp"
+        fresco:roundedCornerRadius="8dp" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_width="40dp"
+        android:layout_height="18dp"
+        android:layout_below="@id/item_home_list2_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="18dp"
+        app:placeholderImage="@drawable/icon_advertising"
+        fresco:roundedCornerRadius="8dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
+        android:layout_below="@id/item_home_list2_img"
         android:layout_marginTop="10dp"
         android:background="#F6F6F6"></View>
 
-</LinearLayout>
+    <!--fresco:roundBottomLeft="false"-->
+    <!--fresco:roundBottomRight="false"-->
+    <!--fresco:roundTopLeft="true"-->
+    <!--fresco:roundTopRight="false"-->
+
+</RelativeLayout>
