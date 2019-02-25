@@ -71,6 +71,10 @@ public class FocusOnAdapter extends RecyclerView.Adapter<FocusOnAdapter.MyViewHo
         }
     }
 
+    public void clear() {
+        mDatas.clear();
+    }
+
     class MyViewHolder extends RecyclerView.ViewHolder { //承载Item视图的子布局
         ImageView  head;
         TextView  name;

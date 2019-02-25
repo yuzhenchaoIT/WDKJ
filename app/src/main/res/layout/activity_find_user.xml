@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+
+    tools:context=".view.FindUserActivity">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="256dp"
+        android:src="@drawable/usermesage_top"/>
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/image_head"
+        android:layout_width="77dp"
+        android:layout_height="77dp"
+        fresco:roundAsCircle="true"
+        fresco:actualImageScaleType="centerCrop"
+        fresco:placeholderImage="@mipmap/ic_launcher"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="193dp"
+      />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="昵称"
+        android:id="@+id/user_niname"
+        android:textSize="20sp"
+        android:layout_toRightOf="@id/image_head"
+        android:layout_marginTop="206dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="#666666"
+        />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="世上本无事"
+        android:textSize="14sp"
+        android:id="@+id/user_qianmin"
+        android:textColor="#999999"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="286dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="- - - - - - - - -个人资料- - - - - - - - -"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="350dp"
+            android:textSize="12sp"
+            android:textColor="#999999"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="女"
+            android:id="@+id/user_sex"
+            android:textSize="12sp"
+            android:textColor="#999999"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="384dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/user_phone"
+        android:textColor="#999999"
+        android:textSize="14sp" android:layout_centerHorizontal="true"
+        android:text="13255566666"
+        android:layout_marginTop="410dp"/>
+
+    <Button
+        android:id="@+id/btn_r_add"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="34dp"
+        android:background="@drawable/qun_te_selector"
+        android:text="添加为好友"
+        android:textColor="#ffffff"
+        android:textSize="20sp" />
+</RelativeLayout>

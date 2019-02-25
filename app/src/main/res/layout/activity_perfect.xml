@@ -103,7 +103,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -124,14 +124,15 @@
                         android:layout_weight="1" />
 
                     <EditText
-                        android:id="@+id/mEditSexPer"
+                        android:id="@+id/mTextSexPer"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
                         android:text="男"
                         android:textColor="#999999"
                         android:textSize="12sp"
-                        android:background="@null"/>
+                        android:background="@null"
+                        android:padding="5dp"/>
 
                 </LinearLayout>
 
@@ -151,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -176,7 +177,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/my_icon_next_n"
-                        android:layout_gravity="center_vertical"/>
+                        android:layout_gravity="center_vertical"
+                        android:padding="10dp"/>
 
                 </LinearLayout>
 

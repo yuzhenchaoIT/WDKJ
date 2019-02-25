@@ -6,14 +6,14 @@ import com.wd.tech.core.http.NotWorkUtils;
 
 import io.reactivex.Observable;
 
-public class PhoneUserPersenter extends BasePresenter {
-    public PhoneUserPersenter(DataCall dataCall) {
+public class WXPresenter extends BasePresenter{
+    public WXPresenter(DataCall dataCall) {
         super(dataCall);
     }
 
     @Override
     public Observable observable(Object... args) {
         IRequest iRequest = NotWorkUtils.getInstance().create(IRequest.class);
-        return iRequest.findUserByPhone((int) args[0],(String) args[1],(String) args[2]);
+        return iRequest.weChatLogin((String) args[0],(String) args[1]);
     }
 }

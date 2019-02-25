@@ -1,9 +1,9 @@
 package com.wd.tech.view;
 
+import android.content.Intent;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -20,7 +20,6 @@ import com.wd.tech.dao.DaoSession;
 import com.wd.tech.dao.UserDao;
 import com.wd.tech.presenter.LoginPresenter;
 import com.wd.tech.util.RsaCoder;
-import com.wd.tech.util.StringUtils;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -118,7 +117,13 @@ public class LoginActivity extends WDActivity {
 
         }
     }
-
+    //点击微信登录
+    @OnClick(R.id.mWeiXin)
+    public void mwx(){
+        Intent intent = new Intent(LoginActivity.this, WXLoginActivity.class);
+        startActivity(intent);
+        finish();
+    }
     @Override
     protected void destoryData() {
 
