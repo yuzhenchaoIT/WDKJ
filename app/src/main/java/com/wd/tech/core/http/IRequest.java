@@ -5,6 +5,7 @@ import com.wd.tech.bean.AllInfo;
 import com.wd.tech.bean.AllInfoPlateBean;
 import com.wd.tech.bean.BannerBean;
 import com.wd.tech.bean.CommunityListBean;
+import com.wd.tech.bean.FindUserByPhone;
 import com.wd.tech.bean.FollowUser;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.InitFriendlist;
@@ -65,7 +66,6 @@ public interface IRequest {
 
     /**
      * 完善用户信息
-     *
      * @param userId
      * @param sessionId
      * @param name
@@ -87,7 +87,6 @@ public interface IRequest {
 
     /**
      * 用户收藏列表
-     *
      * @param userId
      * @param sessionId
      * @param page
@@ -97,12 +96,11 @@ public interface IRequest {
     @GET("user/verify/v1/findAllInfoCollection")
     Observable<Result<List<AllInfo>>> findAllInfoCollection(@Header("userId") int userId,
                                                             @Header("sessionId") String sessionId,
-                                                            @Query("page") int page,
-                                                            @Query("count") int count);
+                                                            @Query("page")int page,
+                                                            @Query("count")int count);
 
     /**
      * 用户关注列表
-     *
      * @param userId
      * @param sessionId
      * @param page
@@ -112,9 +110,8 @@ public interface IRequest {
     @GET("user/verify/v1/findFollowUserList")
     Observable<Result<List<FollowUser>>> findFollowUserList(@Header("userId") int userId,
                                                             @Header("sessionId") String sessionId,
-                                                            @Query("page") int page,
-                                                            @Query("count") int count);
-
+                                                            @Query("page")int page,
+                                                            @Query("count")int count);
     /**
      * 资讯推荐展示列表
      *
@@ -161,7 +158,6 @@ public interface IRequest {
     Observable<Result<List<CommunityListBean>>> communityList(
 //            @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Query("page") int page, @Query("count") int count);
-
     @GET("chat/verify/v1/initFriendList")
     Observable<Result<List<InitFriendlist>>> groupList(
 //            @Header("userId") int userId, @Header("sessionId") String sessionId,
@@ -184,4 +180,17 @@ public interface IRequest {
 
     @POST("community/verify/v1/releasePost")
     Observable<Result> fabuquanzi(@Header("userId") int userId, @Header("sessionId") String sessionId, @Body MultipartBody body);
+    /**
+     * 根据手机号查询用户信息
+     * @param userId
+     * @param sessionId
+     * @param phone
+     * @return
+     */
+    @GET("user/verify/v1/findUserByPhone")
+    Observable<Result<List<FindUserByPhone>>> findUserByPhone(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("phone") String phone
+    );
 }

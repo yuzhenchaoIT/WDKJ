@@ -34,6 +34,7 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:id="@+id/find_relate_ren"
             android:layout_height="match_parent">
             <TextView
                 android:id="@+id/find_r"
@@ -54,6 +55,7 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="1"
+            android:id="@+id/find_relate_qun"
             android:layout_height="match_parent">
             <TextView
                 android:id="@+id/find_q"

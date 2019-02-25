@@ -1,12 +1,84 @@
 package com.wd.tech.view;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
+import android.text.Editable;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.bean.FindUserByPhone;
+import com.wd.tech.bean.FriendInfoList;
+import com.wd.tech.bean.InitFriendlist;
+import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
+import com.wd.tech.core.exception.ApiException;
+import com.wd.tech.core.http.DataCall;
+import com.wd.tech.frag.FragOneContact;
+import com.wd.tech.presenter.GroupListPersenter;
+import com.wd.tech.presenter.PhoneUserPersenter;
+
+import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class AddFriendsActivity extends WDActivity {
+
+    @BindView(R.id.add_friend_back)
+    ImageView addFriendBack;
+    @BindView(R.id.find_r)
+    TextView findR;
+    @BindView(R.id.find_r_ok)
+    View findROk;
+    @BindView(R.id.find_relate_ren)
+    RelativeLayout findRelateRen;
+    @BindView(R.id.find_q)
+    TextView findQ;
+    @BindView(R.id.find_q_ok)
+    View findQOk;
+    @BindView(R.id.find_relate_qun)
+    RelativeLayout findRelateQun;
+    @BindView(R.id.find_search)
+    ImageView findSearch;
+    @BindView(R.id.find_search_edit)
+    EditText findSearchEdit;
+    @BindView(R.id.find_r_icon)
+    SimpleDraweeView findRIcon;
+    @BindView(R.id.find_r_name)
+    TextView findRName;
+    @BindView(R.id.find_r_next)
+    ImageView findRNext;
+    @BindView(R.id.find_r_relative)
+    RelativeLayout findRRelative;
+    @BindView(R.id.find_q_icon)
+    SimpleDraweeView findQIcon;
+    @BindView(R.id.find_q_name)
+    TextView findQName;
+    @BindView(R.id.find_q_next)
+    ImageView findQNext;
+    @BindView(R.id.find_q_relative)
+    RelativeLayout findQRelative;
+    @BindView(R.id.find_not)
+    TextView findNot;
+
+
+
+
+    private PhoneUserPersenter userPersenter;
+    private String sessionId;
+    private int userId;
+    private User bean;
+    private FindUserByPhone userbypehone;
+    private Editable searchEdit;
 
     @Override
     protected int getLayoutId() {
@@ -15,11 +87,60 @@ public class AddFriendsActivity extends WDActivity {
 
     @Override
     protected void initView() {
+        ButterKnife.bind(this);
+
+        }
+
+    private class UserPhone implements DataCall<Result<FindUserByPhone>> {
+
+
+        @Override
+        public void success(Result<FindUserByPhone> data) {
+            if (data.getStatus().equals("0000")) {
+                userbypehone = data.getResult();
+                findQName.setText(data.getResult().getNickName());
+                findQIcon.setImageURI(data.getResult().getHeadPic());
+                }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
+
+   @Override
+    protected void destoryData() {
 
     }
 
-    @Override
-    protected void destoryData() {
+    @OnClick({R.id.add_friend_back, R.id.find_relate_ren, R.id.find_relate_qun, R.id.find_search})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.add_friend_back:
 
+                break;
+            case R.id.find_relate_ren:
+                findROk.setVisibility(View.VISIBLE);
+                findQOk.setVisibility(View.GONE);
+                break;
+            case R.id.find_relate_qun:
+                findROk.setVisibility(View.GONE);
+                findQOk.setVisibility(View.VISIBLE);
+                break;
+            case R.id.find_search:
+                searchEdit = findSearchEdit.getText();
+                findRRelative.setVisibility(View.VISIBLE);
+                userPersenter = new PhoneUserPersenter(new UserPhone());
+                bean = WDActivity.getUser(this);
+                if (bean != null) {
+                    sessionId = bean.getSessionId();
+                    userId = bean.getUserId();
+                    userPersenter.request(userId,sessionId,searchEdit.toString());
+
+                }
+                break;
+        }
     }
 }
