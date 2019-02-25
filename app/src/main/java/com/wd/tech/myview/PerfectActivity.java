@@ -1,6 +1,10 @@
 package com.wd.tech.myview;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -25,12 +29,17 @@ import java.util.Date;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PerfectActivity extends WDActivity {
+public class PerfectActivity extends WDActivity{
 
     private User user;
-    private EditText mEditNamePer,mEditSexPer,mEditDatePer,mEditEmailPer;
+    private EditText mEditNamePer,mEditDatePer,mEditEmailPer,mTextSexPer;
     private QueryUserPresenter queryUserPresenter;
     private PerfectPresenter perfectPresenter;
+    private SharedPreferences sp;
+    private String sig;
+    private QueryUser result;
+    private int index = 0;// 记录单选对话框的下标
+    private String newsex;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_perfect;
@@ -47,7 +56,13 @@ public class PerfectActivity extends WDActivity {
         //设置数据
         queryUserPresenter = new QueryUserPresenter(new QueryUserCall());
         queryUserPresenter.request(user.getUserId(),user.getSessionId());
-
+        //接收值
+        sp = getSharedPreferences("signatrue",Context.MODE_PRIVATE);
+        sig = sp.getString("sig", "");
+        //传值
+        SharedPreferences.Editor edit = sp.edit();
+        edit.putString("qian",sig);
+        edit.commit();
     }
     //实现查询用户信息接口
     class QueryUserCall implements DataCall<Result<QueryUser>> {
@@ -55,13 +70,13 @@ public class PerfectActivity extends WDActivity {
         @Override
         public void success(Result<QueryUser> data) {
             if (data.getStatus().equals("0000")){
-                QueryUser result = data.getResult();
+                result = data.getResult();
                 mEditNamePer.setText(result.getNickName());
                 int sex = result.getSex();
                 if (sex == 1){
-                    mEditSexPer.setText("男");
+                    mTextSexPer.setText("男");
                 }else {
-                    mEditSexPer.setText("女");
+                    mTextSexPer.setText("女");
                 }
                 long birthday = result.getBirthday();
                 Date date = new Date(birthday);
@@ -80,7 +95,7 @@ public class PerfectActivity extends WDActivity {
     //初始化控件方法
     private void Initialize() {
         mEditNamePer = (EditText) findViewById(R.id.mEditNamePer);
-        mEditSexPer = (EditText) findViewById(R.id.mEditSexPer);
+        mTextSexPer = (EditText) findViewById(R.id.mTextSexPer);
         mEditDatePer = (EditText) findViewById(R.id.mEditDatePer);
         mEditEmailPer = (EditText) findViewById(R.id.mEditEmailPer);
     }
@@ -89,12 +104,14 @@ public class PerfectActivity extends WDActivity {
     public void mfinish(){
         //获取值
         String name = mEditNamePer.getText().toString().trim();
-        String sex = mEditSexPer.getText().toString().trim();
+        String sex = mTextSexPer.getText().toString().trim();
         int a = Integer.parseInt(sex);
+
         String date = mEditDatePer.getText().toString().trim();
         String email = mEditEmailPer.getText().toString().trim();
         perfectPresenter = new PerfectPresenter(new PerfectCall());
-        perfectPresenter.request(user.getUserId(),user.getSessionId(),name,a,"棒",date,email);
+        perfectPresenter.request(user.getUserId(),user.getSessionId(),name,a,sig,date,email);
+
     }
     //实现完善个人信息接口
     class PerfectCall implements DataCall<Result>{

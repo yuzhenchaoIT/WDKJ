@@ -19,6 +19,7 @@ import java.util.List;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -52,6 +53,17 @@ public interface IRequest {
     @FormUrlEncoded
     Observable<Result<User>> login(@Field("phone") String phone,
                                    @Field("pwd") String pwd);
+
+    /**
+     * 微信登录
+     * @param ak
+     * @param code
+     * @return
+     */
+    @POST("user/v1/weChatLogin")
+    @FormUrlEncoded
+    Observable<Result<User>> weChatLogin(@Header("ak")String ak,
+                                         @Field("code")String code);
 
     /**
      * 根据用户ID查询用户信息
@@ -100,6 +112,18 @@ public interface IRequest {
                                                             @Query("count")int count);
 
     /**
+     * 取消收藏（支持批量操作）
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @return
+     */
+    @DELETE("user/verify/v1/cancelCollection")
+    Observable<Result> cancelCollection(@Header("userId") int userId,
+                                        @Header("sessionId") String sessionId,
+                                        @Query("infoId")String infoId);
+
+    /**
      * 用户关注列表
      * @param userId
      * @param sessionId
@@ -112,6 +136,18 @@ public interface IRequest {
                                                             @Header("sessionId") String sessionId,
                                                             @Query("page")int page,
                                                             @Query("count")int count);
+
+    /**
+     * 取消关注
+     * @param userId
+     * @param sessionId
+     * @param focusId
+     * @return
+     */
+    @DELETE("user/verify/v1/cancelFollow")
+    Observable<Result> cancelFollow(@Header("userId") int userId,
+                                    @Header("sessionId") String sessionId,
+                                    @Query("focusId")int focusId);
     /**
      * 资讯推荐展示列表
      *

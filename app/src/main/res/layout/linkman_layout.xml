@@ -42,7 +42,7 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="21dp"
-                    android:layout_toRightOf="@+id/search_edit"
+                    android:layout_toRightOf="@+id/find_search_edit"
                     android:padding="5dp"
                     android:src="@drawable/common_nav_btn_search_n_xhdpi" />
             </RelativeLayout>
@@ -97,8 +97,9 @@
                 android:layout_width="match_parent"
                 android:layout_marginRight="12dp"
                 android:layout_marginLeft="12dp"
-                android:layout_height="300dp"></ExpandableListView>
+                android:layout_height="300dp">
+
+            </ExpandableListView>
         </LinearLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>>
-
 </LinearLayout>
