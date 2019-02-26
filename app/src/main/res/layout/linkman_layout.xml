@@ -4,13 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFF"
-
     android:orientation="vertical">
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/x_recyclerview"
-        android:background="#FFF"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <com.scwang.smartrefresh.layout.header.ClassicsHeader
@@ -22,6 +19,7 @@
             android:orientation="vertical">
             <RelativeLayout
                 android:layout_width="match_parent"
+                android:background="#ffffff"
                 android:layout_height="52dp">
                 <EditText
                     android:id="@+id/search_edit"
@@ -42,13 +40,15 @@
                     android:layout_alignParentLeft="true"
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="21dp"
-                    android:layout_toRightOf="@+id/find_search_edit"
+                    android:layout_toRightOf="@+id/search_edit"
                     android:padding="5dp"
                     android:src="@drawable/common_nav_btn_search_n_xhdpi" />
             </RelativeLayout>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginTop="1dp"
+                android:background="#ffffff"
                 android:id="@+id/layout_newsyou"
                 android:orientation="horizontal">
                 <ImageView
@@ -74,6 +74,8 @@
                 android:id="@+id/layout_qun"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginBottom="1dp"
+                android:background="#ffffff"
                 android:orientation="horizontal">
                 <ImageView
                     android:layout_gravity="center"
@@ -95,11 +97,9 @@
                 android:id="@+id/ex_pandable_listview"
                 android:layout_marginTop="4dp"
                 android:layout_width="match_parent"
-                android:layout_marginRight="12dp"
-                android:layout_marginLeft="12dp"
-                android:layout_height="300dp">
-
-            </ExpandableListView>
+                android:background="#ffffff"
+                android:layout_height="wrap_content"></ExpandableListView>
         </LinearLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>>
+
 </LinearLayout>

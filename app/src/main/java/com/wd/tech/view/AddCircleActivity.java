@@ -130,21 +130,23 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
             }
         }
     }
-
-
-
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.add_send:
                 User user = WDActivity.getUser(this);
-                addCircilePresenter.request(user.getUserId(),user.getSessionId(),editTex.getText(),objects);
+                if (user!= null){
+                    addCircilePresenter.request(user.getUserId(),user.getSessionId(),editTex.getText(),objects);
+                }else {
+                    Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
+                }
                 break;
             case R.id.add_qx:
                 finish();
                 break;
         }
     }
+
     private class AddData implements DataCall<Result>  {
         @Override
         public void success(Result data) {

@@ -5,8 +5,11 @@ import com.wd.tech.R;
 import com.wd.tech.bean.AllInfo;
 import com.wd.tech.bean.AllInfoPlateBean;
 import com.wd.tech.bean.BannerBean;
+import com.wd.tech.bean.CommentList;
 import com.wd.tech.bean.CommunityListBean;
+import com.wd.tech.bean.FindGroupByid;
 import com.wd.tech.bean.FindUserByPhone;
+import com.wd.tech.bean.FindUserJoinGroup;
 import com.wd.tech.bean.FollowUser;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.InitFriendlist;
@@ -255,7 +258,13 @@ public interface IRequest {
                                                             @Header("sessionId") String sessionId,
                                                             @Query("id") int id);
 
-
+    /**
+     * 发布圈子
+     * @param userId
+     * @param sessionId
+     * @param body
+     * @return
+     */
     @POST("community/verify/v1/releasePost")
     Observable<Result> fabuquanzi(@Header("userId") int userId, @Header("sessionId") String sessionId, @Body MultipartBody body);
     /**
@@ -286,5 +295,93 @@ public interface IRequest {
             @Header("sessionId") String sessionId,
             @Query("friendUid") int friendUid,
             @Query("remark") String remark
+    );
+
+    /**
+     * 评论列表
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("community/v1/findCommunityUserCommentList")
+    Observable<Result<List<CommentList>>> findCommunityUserCommentList(@Header("userId") int userId,
+                                                                       @Header("sessionId") String sessionId,
+                                                                       @Query("communityId") int communityId,
+                                                                       @Query("page") int page,
+                                                                       @Query("count") int count);
+
+    /**
+     * 圈子发布
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @param content
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityComment")
+    @FormUrlEncoded
+    Observable<Result> addCommunityComment(@Header("userId") int userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Field("communityId") int communityId,
+                                       @Field("content") String content);
+
+    /**
+     * 根据id查组
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
+    @GET("group/verify/v1/findGroupInfo")
+    Observable<Result<FindGroupByid>> findGroupByid(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("groupId") int groupId
+    );
+    /**
+     * 添加群
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @param remark
+     * @return
+     */
+    @POST("group/verify/v1/applyAddGroup")
+    Observable<Result> addGroup(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("groupId") int groupId,
+            @Query("remark") String remark
+    );
+
+    /**
+     * 创建群
+     * @param userId
+     * @param sessionId
+     * @param name
+     * @param description
+     * @return
+     */
+    @POST("group/verify/v1/createGroup")
+    Observable<Result> createGroup(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("name") String name,
+            @Query("description") String description
+    );
+
+    /**
+     * 查询加入的群
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("group/verify/v1/findUserJoinedGroup")
+    Observable<Result<List<FindUserJoinGroup>>> findUserJoinedGroup(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId
     );
 }
