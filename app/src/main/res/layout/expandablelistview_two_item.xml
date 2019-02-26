@@ -2,8 +2,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:background="#FFF"
+
     android:gravity="center">
     <LinearLayout
         android:layout_width="match_parent"
@@ -12,11 +13,11 @@
         android:orientation="horizontal">
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_child"
-            android:layout_width="24dp"
+            android:layout_width="30dp"
             app:roundAsCircle="true"
 
             android:layout_margin="8dp"
-            android:layout_height="24dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="10dp"
             android:src="@mipmap/ic_launcher" />
         <LinearLayout
@@ -28,20 +29,25 @@
                 android:id="@+id/tv_child"
                 android:layout_width="match_parent"
                 android:textSize="12sp"
+                android:textColor="#666666"
                 android:layout_height="wrap_content"
                 android:text="item text" />
             <TextView
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="5dp"
                 android:id="@+id/tv_qian"
                 android:layout_width="match_parent"
-                android:textSize="12sp"
+                android:textSize="10sp"
+                android:textColor="#999999"
                 android:layout_height="wrap_content"
                 android:text="item text" />
 
         </LinearLayout>
 
     </LinearLayout>
-
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#f2f2f2"/>
 
 
 
