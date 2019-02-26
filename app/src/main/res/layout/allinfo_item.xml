@@ -12,7 +12,8 @@
             android:id="@+id/mCheckAll"
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
         <com.facebook.drawee.view.SimpleDraweeView
             android:layout_marginTop="10dp"
             android:id="@+id/mSimpleAll"

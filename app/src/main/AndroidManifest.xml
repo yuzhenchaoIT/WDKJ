@@ -45,7 +45,7 @@
         <activity android:name=".myview.SetUpActivity" />
         <activity android:name=".view.AddFriendsActivity" />
         <activity android:name=".view.FlockActivity" />
-        <activity android:name=".myview.SetUpActivity" />
+
         <activity android:name=".view.SortListActivity" />
         <activity android:name=".myview.PerfectActivity" />
         <activity android:name=".myview.SignatureActivity" />
@@ -55,6 +55,13 @@
         <activity android:name=".view.FindGroupActivity" />
         <activity android:name=".view.AddGroupActivity" />
         <activity android:name=".view.MyGroupActivity"></activity>
+
+        <activity android:name=".view.WXLoginActivity" />
+        <activity android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:theme="@style/AppTheme"></activity>
+
     </application>
 
 </manifest>
