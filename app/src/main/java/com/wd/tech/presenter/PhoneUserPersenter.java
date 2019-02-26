@@ -14,6 +14,6 @@ public class PhoneUserPersenter extends BasePresenter {
     @Override
     public Observable observable(Object... args) {
         IRequest iRequest = NotWorkUtils.getInstance().create(IRequest.class);
-        return iRequest.findUserByPhone((int) args[0],(String) args[1],(String) args[3]);
+        return iRequest.findUserByPhone((int) args[0],(String) args[1],(String) args[2]);
     }
 }

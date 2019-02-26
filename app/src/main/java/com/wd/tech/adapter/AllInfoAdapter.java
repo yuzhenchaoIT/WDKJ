@@ -40,7 +40,7 @@ public class AllInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int i) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int i) {
         MyHolder myHolder = (MyHolder) holder;
         myHolder.draweeView.setImageURI(list.get(i).getThumbnail());
         myHolder.textView1.setText(list.get(i).getTitle());
@@ -55,6 +55,15 @@ public class AllInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         }else {
             myHolder.checkBox.setVisibility(View.GONE);
         }
+        //------
+        myHolder.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheckBox checkBox = (CheckBox) v;
+                boolean checked = checkBox.isChecked();
+                list.get(i).setCheck(checked);
+            }
+        });
     }
 
     @Override

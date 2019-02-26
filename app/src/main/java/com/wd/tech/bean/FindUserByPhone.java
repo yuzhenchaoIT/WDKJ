@@ -2,27 +2,38 @@ package com.wd.tech.bean;
 
 public class FindUserByPhone {
 
+
     /**
-     * headPic : http://mobile.bwstudent.com/images/tech/default/tech.jpg
+     * email : 999@163.com
+     * headPic : http://172.17.8.100/images/tech/head_pic/2018-09-30/20180930093918.jpg
      * integral : 0
-     * nickName : 可口可乐
-     * phone : 16619785294
+     * nickName : 江山
+     * phone : 16619998889
      * sex : 1
-     * userId : 41
-     * userName : JnA5Rn16619785294
-     * whetherFaceId : 2
+     * signature : 打江山
+     * userId : 1078
      * whetherVip : 2
+     * whetherFaceId : 1
      */
 
+    private String email;
     private String headPic;
     private int integral;
     private String nickName;
     private String phone;
     private int sex;
+    private String signature;
     private int userId;
-    private String userName;
-    private int whetherFaceId;
     private int whetherVip;
+    private int whetherFaceId;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getHeadPic() {
         return headPic;
@@ -64,6 +75,14 @@ public class FindUserByPhone {
         this.sex = sex;
     }
 
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
     public int getUserId() {
         return userId;
     }
@@ -72,12 +91,12 @@ public class FindUserByPhone {
         this.userId = userId;
     }
 
-    public String getUserName() {
-        return userName;
+    public int getWhetherVip() {
+        return whetherVip;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setWhetherVip(int whetherVip) {
+        this.whetherVip = whetherVip;
     }
 
     public int getWhetherFaceId() {
@@ -86,13 +105,5 @@ public class FindUserByPhone {
 
     public void setWhetherFaceId(int whetherFaceId) {
         this.whetherFaceId = whetherFaceId;
-    }
-
-    public int getWhetherVip() {
-        return whetherVip;
-    }
-
-    public void setWhetherVip(int whetherVip) {
-        this.whetherVip = whetherVip;
     }
 }

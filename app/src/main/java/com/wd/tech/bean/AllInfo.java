@@ -16,6 +16,15 @@ public class AllInfo {
     private String thumbnail;
     private String title;
     private boolean ischeck = false;
+    private boolean check = false;
+
+    public boolean isCheck() {
+        return check;
+    }
+
+    public void setCheck(boolean check) {
+        this.check = check;
+    }
 
     public boolean isIscheck() {
         return ischeck;

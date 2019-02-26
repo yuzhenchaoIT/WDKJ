@@ -9,9 +9,17 @@ public class InfoAdvertisingVoBean {
      */
 
     private String content;
-    private int id;
-    private String title;
+    private int idX;
+    private String pic;
     private String url;
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 
     public String getContent() {
         return content;
@@ -21,28 +29,20 @@ public class InfoAdvertisingVoBean {
         this.content = content;
     }
 
-    public int getId() {
-        return id;
+    public int getIdX() {
+        return idX;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdX(int idX) {
+        this.idX = idX;
     }
 
-    public String getTitle() {
-        return title;
+    public String getPic() {
+        return pic;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
+    public void setPic(String pic) {
+        this.pic = pic;
     }
 }
 

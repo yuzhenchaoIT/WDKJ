@@ -15,18 +15,22 @@ import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
+import com.wd.tech.presenter.CancelFollPresenter;
 import com.wd.tech.presenter.FollowUserPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class FocusOnActivity extends WDActivity {
+public class FocusOnActivity extends WDActivity implements FocusOnAdapter.Shan {
     private FollowUserPresenter followUserPresenter;
     private User user;
     private RecyclerView mRecyclerFoc;
     private FocusOnAdapter focusOnAdapter;
+    private CancelFollPresenter cancelFollPresenter;
+    private List<FollowUser> result = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -39,6 +43,7 @@ public class FocusOnActivity extends WDActivity {
         ButterKnife.bind(this);
         //初始化控件
         mRecyclerFoc = (RecyclerView) findViewById(R.id.mRecyclerFoc);
+
         //查询数据库
         user = WDActivity.getUser(this);
         //设置适配器
@@ -48,14 +53,41 @@ public class FocusOnActivity extends WDActivity {
         mRecyclerFoc.setAdapter(focusOnAdapter);
         //设置数据
         followUserPresenter = new FollowUserPresenter(new FollowUserCall());
-        followUserPresenter.request(user.getUserId(),user.getSessionId(),1,5);
+        followUserPresenter.request(user.getUserId(),user.getSessionId(),1,20);
+        //-----
+        focusOnAdapter.getShan(this);
+    }
+
+    @Override
+    public void onshan(int i) {
+        int focusUid = result.get(i).getFocusUid();
+        cancelFollPresenter = new CancelFollPresenter(new CancelFollCall());
+        cancelFollPresenter.request(user.getUserId(),user.getSessionId(),focusUid);
+    }
+    //实现取消关注接口
+    class CancelFollCall implements DataCall<Result>{
+
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
+                Toast.makeText(FocusOnActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+                result.clear();
+                followUserPresenter.request(user.getUserId(),user.getSessionId(),1,20);
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
     }
     //实现我的关注接口
     class FollowUserCall implements DataCall<Result<List<FollowUser>>>{
         @Override
         public void success(Result<List<FollowUser>> data) {
             if (data.getStatus().equals("0000")){
-                List<FollowUser> result = data.getResult();
+                result = data.getResult();
+                focusOnAdapter.clear();
                 focusOnAdapter.addAll(result);
                 focusOnAdapter.notifyDataSetChanged();
             }
