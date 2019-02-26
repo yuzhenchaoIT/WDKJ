@@ -25,16 +25,18 @@
         android:layout_marginLeft="12dp"
         android:layout_marginTop="18dp"
         android:layout_marginRight="12dp"
-        fresco:roundedCornerRadius="8dp" />
+        app:roundTopLeft="false"
+        app:roundedCornerRadius="8dp" />
 
-    <com.facebook.drawee.view.SimpleDraweeView
+    <ImageView
         android:layout_width="40dp"
         android:layout_height="18dp"
         android:layout_below="@id/item_home_list2_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="18dp"
-        app:placeholderImage="@drawable/icon_advertising"
-        fresco:roundedCornerRadius="8dp" />
+        android:layout_marginLeft="-4dp"
+        android:layout_marginTop="-1dp"
+        android:layout_alignTop="@+id/item_home_list2_img"
+        android:layout_alignLeft="@+id/item_home_list2_img"
+        android:src="@drawable/icon_advertising" />
 
     <View
         android:layout_width="match_parent"
@@ -43,9 +45,5 @@
         android:layout_marginTop="10dp"
         android:background="#F6F6F6"></View>
 
-    <!--fresco:roundBottomLeft="false"-->
-    <!--fresco:roundBottomRight="false"-->
-    <!--fresco:roundTopLeft="true"-->
-    <!--fresco:roundTopRight="false"-->
 
 </RelativeLayout>

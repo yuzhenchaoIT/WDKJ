@@ -1,5 +1,6 @@
 package com.wd.tech.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +18,7 @@ import com.wd.tech.R;
 import com.wd.tech.adapter.HomeListAdapter;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
@@ -51,6 +53,7 @@ public class SortListActivity extends WDActivity {
     private PlateListPresenter mPlateListP = new PlateListPresenter(new PlateListCall());
     private HomeListAdapter mHomeListAdapter;
     private LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
+    private User user;
 
     @Override
     protected int getLayoutId() {
@@ -65,12 +68,15 @@ public class SortListActivity extends WDActivity {
         String title = getIntent().getStringExtra("title");
         mSortListTitle.setText(title);
 
+
+        user = WDActivity.getUser(getContext());
+
         mSortListRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishRefresh(2000);
-                mPlateListP.request(true, 18, "15320748258726", plateId);
+                mPlateListP.request(true, user.getUserId(), user.getSessionId(), plateId);
             }
         });
 
@@ -79,7 +85,7 @@ public class SortListActivity extends WDActivity {
             public void onLoadmore(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishLoadmore(2000);
-                mPlateListP.request(false, 18, "15320748258726", plateId);
+                mPlateListP.request(false, user.getUserId(), user.getSessionId(), plateId);
             }
         });
 
@@ -89,7 +95,7 @@ public class SortListActivity extends WDActivity {
 
         //布局管理器
         mSortListRecy.setLayoutManager(mLinearLayoutManager);
-        mPlateListP.request(true, 18, "15320748258726", plateId);
+        mPlateListP.request(true, user.getUserId(), user.getSessionId(), plateId);
     }
 
 
@@ -100,6 +106,7 @@ public class SortListActivity extends WDActivity {
                 finish();
                 break;
             case R.id.sort_list_search:
+                startActivity(new Intent(getContext(), SearchActivity.class));
                 break;
         }
     }
@@ -131,6 +138,6 @@ public class SortListActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-
+        mPlateListP.unBind();
     }
 }
