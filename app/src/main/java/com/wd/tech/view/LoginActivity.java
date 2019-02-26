@@ -46,9 +46,9 @@ public class LoginActivity extends WDActivity {
     }
     //初始化控件方法
     private void Initialize() {
-        mEditPhone = (EditText) findViewById(R.id.mEditPhone);
-        mEditPass = (EditText) findViewById(R.id.mEditPass);
-        mCheckEye = (CheckBox) findViewById(R.id.mCheckEye);
+        mEditPhone = (EditText) findViewById(R.id.medit_phone);
+        mEditPass = (EditText) findViewById(R.id.medit_pass);
+        mCheckEye = (CheckBox) findViewById(R.id.mcheck_eye);
         //点击显示和隐藏密码
         mCheckEye.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -65,13 +65,13 @@ public class LoginActivity extends WDActivity {
     }
 
     //点击跳转注册页
-    @OnClick(R.id.mRegister)
+    @OnClick(R.id.mregister)
     public void mregsiter(){
         //跳转
         intent(RegisterActivity.class);
     }
     //点击登录
-    @OnClick(R.id.mLogin)
+    @OnClick(R.id.mlogin)
     public void mlogin(){
         //获取输入框的值
         String phone = mEditPhone.getText().toString().trim();
@@ -118,7 +118,7 @@ public class LoginActivity extends WDActivity {
         }
     }
     //点击微信登录
-    @OnClick(R.id.mWeiXin)
+    @OnClick(R.id.mwei_xin)
     public void mwx(){
         Intent intent = new Intent(LoginActivity.this, WXLoginActivity.class);
         startActivity(intent);

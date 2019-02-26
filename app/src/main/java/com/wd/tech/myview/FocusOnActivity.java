@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.wd.tech.R;
@@ -31,6 +32,7 @@ public class FocusOnActivity extends WDActivity implements FocusOnAdapter.Shan {
     private FocusOnAdapter focusOnAdapter;
     private CancelFollPresenter cancelFollPresenter;
     private List<FollowUser> result = new ArrayList<>();
+    private RelativeLayout mrelativeFoc;
 
     @Override
     protected int getLayoutId() {
@@ -42,8 +44,8 @@ public class FocusOnActivity extends WDActivity implements FocusOnAdapter.Shan {
         //绑定
         ButterKnife.bind(this);
         //初始化控件
-        mRecyclerFoc = (RecyclerView) findViewById(R.id.mRecyclerFoc);
-
+        mRecyclerFoc = (RecyclerView) findViewById(R.id.mrecycler_foc);
+        mrelativeFoc = (RelativeLayout) findViewById(R.id.mrelative_foc);
         //查询数据库
         user = WDActivity.getUser(this);
         //设置适配器
@@ -86,10 +88,18 @@ public class FocusOnActivity extends WDActivity implements FocusOnAdapter.Shan {
         @Override
         public void success(Result<List<FollowUser>> data) {
             if (data.getStatus().equals("0000")){
+
                 result = data.getResult();
-                focusOnAdapter.clear();
-                focusOnAdapter.addAll(result);
-                focusOnAdapter.notifyDataSetChanged();
+                if (result.size()!=0) {
+                    focusOnAdapter.clear();
+                    focusOnAdapter.addAll(result);
+                    focusOnAdapter.notifyDataSetChanged();
+                    mRecyclerFoc.setVisibility(View.VISIBLE);
+                    mrelativeFoc.setVisibility(View.GONE);
+                }else {
+                    mRecyclerFoc.setVisibility(View.GONE);
+                    mrelativeFoc.setVisibility(View.VISIBLE);
+                }
             }
         }
 
@@ -99,7 +109,7 @@ public class FocusOnActivity extends WDActivity implements FocusOnAdapter.Shan {
         }
     }
     //点击按钮返回
-    @OnClick(R.id.mReturn)
+    @OnClick(R.id.mreturn)
     public void mreturn(){
         finish();
     }

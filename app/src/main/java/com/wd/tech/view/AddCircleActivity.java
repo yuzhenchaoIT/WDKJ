@@ -20,14 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wd.tech.R;
-import com.wd.tech.adapter.Add_Image_Adapter;
+import com.wd.tech.adapter.AddImageAdapter;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.presenter.AddCircilePresenter;
-import com.wd.tech.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +36,7 @@ import butterknife.OnTextChanged;
 public class AddCircleActivity extends WDActivity implements View.OnClickListener {
 
     List<Object> objects = new ArrayList<>();
-    private Add_Image_Adapter add_image_adapter;
+    private AddImageAdapter add_image_adapter;
     private TextView textSum;
     private EditText editTex;
     private AddCircilePresenter addCircilePresenter;
@@ -79,7 +78,7 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
 
         objects.add(R.drawable.common_nav_btn_add_n_hdpi);
         bo_image_list.setLayoutManager(new GridLayoutManager(this,4));
-        add_image_adapter = new Add_Image_Adapter(this, objects, new Add_Image_Adapter.Dakai() {
+        add_image_adapter = new AddImageAdapter(this, objects, new AddImageAdapter.Dakai() {
             @Override
             public void onDakaiXiangCe() {
                 Intent intent1 = new Intent(Intent.ACTION_PICK);

@@ -10,6 +10,7 @@ import com.wd.tech.bean.FindUserByPhone;
 import com.wd.tech.bean.FollowUser;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.InitFriendlist;
+import com.wd.tech.bean.MyPost;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
@@ -26,6 +27,7 @@ import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Query;
 
 public interface IRequest {
@@ -164,6 +166,44 @@ public interface IRequest {
                                                          @Query("plateId") int plateId,
                                                          @Query("page") int page,
                                                          @Query("count") int count);
+
+    /**
+     * 修改用户签名
+     * @param userId
+     * @param sessionId
+     * @param signature
+     * @return
+     */
+    @PUT("user/verify/v1/modifySignature")
+    Observable<Result> modifySignature(@Header("userId") int userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Query("signature")String signature);
+
+    /**
+     * 我的帖子
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("community/verify/v1/findMyPostById")
+    Observable<Result<List<MyPost>>> findMyPostById(@Header("userId") int userId,
+                                                    @Header("sessionId") String sessionId,
+                                                    @Query("page") int page,
+                                                    @Query("count") int count);
+
+    /**
+     * 删除帖子
+     * @param userId
+     * @param sessionId
+     * @param commun
+     * @return
+     */
+    @DELETE("community/verify/v1/deletePost")
+    Observable<Result> deletePost(@Header("userId") int userId,
+                                  @Header("sessionId") String sessionId,
+                                  @Query("communityId")String commun);
 
     /**
      * 资讯分类跳转列表
