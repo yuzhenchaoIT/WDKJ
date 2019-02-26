@@ -54,31 +54,6 @@ public class CollectionActivity extends WDActivity {
     protected int getLayoutId() {
         return R.layout.activity_collection;
     }
-    //点击删除
-    @OnClick(R.id.mImageDelete)
-    public void mimage(){
-        for (int i = 0; i < result1.size(); i++) {
-            result1.get(i).setIscheck(true);
-            infoAdapter.notifyDataSetChanged();
-            mTextFinishAll.setVisibility(View.VISIBLE);
-            mImageDelete.setVisibility(View.GONE);
-        }
-    }
-    //点击完成
-    @OnClick(R.id.mTextFinishAll)
-    public void mtext(){
-        for (int i = 0; i < result1.size(); i++) {
-            result1.get(i).setIscheck(false);
-            infoAdapter.notifyDataSetChanged();
-            mTextFinishAll.setVisibility(View.GONE);
-            mImageDelete.setVisibility(View.VISIBLE);
-            if (result1.get(i).isCheck()){
-                pin+=result1.get(i).getInfoId()+",";
-                cancelPresenter = new CancelPresenter(new CancelCall());
-                cancelPresenter.request(user.getUserId(),user.getSessionId(),pin);
-            }
-        }
-    }
     //实现取消收藏接口
     class CancelCall implements DataCall<Result>{
 
@@ -101,11 +76,11 @@ public class CollectionActivity extends WDActivity {
         //绑定
         ButterKnife.bind(this);
         //初始化控件
-        mRecycler = (RecyclerView) findViewById(R.id.mRecycler);
-        mSmartRefresh = (SmartRefreshLayout) findViewById(R.id.mSmartRefresh);
-        mRelativeCol = (RelativeLayout) findViewById(R.id.mRelativeCol);
-        mTextFinishAll = (TextView) findViewById(R.id.mTextFinishAll);
-        mImageDelete = (ImageView) findViewById(R.id.mImageDelete);
+        mRecycler = (RecyclerView) findViewById(R.id.mrecycler);
+        mSmartRefresh = (SmartRefreshLayout) findViewById(R.id.msmart_refresh);
+        mRelativeCol = (RelativeLayout) findViewById(R.id.mrelative_col);
+        mTextFinishAll = (TextView) findViewById(R.id.mtext_finish_all);
+        mImageDelete = (ImageView) findViewById(R.id.mimage_delete);
         mSmartRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
@@ -117,7 +92,7 @@ public class CollectionActivity extends WDActivity {
         mSmartRefresh.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
-                refreshlayout.finishRefresh(2000);
+                refreshlayout.finishLoadmore();
                 allInfoPresenter.request(user.getUserId(),user.getSessionId(),false,5);
             }
         });
@@ -138,10 +113,6 @@ public class CollectionActivity extends WDActivity {
             if (data.getStatus().equals("0000")){
                 result1.addAll(data.getResult());
                 if(result1.size()!=0) {
-                    //添加列表并刷新
-                    if (allInfoPresenter.getPage() == 1) {
-                        infoAdapter.clear();
-                    }
                     infoAdapter.clear();
                     infoAdapter.addAll(result1);
                     infoAdapter.notifyDataSetChanged();
@@ -159,8 +130,38 @@ public class CollectionActivity extends WDActivity {
 
         }
     }
+    //点击删除
+    @OnClick(R.id.mimage_delete)
+    public void mimage(){
+        for (int i = 0; i < result1.size(); i++) {
+            result1.get(i).setIscheck(true);
+            infoAdapter.notifyDataSetChanged();
+            mTextFinishAll.setVisibility(View.VISIBLE);
+            mImageDelete.setVisibility(View.GONE);
+        }
+    }
+    //点击完成
+    @OnClick(R.id.mtext_finish_all)
+    public void mtext(){
+        for (int i = 0; i < result1.size(); i++) {
+            result1.get(i).setIscheck(false);
+            infoAdapter.notifyDataSetChanged();
+            mTextFinishAll.setVisibility(View.GONE);
+            mImageDelete.setVisibility(View.VISIBLE);
+            if (result1.get(i).isCheck()){
+                pin+=result1.get(i).getInfoId()+",";
+            }
+        }
+        cancelPresenter = new CancelPresenter(new CancelCall());
+        cancelPresenter.request(user.getUserId(),user.getSessionId(),pin);
+        infoAdapter.notifyDataSetChanged();
+        pin="";
+        for (int i = 0; i < result1.size(); i++) {
+            result1.get(i).setCheck(false);
+        }
+    }
     //点击按钮返回
-    @OnClick(R.id.mReturn)
+    @OnClick(R.id.mreturn)
     public void mreturn(){
         finish();
     }

@@ -14,7 +14,7 @@
         android:layout_marginTop="20dp">
 
         <ImageView
-            android:id="@+id/mReturn"
+            android:id="@+id/mreturn"
             android:layout_width="12dp"
             android:layout_height="24dp"
             android:layout_centerVertical="true"
@@ -35,6 +35,9 @@
         android:layout_height="1dp"
         android:background="#ddd" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -77,7 +80,7 @@
                         android:layout_weight="1" />
 
                     <com.facebook.drawee.view.SimpleDraweeView
-                        android:id="@+id/mImageUp"
+                        android:id="@+id/mimage_up"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:src="@mipmap/ic_launcher" />
@@ -121,7 +124,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/mTextNameUp"
+                        android:id="@+id/mtext_name_up"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -168,7 +171,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/mTextSexUp"
+                        android:id="@+id/mtext_sex_up"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -196,30 +199,36 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="10dp"
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/mlinear_set"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_gravity="center"
                         android:text="签名"
-                        android:textSize="14sp" />
+                        android:textSize="14sp"
+                        android:gravity="center_vertical"/>
 
                     <TextView
+                        android:id="@+id/mtext_qian_set"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1" />
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:textColor="#666666"
+                        android:gravity="right"/>
 
                     <ImageView
-                        android:id="@+id/mImageqUp"
+                        android:id="@+id/mimageq_up"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:src="@drawable/my_icon_next_n"
                         android:layout_gravity="center_vertical"
                         android:padding="10dp"/>
@@ -276,7 +285,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/mTextDateUp"
+                        android:id="@+id/mtext_date_up"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1111111111"
@@ -319,7 +328,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/mTextPhoneUp"
+                        android:id="@+id/mtext_phone_up"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1111111111"
@@ -362,7 +371,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/mTextEmailUp"
+                        android:id="@+id/mtext_email_up"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1111111111"
@@ -374,7 +383,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginTop="5dp"
-                    android:background="#f2f2f2" />
+                    android:background="#f2f2f2"
+                    android:layout_marginBottom="10dp"/>
 
 
             </LinearLayout>
@@ -416,7 +426,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/mTextjfUp"
+                        android:id="@+id/mtextjf_up"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="11111"
@@ -459,7 +469,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/mTextVipUp"
+                        android:id="@+id/mtext_vip_up"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="否"
@@ -501,7 +511,7 @@
                         android:layout_weight="1" />
 
                     <TextView
-                        android:id="@+id/mTextFaceUp"
+                        android:id="@+id/mtext_face_up"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="点击绑定"
@@ -532,7 +542,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/mTexttuiUp"
+                        android:id="@+id/mtexttui_up"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -556,4 +566,5 @@
 
         </LinearLayout>
     </LinearLayout>
+    </ScrollView>
 </LinearLayout>

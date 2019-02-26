@@ -12,7 +12,7 @@
         android:layout_height="70dp"
         android:background="#f2f2f2">
         <ImageView
-            android:id="@+id/mReturn"
+            android:id="@+id/mreturn"
             android:layout_width="12dp"
             android:layout_height="24dp"
             android:src="@drawable/common_nav_btn_back_n"
@@ -32,10 +32,10 @@
         android:layout_marginTop="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginLeft="50dp"
-        android:background="@drawable/qun_te_selector"
+        android:background="@drawable/shapesig_item"
         android:orientation="vertical">
         <EditText
-            android:id="@+id/mEditQianSig"
+            android:id="@+id/medit_qian_sig"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
@@ -46,7 +46,7 @@
             android:textColorHint="#fff"
             android:textColor="#fff"/>
         <TextView
-            android:id="@+id/mTextNumSig"
+            android:id="@+id/mtext_num_sig"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="0/40"
@@ -62,12 +62,12 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp">
         <Button
-            android:id="@+id/mButtonSig"
+            android:id="@+id/mbutton_sig"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="50dp"
-            android:background="@drawable/qun_te_selector"
+            android:background="@drawable/shapesig_item"
             android:text="提交"
             android:textColor="#fff"/>
     </RelativeLayout>

@@ -12,7 +12,7 @@
         android:layout_height="70dp"
         android:background="#f2f2f2">
         <ImageView
-            android:id="@+id/mReturn"
+            android:id="@+id/mreturn"
             android:layout_width="12dp"
             android:layout_height="24dp"
             android:src="@drawable/common_nav_btn_back_n"
@@ -26,7 +26,7 @@
             android:textColor="#666666"
             android:layout_centerInParent="true" />
         <ImageView
-            android:id="@+id/mImageDelete"
+            android:id="@+id/mimage_delete"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/common_nav_delete_n"
@@ -34,7 +34,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="10dp"/>
         <TextView
-            android:id="@+id/mTextFinishAll"
+            android:id="@+id/mtext_finish_all"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -44,19 +44,19 @@
             android:visibility="gone"/>
     </RelativeLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
-        android:id="@+id/mSmartRefresh"
+        android:id="@+id/msmart_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/mRecycler"
+            android:id="@+id/mrecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
         </android.support.v7.widget.RecyclerView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
     <RelativeLayout
-        android:id="@+id/mRelativeCol"
+        android:id="@+id/mrelative_col"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">

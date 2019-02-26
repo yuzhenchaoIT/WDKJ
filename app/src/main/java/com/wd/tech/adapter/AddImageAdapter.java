@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -18,13 +17,13 @@ import java.util.List;
 /***
  * 佛曰： 永无BUG 盘他！
  */
-public class Add_Image_Adapter extends RecyclerView.Adapter<Add_Image_Adapter.MyViewHolder> {
+public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.MyViewHolder> {
     private List<Object> mDatas;
     private Context mContext;
     private LayoutInflater inflater;
     Dakai dakai;
 
-    public Add_Image_Adapter(Context context, List<Object> datas, Dakai dakai){
+    public AddImageAdapter(Context context, List<Object> datas, Dakai dakai){
         this.mContext=context;
         this.mDatas=datas;
         this.dakai=dakai;

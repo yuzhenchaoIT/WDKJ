@@ -39,12 +39,12 @@ public class RegisterActivity extends WDActivity {
     }
     //初始化控件方法
     public void Initialize() {
-        mEditNameReg = (EditText) findViewById(R.id.mEditNameReg);
-        mEditPhoneReg = (EditText) findViewById(R.id.mEditPhoneReg);
-        mEditPassReg = (EditText) findViewById(R.id.mEditPassReg);
+        mEditNameReg = (EditText) findViewById(R.id.medit_name_reg);
+        mEditPhoneReg = (EditText) findViewById(R.id.medit_phone_reg);
+        mEditPassReg = (EditText) findViewById(R.id.medit_pass_reg);
     }
     //点击注册
-    @OnClick(R.id.mRegisterBt)
+    @OnClick(R.id.mregister_bt)
     public void mRegisterBt(){
         //获取输入框的值
         String name = mEditNameReg.getText().toString().trim();

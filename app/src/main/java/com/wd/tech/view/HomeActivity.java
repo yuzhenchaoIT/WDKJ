@@ -4,6 +4,7 @@ package com.wd.tech.view;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -76,28 +77,26 @@ public class HomeActivity extends AppCompatActivity {
         frag_InForMation = new FragInForMation();
         frag_Message = new FragMessage();
         frag_Community = new FragCommunity();
-        transaction.add(R.id.mFrame, frag_InForMation);
-        transaction.add(R.id.mFrame, frag_Message);
-        transaction.add(R.id.mFrame, frag_Community);
+        transaction.add(R.id.mframe, frag_InForMation);
+        transaction.add(R.id.mframe, frag_Message);
+        transaction.add(R.id.mframe, frag_Community);
         transaction.show(frag_InForMation);
         transaction.hide(frag_Message);
         transaction.hide(frag_Community);
         transaction.commit();
         //默认选中第一个
         mradio.check(mradio.getChildAt(0).getId());
+        mdraw.setScrimColor(Color.TRANSPARENT);//去除阴影
+        mlinear.measure(0,0);
+        final float width=mlinear.getMeasuredWidth()*0.2f;//获取布局宽度，并获得左移大小
+        mlinear.setTranslationX(-width);                 //底布局左移
         //点击侧滑
         mdraw.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View view, float v) {
-                //获取屏幕的宽高
-                WindowManager manager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-                Display display = manager.getDefaultDisplay();
-                //设置右面的布局位置  根据左面菜单的right作为右面布局的left   左面的right+屏幕的宽度（或者right的宽度这里是相等的）为右面布局的right
-                mlinearhome.layout(mlinear.getRight(), 0, mlinear.getRight() + display.getWidth(), display.getHeight());
-                //滑动过程中不断回调 slideOffset:0~1
-                /*View content = mdraw.getChildAt(0);
-                float scale = 1 - v;//1~0
-                content.setTranslationX(mdraw.getMeasuredWidth() * (1 - scale));//0~width*/
+                mlinear.setTranslationX(-width+width*v);               //底布局跟着移动
+                mlinearhome.setTranslationX(view.getMeasuredWidth()*v);   //主界面布局移动，移动长度等于抽屉的移动长度
+
 
             }
 
@@ -120,21 +119,21 @@ public class HomeActivity extends AppCompatActivity {
         mLinearShow.setVisibility(View.GONE);
     }
     //点击切换页面
-    @OnClick({R.id.mRB1,R.id.mRB2,R.id.mRB3})
+    @OnClick({R.id.mrb1,R.id.mrb2,R.id.mrb3})
     public void onView(View view){
         FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
         switch (view.getId()){
-            case R.id.mRB1:
+            case R.id.mrb1:
                 transaction1.show(frag_InForMation);
                 transaction1.hide(frag_Message);
                 transaction1.hide(frag_Community);
                 break;
-            case R.id.mRB2:
+            case R.id.mrb2:
                 transaction1.show(frag_Message);
                 transaction1.hide(frag_InForMation);
                 transaction1.hide(frag_Community);
                 break;
-            case R.id.mRB3:
+            case R.id.mrb3:
                 transaction1.show(frag_Community);
                 transaction1.hide(frag_InForMation);
                 transaction1.hide(frag_Message);
@@ -145,25 +144,26 @@ public class HomeActivity extends AppCompatActivity {
     }
     //初始化控件方法
     private void Initialize() {
-        mradio = findViewById(R.id.mRadio);
-        mlinearhome = findViewById(R.id.mLinearHome);
-        mlinear = findViewById(R.id.mLinear);
-        mdraw = findViewById(R.id.mDraw);
-        mRelative =  findViewById(R.id.mRelative);
-        mLinearShow =  findViewById(R.id.mLinearShow);
-        mSimple = findViewById(R.id.mSimple);
-        mTextName = findViewById(R.id.mTextName);
-        mTextQian = findViewById(R.id.mTextQian);
+        mradio = findViewById(R.id.mradio);
+        mlinearhome = findViewById(R.id.mlinear_home);
+        mlinear = findViewById(R.id.mlinear);
+        mdraw = findViewById(R.id.mdraw);
+        mRelative =  findViewById(R.id.mrelative);
+        mLinearShow =  findViewById(R.id.mlinear_show);
+        mSimple = findViewById(R.id.msimple);
+        mTextName = findViewById(R.id.mtext_name);
+        mTextQian = findViewById(R.id.mtext_qian);
+
     }
     //点击头像跳转
-    @OnClick(R.id.mSimple)
+    @OnClick(R.id.msimple)
     public void msim(){
         //跳转
         Intent intent = new Intent(HomeActivity.this, PerfectActivity.class);
         startActivity(intent);
     }
     //点击跳转登录页
-    @OnClick(R.id.mLinearJump)
+    @OnClick(R.id.mlinear_jump)
     public void mlinearJump(){
         //跳转
         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
@@ -203,40 +203,40 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
     //点击跳转页面
-    @OnClick({R.id.mLinearsc,R.id.mLineargz,R.id.mLineartz,R.id.mLinearno,R.id.mLinearjf,R.id.mLinearrw,R.id.mLinearsz})
+    @OnClick({R.id.mlinear_sc,R.id.mlinear_gz,R.id.mlinear_tz,R.id.mlinear_no,R.id.mlinear_jf,R.id.mlinear_rw,R.id.mlinear_sz})
     public void tiaozhuan(View view){
         switch (view.getId()){
-            case R.id.mLinearsc:
+            case R.id.mlinear_sc:
                 //跳转
                 Intent intent1 = new Intent(HomeActivity.this, CollectionActivity.class);
                 startActivity(intent1);
                 break;
-            case R.id.mLineargz:
+            case R.id.mlinear_gz:
                 //跳转
                 Intent intent2 = new Intent(HomeActivity.this, FocusOnActivity.class);
                 startActivity(intent2);
                 break;
-            case R.id.mLineartz:
+            case R.id.mlinear_tz:
                 //跳转
                 Intent intent3 = new Intent(HomeActivity.this, PostActivity.class);
                 startActivity(intent3);
                 break;
-            case R.id.mLinearno:
+            case R.id.mlinear_no:
                 //跳转
                 Intent intent4 = new Intent(HomeActivity.this, NoticeActivity.class);
                 startActivity(intent4);
                 break;
-            case R.id.mLinearjf:
+            case R.id.mlinear_jf:
                 //跳转
                 Intent intent5 = new Intent(HomeActivity.this, IntegralActivity.class);
                 startActivity(intent5);
                 break;
-            case R.id.mLinearrw:
+            case R.id.mlinear_rw:
                 //跳转
                 Intent intent6 = new Intent(HomeActivity.this, TaskActivity.class);
                 startActivity(intent6);
                 break;
-            case R.id.mLinearsz:
+            case R.id.mlinear_sz:
                 //跳转
                 Intent intent7 = new Intent(HomeActivity.this, SetUpActivity.class);
                 startActivity(intent7);
