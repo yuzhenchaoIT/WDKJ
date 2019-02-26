@@ -6,7 +6,9 @@ import com.wd.tech.bean.AllInfo;
 import com.wd.tech.bean.AllInfoPlateBean;
 import com.wd.tech.bean.BannerBean;
 import com.wd.tech.bean.CommunityListBean;
+import com.wd.tech.bean.FindGroupByid;
 import com.wd.tech.bean.FindUserByPhone;
+import com.wd.tech.bean.FindUserJoinGroup;
 import com.wd.tech.bean.FollowUser;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.InitFriendlist;
@@ -209,5 +211,62 @@ public interface IRequest {
             @Header("sessionId") String sessionId,
             @Query("friendUid") int friendUid,
             @Query("remark") String remark
+    );
+
+    /**
+     * 根据id查组
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @return
+     */
+    @GET("group/verify/v1/findGroupInfo")
+    Observable<Result<FindGroupByid>> findGroupByid(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("groupId") int groupId
+    );
+    /**
+     * 添加群
+     * @param userId
+     * @param sessionId
+     * @param groupId
+     * @param remark
+     * @return
+     */
+    @POST("group/verify/v1/applyAddGroup")
+    Observable<Result> addGroup(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("groupId") int groupId,
+            @Query("remark") String remark
+    );
+
+    /**
+     * 创建群
+     * @param userId
+     * @param sessionId
+     * @param name
+     * @param description
+     * @return
+     */
+    @POST("group/verify/v1/createGroup")
+    Observable<Result> createGroup(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("name") String name,
+            @Query("description") String description
+    );
+
+    /**
+     * 查询加入的群
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("group/verify/v1/findUserJoinedGroup")
+    Observable<Result<List<FindUserJoinGroup>>> findUserJoinedGroup(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId
     );
 }
