@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
+import com.wd.tech.bean.FindGroupByid;
 import com.wd.tech.bean.FindUserByPhone;
 import com.wd.tech.bean.FriendInfoList;
 import com.wd.tech.bean.InitFriendlist;
@@ -24,6 +25,7 @@ import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.frag.FragOneContact;
+import com.wd.tech.presenter.AddGroupPersenter;
 import com.wd.tech.presenter.GroupListPersenter;
 import com.wd.tech.presenter.PhoneUserPersenter;
 
@@ -77,12 +79,13 @@ public class AddFriendsActivity extends WDActivity {
 
 
     private PhoneUserPersenter userPersenter;
+    private AddGroupPersenter addGroupPersenter;
     private String sessionId;
     private int userId;
     private User bean;
     private FindUserByPhone userbypehone;
     private Editable searchEdit;
-
+    private FindGroupByid findGroupByid;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_add_friends;
@@ -101,6 +104,14 @@ public class AddFriendsActivity extends WDActivity {
                 intent.putExtra("qian",userbypehone.getSignature());
                 intent.putExtra("userids",userbypehone.getUserId());
                 startActivity(intent);
+            }
+        });
+        findQNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent_q = new Intent(AddFriendsActivity.this,FindGroupActivity.class);
+                intent_q.putExtra("findGroup",findGroupByid);
+                startActivity(intent_q);
             }
         });
         }
@@ -139,27 +150,57 @@ public class AddFriendsActivity extends WDActivity {
             case R.id.find_relate_ren:
                 findROk.setVisibility(View.VISIBLE);
                 findQOk.setVisibility(View.GONE);
-                findRRelative.setVisibility(View.VISIBLE);
-                findQRelative.setVisibility(View.GONE);
+
                 break;
             case R.id.find_relate_qun:
                 findROk.setVisibility(View.GONE);
                 findQOk.setVisibility(View.VISIBLE);
-                findRRelative.setVisibility(View.GONE);
-                findQRelative.setVisibility(View.VISIBLE);
                 break;
             case R.id.find_search:
                 searchEdit = findSearchEdit.getText();
-                findRRelative.setVisibility(View.VISIBLE);
-                userPersenter = new PhoneUserPersenter(new UserPhone());
-                bean = WDActivity.getUser(this);
-                if (bean != null) {
-                    sessionId = bean.getSessionId();
-                    userId = bean.getUserId();
-                    userPersenter.request(userId,sessionId,searchEdit.toString());
 
+                if (findROk.getVisibility()==View.VISIBLE){
+                    findRRelative.setVisibility(View.VISIBLE);
+                    findQRelative.setVisibility(View.GONE);
+                    userPersenter = new PhoneUserPersenter(new UserPhone());
+                    bean = WDActivity.getUser(this);
+                    if (bean != null) {
+                        sessionId = bean.getSessionId();
+                        userId = bean.getUserId();
+                        userPersenter.request(userId,sessionId,searchEdit.toString());
+
+                    }
+                }else if (findQOk.getVisibility()==View.VISIBLE){
+                    findRRelative.setVisibility(View.GONE);
+                    findQRelative.setVisibility(View.VISIBLE);
+                    addGroupPersenter=new AddGroupPersenter(new AddGroup());
+                    bean = WDActivity.getUser(this);
+                    if (bean != null) {
+                        sessionId = bean.getSessionId();
+                        userId = bean.getUserId();
+                        addGroupPersenter.request(userId,sessionId,Integer.parseInt(searchEdit.toString()));
+
+                    }
                 }
+
                 break;
+        }
+    }
+
+    private class AddGroup implements DataCall<Result<FindGroupByid>> {
+        @Override
+        public void success(Result<FindGroupByid> data) {
+            if (data.getStatus().equals("0000")) {
+                findGroupByid = data.getResult();
+                findQName.setText(findGroupByid.getGroupName());
+                findQIcon.setImageURI(findGroupByid.getGroupImage());
+                Log.i("aa", "success: "+userbypehone.getNickName());
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
         }
     }
 }

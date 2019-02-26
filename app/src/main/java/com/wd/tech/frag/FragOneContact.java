@@ -1,5 +1,8 @@
 package com.wd.tech.frag;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
@@ -9,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.wd.tech.R;
@@ -21,6 +26,7 @@ import com.wd.tech.core.WDFragment;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.presenter.GroupListPersenter;
+import com.wd.tech.view.MyGroupActivity;
 
 import java.util.List;
 
@@ -65,6 +71,7 @@ public class FragOneContact extends WDFragment {
 
     @Override
     protected void initView() {
+        Fresco.initialize(getContext());
         listPresenter = new GroupListPersenter(new InitFr());
         bean = WDActivity.getUser(getContext());
         if (bean != null) {
@@ -92,6 +99,8 @@ public class FragOneContact extends WDFragment {
             case R.id.layout_newsyou:
                 break;
             case R.id.layout_qun:
+                Intent intent = new Intent(getContext(), MyGroupActivity.class);
+                startActivity(intent);
                 break;
         }
     }
@@ -166,18 +175,17 @@ public class FragOneContact extends WDFragment {
             if (convertView == null){
                 convertView = View.inflate(parent.getContext(),R.layout.expandablelistview_two_item,null);
                 holder = new MyHolder();
-                holder.headric = convertView.findViewById(R.id.iv_child);
-                holder.qianming = convertView.findViewById(R.id.tv_child);
-                holder.name = convertView.findViewById(R.id.tv_qian);
-
+                holder.headric = convertView.findViewById(R.id.sdv_child);
+                holder.qianming = convertView.findViewById(R.id.tv_qian);
+                holder.name = convertView.findViewById(R.id.tv_child);
                 convertView.setTag(holder);
             }else{
                 holder = (MyHolder) convertView.getTag();
             }
             FriendInfoList friendInfoList = groups.get(groupPosition).getFriendInfoList().get(childPosition);
             holder.headric.setImageURI(friendInfoList.getHeadPic());
-            holder.qianming.setText(friendInfoList.getRemarkName());//单价
-            holder.name.setText(friendInfoList.getSignature());//单价
+            holder.qianming.setText(friendInfoList.getSignature());
+            holder.name.setText(friendInfoList.getNickName());
             return convertView;
         }
 
