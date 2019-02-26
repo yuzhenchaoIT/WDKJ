@@ -12,16 +12,20 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.CommentList;
+import com.wd.tech.bean.PlList;
 import com.wd.tech.view.DetailActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PlImageAdapter extends RecyclerView.Adapter<PlImageAdapter.ViewHolder> {
-    private ArrayList<CommentList> mList = new ArrayList<>();
+    private ArrayList<PlList> mList = new ArrayList<>();
 
-    public void addAll(List<CommentList> list) {
-        mList.addAll(list);
+    public void addAll(List<PlList> list) {
+        if (mList!=null){
+            mList.addAll(list);
+        }
+
     }
 
     @NonNull

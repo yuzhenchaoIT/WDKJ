@@ -33,13 +33,13 @@ public class CommunityListBean<T> {
     private int whetherGreat;
     private int whetherVip;
     private String signature;
-    private T communityCommentVoList;
+    private List<PlList> communityCommentVoList;
 
-    public T getCommunityCommentVoList() {
+    public List<PlList> getCommunityCommentVoList() {
         return communityCommentVoList;
     }
 
-    public void setCommunityCommentVoList(T communityCommentVoList) {
+    public void setCommunityCommentVoList(List<PlList> communityCommentVoList) {
         this.communityCommentVoList = communityCommentVoList;
     }
 

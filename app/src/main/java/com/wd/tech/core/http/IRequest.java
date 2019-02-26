@@ -5,6 +5,7 @@ import com.wd.tech.R;
 import com.wd.tech.bean.AllInfo;
 import com.wd.tech.bean.AllInfoPlateBean;
 import com.wd.tech.bean.BannerBean;
+import com.wd.tech.bean.CommentList;
 import com.wd.tech.bean.CommunityListBean;
 import com.wd.tech.bean.FindGroupByid;
 import com.wd.tech.bean.FindUserByPhone;
@@ -267,10 +268,10 @@ public interface IRequest {
      */
     @GET("community/v1/findCommunityUserCommentList")
     Observable<Result<List<CommentList>>> findCommunityUserCommentList(@Header("userId") int userId,
-                                                                 @Header("sessionId") String sessionId,
-                                                                 @Query("communityId") int communityId,
-                                                                 @Query("page") int page,
-                                                                 @Query("count") int count);
+                                                                       @Header("sessionId") String sessionId,
+                                                                       @Query("communityId") int communityId,
+                                                                       @Query("page") int page,
+                                                                       @Query("count") int count);
 
     /**
      * 圈子发布

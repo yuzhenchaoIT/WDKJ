@@ -89,26 +89,30 @@
                 android:layout_marginRight="12dp">
                 <ImageView
                     android:id="@+id/com_item_pl"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:padding="5dp"
                     android:src="@drawable/common_icon_comment"
-                    android:layout_marginRight="6dp"/>
+                    android:layout_marginRight="2dp"/>
+
                 <TextView
                     android:id="@+id/circle_com_sum"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="0"
                     android:layout_gravity="center"
                     android:layout_marginRight="20dp"
-                    android:textSize="12sp"
-                    android:textColor="#666"/>
+                    android:text="0"
+                    android:textColor="#666"
+                    android:textSize="12sp" />
                 <CheckBox
                     android:id="@+id/add_zan"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
+                    android:layout_width="19dp"
+                    android:layout_height="19dp"
                     android:button="@null"
+                    android:padding="5dp"
+                    android:layout_marginTop="2dp"
                     android:background="@drawable/sel_com"
-                    android:layout_marginRight="6dp"/>
+                    android:layout_marginRight="5dp"/>
                 <TextView
                     android:id="@+id/circle_sum"
                     android:layout_width="wrap_content"
@@ -120,19 +124,27 @@
             </LinearLayout>
 
         </RelativeLayout>
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/com_plrecy"
+        <LinearLayout
             android:layout_width="336dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:orientation="vertical"
             android:layout_gravity="center"
-            android:layout_marginBottom="10dp"></android.support.v7.widget.RecyclerView>
+            android:background="@drawable/shape_plitem"
+            android:layout_marginTop="10dp">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/com_plrecy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            ></android.support.v7.widget.RecyclerView>
         <TextView
             android:id="@+id/com_ts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="invisible"
             android:text="点击查看更多评论>"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:layout_marginBottom="10dp"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

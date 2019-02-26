@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,6 +31,7 @@ import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.DaoSession;
 import com.wd.tech.dao.UserDao;
 import com.wd.tech.presenter.AddCommentPresenter;
+import com.wd.tech.presenter.CommentListPresenter;
 import com.wd.tech.presenter.CommunitPresenter;
 import com.wd.tech.view.AddCircleActivity;
 
@@ -106,22 +108,35 @@ public class FragCommunity extends WDFragment  {
         recycler.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
-
-                if (communitPresenter.isRunning()){
-                    recycler.refreshComplete();
-                    recycler.loadMoreComplete();
-                }
+//
+//                if (communitPresenter.isRunning()){
+//                    recycler.refreshComplete();
+//                    recycler.loadMoreComplete();
+//                }
                 communityAdapter.clearlist();
                     communitPresenter.request(true);
             }
 
             @Override
             public void onLoadMore() {
-                if (communitPresenter.isRunning()){
-                    recycler.refreshComplete();
-                    recycler.loadMoreComplete();
-                }
+//                if (communitPresenter.isRunning()){
+//                    recycler.refreshComplete();
+//                    recycler.loadMoreComplete();
+//                }
                      communitPresenter.request(false);
+            }
+        });
+        recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (dx < 0){
+                    editText.setText("");
+                    linearLayout.setVisibility(View.GONE);
+                }else {
+                    editText.setText("");
+                    linearLayout.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -156,6 +171,9 @@ public class FragCommunity extends WDFragment  {
             Toast.makeText(getActivity(), data.getMessage()+"", Toast.LENGTH_SHORT).show();
             linearLayout.setVisibility(View.GONE);
             communityAdapter.notifyDataSetChanged();
+            editText.setText("");
+            communityAdapter.clearlist();
+            communitPresenter.request(true);
         }
 
         @Override

@@ -31,7 +31,8 @@
             android:layout_marginLeft="12dp"
             android:layout_marginTop="8dp"
             android:layout_marginBottom="7dp"
-            android:background="@drawable/shape_com"/>
+            android:background="@drawable/shape_com"
+            android:paddingLeft="8dp"/>
         <TextView
             android:id="@+id/frag_03_text"
             android:layout_width="wrap_content"
