@@ -12,9 +12,11 @@ import com.wd.tech.bean.FindGroupByid;
 import com.wd.tech.bean.FindUserByPhone;
 import com.wd.tech.bean.FindUserJoinGroup;
 import com.wd.tech.bean.FollowUser;
+import com.wd.tech.bean.FriendNoticePageList;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.InitFriendlist;
 import com.wd.tech.bean.MyPost;
+import com.wd.tech.bean.NoticeList;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
@@ -418,11 +420,4 @@ public interface IRequest {
             @Header("userId") int userId,
             @Header("sessionId") String sessionId
     );
-    @GET("community/verify/v1/findUserPostById")
-    Observable<Result<List<UserPost>>> findUserPostById(
-            @Header("userId") int userId,
-            @Header("sessionId") String sessionId,
-            @Query("fromUid") int fromUid,
-            @Query("page") int page,
-            @Query("count") int count);
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#f2f2f2">
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/longtime2"
+        android:layout_width="80dp"
+        android:layout_height="26dp"
+        android:text="2.30"
+        android:textSize="14sp"
+        android:textColor="#333333"
+        android:gravity="center"
+        android:background="#d7d7d7"
+        android:layout_gravity="center"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/list_shape">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_t2"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:background="@mipmap/ic_launcher"
+            />
+        <TextView
+            android:id="@+id/tv_name2"
+            android:layout_toRightOf="@+id/sdv_t2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="18dp"
+            android:text="张大米"/>
+
+        <TextView
+            android:id="@+id/tv_request2"
+            android:layout_below="@+id/sdv_t2"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:text="请求添加您为好友"
+            />
+
+        <TextView
+            android:id="@+id/tv_tongyi"
+            android:layout_toRightOf="@+id/tv_request2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已同意"
+            android:textSize="14sp"
+            android:textColor="#333333"
+            android:layout_alignParentRight="true"
+            android:gravity="right"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="10dp"
+            />
+    </RelativeLayout>
+
+</LinearLayout>

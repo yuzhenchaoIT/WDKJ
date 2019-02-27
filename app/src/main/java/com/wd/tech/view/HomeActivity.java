@@ -39,6 +39,7 @@ import com.wd.tech.myview.NoticeActivity;
 import com.wd.tech.myview.PerfectActivity;
 import com.wd.tech.myview.PostActivity;
 import com.wd.tech.myview.SetUpActivity;
+import com.wd.tech.myview.SiginActivity;
 import com.wd.tech.myview.TaskActivity;
 import com.wd.tech.presenter.QueryUserPresenter;
 import com.wd.tech.util.StringUtils;
@@ -165,6 +166,13 @@ public class HomeActivity extends AppCompatActivity {
         Intent intent = new Intent(HomeActivity.this, PerfectActivity.class);
         startActivity(intent);
     }
+    //点击跳转签到
+    @OnClick(R.id.mlinear_qiandao)
+    public void qiandao(){
+        //跳转
+        Intent intent = new Intent(HomeActivity.this, SiginActivity.class);
+        startActivity(intent);
+    }
     //点击跳转登录页
     @OnClick(R.id.mlinear_jump)
     public void mlinearJump(){
@@ -246,4 +254,5 @@ public class HomeActivity extends AppCompatActivity {
                 break;
         }
     }
+
 }

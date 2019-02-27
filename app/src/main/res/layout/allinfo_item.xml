@@ -9,14 +9,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <CheckBox
-            android:id="@+id/mCheckAll"
+            android:id="@+id/mcheck_all"
             android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"/>
         <com.facebook.drawee.view.SimpleDraweeView
             android:layout_marginTop="10dp"
-            android:id="@+id/mSimpleAll"
+            android:id="@+id/msimple_all"
             android:layout_width="140dp"
             android:layout_height="92dp"
             android:layout_marginBottom="10dp"
@@ -29,7 +29,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="12dp">
             <TextView
-                android:id="@+id/mTextNameAll"
+                android:id="@+id/mtext_name_all"
                 android:layout_marginTop="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -38,7 +38,7 @@
                 android:singleLine="true"
                 android:textColor="#333333"/>
             <TextView
-                android:id="@+id/mTextAll"
+                android:id="@+id/mtext_all"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:text="嘻嘻"
