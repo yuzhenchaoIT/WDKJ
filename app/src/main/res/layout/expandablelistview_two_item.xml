@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:id="@+id/item_pop_show"
         android:orientation="horizontal">
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_child"
