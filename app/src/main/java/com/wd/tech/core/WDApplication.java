@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.facebook.cache.disk.DiskCacheConfig;
@@ -44,7 +45,11 @@ public class WDApplication extends Application {
         sharedPreferences = getSharedPreferences("share.xml",MODE_PRIVATE);
         Fresco.initialize(this);//图片加载框架初始化
     }
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this) ;
+    }
    /* private ImagePipelineConfig getConfig() {
         File file = new File(Environment.getExternalStorageDirectory()+File.separator+"image");
         if (!file.exists()){
