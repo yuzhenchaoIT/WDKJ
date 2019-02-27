@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'tech'
             keyPassword '123456'
-            storeFile file('D:/tech.keystore')
+            storeFile file('C:/Users/王子龙/Desktop/tech.keystore')
             storePassword '123456'
         }
     }
@@ -70,5 +70,4 @@ dependencies {
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+'
     //热搜词语展示
     implementation 'com.github.LRH1993:AutoFlowLayout:1.0.5'
-
 }

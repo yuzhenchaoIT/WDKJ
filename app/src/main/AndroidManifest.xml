@@ -53,8 +53,7 @@
         <activity android:name=".view.AddListActivity" />
         <activity android:name=".view.FindGroupActivity" />
         <activity android:name=".view.AddGroupActivity" />
-        <activity android:name=".view.MyGroupActivity"></activity>
-
+        <activity android:name=".view.MyGroupActivity" />
         <activity android:name=".view.WXLoginActivity" />
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -64,9 +63,8 @@
         <activity
             android:name=".view.SearchResultActivity"
             android:windowSoftInputMode="adjustPan" />
-
         <activity android:name=".view.SpaceActivity" />
-
+        <activity android:name=".myview.SiginActivity"></activity>
     </application>
 
 </manifest>

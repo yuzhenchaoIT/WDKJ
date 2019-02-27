@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".myview.SiginActivity"
+    android:orientation="vertical"
+    android:background="#fff">
+    <RelativeLayout
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
+        android:layout_height="70dp">
+        <ImageView
+            android:id="@+id/mreturn"
+            android:layout_width="12dp"
+            android:layout_height="24dp"
+            android:src="@drawable/common_nav_btn_back_n"
+            android:layout_marginLeft="25dp"
+            android:layout_centerVertical="true" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="签到"
+            android:textSize="20sp"
+            android:textColor="#666666"
+            android:layout_centerInParent="true" />
+    </RelativeLayout>
+
+    <View
+        android:background="#ddd"
+        android:layout_below="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+
+
+    <RelativeLayout
+        android:layout_marginTop="2dp"
+        android:id="@+id/rl_current_date"
+        android:layout_width="match_parent"
+        android:layout_height="49dp"
+        android:layout_below="@id/line">
+
+        <TextView
+            android:id="@+id/tv_sign_year_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="60dp"
+            android:text="2017年11月"
+            android:textColor="#666666"
+            android:textSize="17sp" />
+    </RelativeLayout>
+
+    <com.wd.tech.core.SignCalendar
+        android:id="@+id/sc_main"
+        android:layout_width="match_parent"
+        android:layout_height="320dp"
+        android:layout_below="@id/rl_current_date"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="15dp"
+        android:clickable="true" />
+
+
+    <Button
+        android:id="@+id/mrl_btn_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/shapesign_bg"
+        android:text="签到"
+        android:textColor="#ffffff" />
+
+</RelativeLayout>
