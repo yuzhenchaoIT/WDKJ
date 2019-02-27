@@ -107,7 +107,8 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context,SpaceActivity.class);
-                intent.putExtra("userid",mlist.get(i).getUserId());
+                int userId = mlist.get(i).getUserId();
+                intent.putExtra("id",userId);
                 context.startActivity(intent);
             }
         });

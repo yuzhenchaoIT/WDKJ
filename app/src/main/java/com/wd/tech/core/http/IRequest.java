@@ -18,6 +18,7 @@ import com.wd.tech.bean.MyPost;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
+import com.wd.tech.bean.UserPost;
 import com.wd.tech.bean.details.InforDetailsBean;
 
 import java.util.List;
@@ -417,4 +418,11 @@ public interface IRequest {
             @Header("userId") int userId,
             @Header("sessionId") String sessionId
     );
+    @GET("community/verify/v1/findUserPostById")
+    Observable<Result<List<UserPost>>> findUserPostById(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("fromUid") int fromUid,
+            @Query("page") int page,
+            @Query("count") int count);
 }

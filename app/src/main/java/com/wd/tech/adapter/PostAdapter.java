@@ -8,12 +8,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.wd.tech.R;
 import com.wd.tech.bean.MyPost;
 import com.wd.tech.core.FolderTextView;
-
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +53,6 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         }
         String[] split = file.split(",");
         myHolder.recyclerView.setAdapter(new PostAdapter2(activity,Arrays.asList(split)));
-
         long publishTime = list.get(i).getPublishTime();
         Date date = new Date(publishTime);
         SimpleDateFormat format = new SimpleDateFormat("MM-dd  HH:mm:ss");
