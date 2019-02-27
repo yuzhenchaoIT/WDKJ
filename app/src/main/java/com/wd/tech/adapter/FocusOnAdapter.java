@@ -84,11 +84,11 @@ public class FocusOnAdapter extends RecyclerView.Adapter<FocusOnAdapter.MyViewHo
 
         public MyViewHolder(View view) {
             super(view);
-            head = view.findViewById(R.id.mImageFoc);
-            name = view.findViewById(R.id.mTextNameFoc);
-            qian = view.findViewById(R.id.mTextsigFoc);
-            shanchu = view.findViewById(R.id.mTextDelFoc);
-            sideslipView = view.findViewById(R.id.mSides);
+            head = view.findViewById(R.id.mimage_foc);
+            name = view.findViewById(R.id.mtext_name_foc);
+            qian = view.findViewById(R.id.mtextsig_foc);
+            shanchu = view.findViewById(R.id.mtext_del_foc);
+            sideslipView = view.findViewById(R.id.msides);
         }
     }
 

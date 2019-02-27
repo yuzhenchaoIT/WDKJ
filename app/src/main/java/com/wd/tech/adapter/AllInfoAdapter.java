@@ -88,10 +88,10 @@ public class AllInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
         CheckBox checkBox;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
-            draweeView = itemView.findViewById(R.id.mSimpleAll);
-            textView1 = itemView.findViewById(R.id.mTextNameAll);
-            textView2 = itemView.findViewById(R.id.mTextAll);
-            checkBox = itemView.findViewById(R.id.mCheckAll);
+            draweeView = itemView.findViewById(R.id.msimple_all);
+            textView1 = itemView.findViewById(R.id.mtext_name_all);
+            textView2 = itemView.findViewById(R.id.mtext_all);
+            checkBox = itemView.findViewById(R.id.mcheck_all);
         }
     }
 

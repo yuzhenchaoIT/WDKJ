@@ -72,5 +72,4 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.1'
     //热搜词语展示
     implementation 'com.github.LRH1993:AutoFlowLayout:1.0.5'
-
 }

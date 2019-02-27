@@ -16,8 +16,10 @@ import com.wd.tech.bean.FriendNoticePageList;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.InitFriendlist;
 import com.wd.tech.bean.MyPost;
+import com.wd.tech.bean.NoticeList;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.TaskList;
 import com.wd.tech.bean.User;
 import com.wd.tech.bean.details.InforDetailsBean;
 
@@ -229,6 +231,70 @@ public interface IRequest {
     Observable<Result> deletePost(@Header("userId") int userId,
                                   @Header("sessionId") String sessionId,
                                   @Query("communityId")String commun);
+
+    /**
+     * 签到
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @POST("user/verify/v1/userSign")
+    Observable<Result> userSign(@Header("userId") int userId,
+                                @Header("sessionId") String sessionId);
+
+    /**
+     * 查询当天签到状态
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findUserSignStatus")
+    Observable<Result> findUserSignStatus(@Header("userId") int userId,
+                                          @Header("sessionId") String sessionId);
+
+    /**
+     * 查询用户连续签到天数
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findContinuousSignDays")
+    Observable<Result> findContinuousSignDays(@Header("userId") int userId,
+                                              @Header("sessionId") String sessionId);
+
+    /**
+     * 查询用户当月所有签到的日期
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findUserSignRecording")
+    Observable<Result> findUserSignRecording(@Header("userId") int userId,
+                                             @Header("sessionId") String sessionId);
+
+    /**
+     * 查询用户任务列表
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findUserTaskList")
+    Observable<Result<List<TaskList>>> findUserTaskList(@Header("userId") int userId,
+                                                        @Header("sessionId") String sessionId);
+
+    /**
+     * 查询用户系统通知
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("tool/verify/v1/findSysNoticeList")
+    Observable<Result<List<NoticeList>>> findSysNoticeList(@Header("userId") int userId,
+                                                           @Header("sessionId") String sessionId,
+                                                           @Query("page") int page,
+                                                           @Query("count") int count);
 
     /**
      * 资讯分类跳转列表
