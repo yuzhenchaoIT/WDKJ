@@ -38,12 +38,15 @@ import butterknife.OnClick;
 public class SetUpActivity extends WDActivity implements View.OnClickListener {
     private QueryUserPresenter queryUserPresenter;
     private SimpleDraweeView mImageUp;
-    private TextView mTextNameUp, mTextSexUp, mTextDateUp, mTextPhoneUp, mTextEmailUp, mTextjfUp, mTextVipUp;
+    private TextView mTextNameUp, mTextSexUp, mTextDateUp, mTextPhoneUp, mTextEmailUp, mTextjfUp, mTextVipUp,mTextQianSet;
     private View inflate;
     private TextView camera;
     private TextView pic;
     private TextView cancel;
     private Dialog dialog;
+    private User user;
+    private QueryUser result;
+    private int sex;
 
     @Override
     protected int getLayoutId() {
@@ -57,21 +60,22 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
         //初始化控件
         Initialize();
         //查询数据库
-        User user = WDActivity.getUser(this);
+        user = WDActivity.getUser(this);
         queryUserPresenter = new QueryUserPresenter(new QueryUserCall());
         queryUserPresenter.request(user.getUserId(), user.getSessionId());
     }
 
     //初始化控件方法
     private void Initialize() {
-        mImageUp = (SimpleDraweeView) findViewById(R.id.mImageUp);
-        mTextNameUp = (TextView) findViewById(R.id.mTextNameUp);
-        mTextSexUp = (TextView) findViewById(R.id.mTextSexUp);
-        mTextDateUp = (TextView) findViewById(R.id.mTextDateUp);
-        mTextPhoneUp = (TextView) findViewById(R.id.mTextPhoneUp);
-        mTextEmailUp = (TextView) findViewById(R.id.mTextEmailUp);
-        mTextjfUp = (TextView) findViewById(R.id.mTextjfUp);
-        mTextVipUp = (TextView) findViewById(R.id.mTextVipUp);
+        mImageUp = (SimpleDraweeView) findViewById(R.id.mimage_up);
+        mTextNameUp = (TextView) findViewById(R.id.mtext_name_up);
+        mTextSexUp = (TextView) findViewById(R.id.mtext_sex_up);
+        mTextDateUp = (TextView) findViewById(R.id.mtext_date_up);
+        mTextPhoneUp = (TextView) findViewById(R.id.mtext_phone_up);
+        mTextEmailUp = (TextView) findViewById(R.id.mtext_email_up);
+        mTextjfUp = (TextView) findViewById(R.id.mtextjf_up);
+        mTextVipUp = (TextView) findViewById(R.id.mtext_vip_up);
+        mTextQianSet = (TextView) findViewById(R.id.mtext_qian_set);
     }
 
     //实现查询用户信息接口
@@ -80,10 +84,10 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
         @Override
         public void success(Result<QueryUser> data) {
             if (data.getStatus().equals("0000")) {
-                QueryUser result = data.getResult();
+                result = data.getResult();
                 mImageUp.setImageURI(result.getHeadPic());
                 mTextNameUp.setText(result.getNickName());
-                int sex = result.getSex();
+                sex = result.getSex();
                 if (sex == 1) {
                     mTextSexUp.setText("男");
                 } else {
@@ -103,7 +107,7 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
                 } else {
                     mTextVipUp.setText("否");
                 }
-
+                mTextQianSet.setText(result.getSignature());
             }
         }
 
@@ -114,14 +118,14 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     }
 
     //点击头像弹出提示框
-    @OnClick(R.id.mImageUp)
+    @OnClick(R.id.mimage_up)
     public void miangeu() {
         dialog = new Dialog(this, R.style.DialogTheme);
         //填充对话框的布局
         inflate = LayoutInflater.from(this).inflate(R.layout.dialog_item, null);
         //初始化控件
-        inflate.findViewById(R.id.mCamear).setOnClickListener(this);
-        inflate.findViewById(R.id.mPictrue).setOnClickListener(this);
+        inflate.findViewById(R.id.mcamear).setOnClickListener(this);
+        inflate.findViewById(R.id.mpictrue).setOnClickListener(this);
         inflate.findViewById(R.id.cancel).setOnClickListener(this);
         //将布局设置给Dialog
         dialog.setContentView(inflate);
@@ -143,10 +147,10 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.mCamear:
+            case R.id.mcamear:
                 Toast.makeText(this, "111", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.mPictrue:
+            case R.id.mpictrue:
                 Toast.makeText(this, "222", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.cancel:
@@ -155,14 +159,14 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
         }
     }
     //点击跳转个性签名
-    @OnClick(R.id.mImageqUp)
+    @OnClick(R.id.mlinear_set)
     public void mimage() {
         Intent intent = new Intent(SetUpActivity.this, SignatureActivity.class);
         startActivity(intent);
     }
 
     //点击退出登录
-    @OnClick(R.id.mTexttuiUp)
+    @OnClick(R.id.mtexttui_up)
     public void tui() {
         User user = WDActivity.getUser(this);
         if (user != null) {
@@ -173,9 +177,16 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        queryUserPresenter.request(user.getUserId(), user.getSessionId());
+    }
+
     //点击按钮返回
-    @OnClick(R.id.mReturn)
+    @OnClick(R.id.mreturn)
     public void mreturn() {
+
         finish();
     }
 

@@ -5,7 +5,9 @@ import com.wd.tech.R;
 import com.wd.tech.bean.AllInfo;
 import com.wd.tech.bean.AllInfoPlateBean;
 import com.wd.tech.bean.BannerBean;
+import com.wd.tech.bean.CommentList;
 import com.wd.tech.bean.CommunityListBean;
+import com.wd.tech.bean.FindTitleBean;
 import com.wd.tech.bean.FindGroupByid;
 import com.wd.tech.bean.FindUserByPhone;
 import com.wd.tech.bean.FindUserJoinGroup;
@@ -13,6 +15,7 @@ import com.wd.tech.bean.FollowUser;
 import com.wd.tech.bean.FriendNoticePageList;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.InitFriendlist;
+import com.wd.tech.bean.MyPost;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
@@ -61,14 +64,15 @@ public interface IRequest {
 
     /**
      * 微信登录
+     *
      * @param ak
      * @param code
      * @return
      */
     @POST("user/v1/weChatLogin")
     @FormUrlEncoded
-    Observable<Result<User>> weChatLogin(@Header("ak")String ak,
-                                         @Field("code")String code);
+    Observable<Result<User>> weChatLogin(@Header("ak") String ak,
+                                         @Field("code") String code);
 
     /**
      * 根据用户ID查询用户信息
@@ -83,6 +87,7 @@ public interface IRequest {
 
     /**
      * 完善用户信息
+     *
      * @param userId
      * @param sessionId
      * @param name
@@ -104,6 +109,7 @@ public interface IRequest {
 
     /**
      * 用户收藏列表
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -117,7 +123,23 @@ public interface IRequest {
                                                             @Query("count")int count);
 
     /**
+     * 添加收藏
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @return
+     */
+    @POST("user/verify/v1/addCollection")
+    @FormUrlEncoded
+    Observable<Result> addCollection(@Header("userId") int userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Field("infoId") int infoId);
+
+
+    /**
      * 取消收藏（支持批量操作）
+     *
      * @param userId
      * @param sessionId
      * @param infoId
@@ -144,6 +166,7 @@ public interface IRequest {
 
     /**
      * 取消关注
+     *
      * @param userId
      * @param sessionId
      * @param focusId
@@ -168,6 +191,44 @@ public interface IRequest {
                                                          @Query("plateId") int plateId,
                                                          @Query("page") int page,
                                                          @Query("count") int count);
+
+    /**
+     * 修改用户签名
+     * @param userId
+     * @param sessionId
+     * @param signature
+     * @return
+     */
+    @PUT("user/verify/v1/modifySignature")
+    Observable<Result> modifySignature(@Header("userId") int userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Query("signature")String signature);
+
+    /**
+     * 我的帖子
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("community/verify/v1/findMyPostById")
+    Observable<Result<List<MyPost>>> findMyPostById(@Header("userId") int userId,
+                                                    @Header("sessionId") String sessionId,
+                                                    @Query("page") int page,
+                                                    @Query("count") int count);
+
+    /**
+     * 删除帖子
+     * @param userId
+     * @param sessionId
+     * @param commun
+     * @return
+     */
+    @DELETE("community/verify/v1/deletePost")
+    Observable<Result> deletePost(@Header("userId") int userId,
+                                  @Header("sessionId") String sessionId,
+                                  @Query("communityId")String commun);
 
     /**
      * 资讯分类跳转列表
@@ -219,7 +280,13 @@ public interface IRequest {
                                                             @Header("sessionId") String sessionId,
                                                             @Query("id") int id);
 
-
+    /**
+     * 发布圈子
+     * @param userId
+     * @param sessionId
+     * @param body
+     * @return
+     */
     @POST("community/verify/v1/releasePost")
     Observable<Result> fabuquanzi(@Header("userId") int userId, @Header("sessionId") String sessionId, @Body MultipartBody body);
     /**
@@ -251,6 +318,49 @@ public interface IRequest {
             @Query("friendUid") int friendUid,
             @Query("remark") String remark
     );
+
+
+    /**
+     * 资讯搜索的接口(根据标题模糊查询)
+     * information/v1/findInformationByTitle
+     */
+    @GET("information/v1/findInformationByTitle")
+    Observable<Result<List<FindTitleBean>>> getFindTitle(@Query("title") String title,
+                                                         @Query("page") int page,
+                                                         @Query("count") int count);
+
+
+
+    /**
+     * 评论列表
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("community/v1/findCommunityUserCommentList")
+    Observable<Result<List<CommentList>>> findCommunityUserCommentList(@Header("userId") int userId,
+                                                                       @Header("sessionId") String sessionId,
+                                                                       @Query("communityId") int communityId,
+                                                                       @Query("page") int page,
+                                                                       @Query("count") int count);
+
+    /**
+     * 圈子发布
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @param content
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityComment")
+    @FormUrlEncoded
+    Observable<Result> addCommunityComment(@Header("userId") int userId,
+                                       @Header("sessionId") String sessionId,
+                                       @Field("communityId") int communityId,
+                                       @Field("content") String content);
 
     /**
      * 根据id查组

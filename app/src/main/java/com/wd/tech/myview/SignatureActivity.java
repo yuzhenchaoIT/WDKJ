@@ -9,9 +9,15 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.wd.tech.R;
+import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
+import com.wd.tech.core.exception.ApiException;
+import com.wd.tech.core.http.DataCall;
+import com.wd.tech.presenter.ModifySigPresenter;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -24,6 +30,9 @@ public class SignatureActivity extends WDActivity {
     private int num = 40;
     private int nownum;
     private SharedPreferences sp;
+    private ModifySigPresenter modifySigPresenter;
+    private User user;
+    private String trim;
 
     @Override
     protected int getLayoutId() {
@@ -34,6 +43,9 @@ public class SignatureActivity extends WDActivity {
     protected void initView() {
         //绑定
         ButterKnife.bind(this);
+        //查询数据库
+        user = WDActivity.getUser(this);
+
         //初始化控件
         Initialize();
         //设置监听
@@ -68,25 +80,45 @@ public class SignatureActivity extends WDActivity {
                 }
             }
         });
-        //sp
+        //接收值
         sp = getSharedPreferences("signatrue",Context.MODE_PRIVATE);
         String qian = sp.getString("qian", "");
         mEditQianSig.setText(qian);
     }
     //初始化控件方法
     private void Initialize() {
-        mEditQianSig = (EditText) findViewById(R.id.mEditQianSig);
-        mTextNumSig = (TextView) findViewById(R.id.mTextNumSig);
+        mEditQianSig = (EditText) findViewById(R.id.medit_qian_sig);
+        mTextNumSig = (TextView) findViewById(R.id.mtext_num_sig);
     }
     //点击提交个性签名
-    @OnClick(R.id.mButtonSig)
+    @OnClick(R.id.mbutton_sig)
     public void mbutton(){
-        String signatrue = mEditQianSig.getText().toString().trim();
-        SharedPreferences.Editor edit = sp.edit();
-        edit.putString("sig",signatrue);
-        edit.commit();
-        finish();
+        trim = mEditQianSig.getText().toString().trim();
+        modifySigPresenter = new ModifySigPresenter(new ModifyCall());
+        modifySigPresenter.request(user.getUserId(),user.getSessionId(), trim);
     }
+    //实现修改个性签名接口
+    class ModifyCall implements DataCall<Result>{
+
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
+                Toast.makeText(SignatureActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+                SharedPreferences.Editor edit = sp.edit();
+                edit.putString("sigqian",trim);
+                edit.commit();
+                finish();
+            }else {
+                Toast.makeText(SignatureActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
     @Override
     protected void destoryData() {
 

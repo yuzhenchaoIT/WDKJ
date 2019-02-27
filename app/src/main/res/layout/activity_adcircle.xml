@@ -38,7 +38,7 @@
         <EditText
             android:id="@+id/id_editor_detail"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="match_parent"
             android:layout_alignParentTop="true"
             android:background="@null"
             android:hint="心情如何"
@@ -55,9 +55,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/id_editor_detail"
-            android:paddingBottom="5dp"
+            android:layout_alignParentBottom="true"
             android:paddingRight="15dp"
+            android:layout_marginBottom="8dp"
             android:text="0/300"
             android:textColor="#666"
             android:textSize="12sp"/>

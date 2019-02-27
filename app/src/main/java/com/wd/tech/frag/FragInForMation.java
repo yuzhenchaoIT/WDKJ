@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.UserManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -27,15 +28,23 @@ import com.wd.tech.adapter.HomeListAdapter;
 import com.wd.tech.bean.BannerBean;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
+import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
+import com.wd.tech.dao.UserDao;
+import com.wd.tech.presenter.AddCollectPresenter;
+import com.wd.tech.presenter.AllInfoPresenter;
 import com.wd.tech.presenter.BannerPresenter;
+import com.wd.tech.presenter.CancelPresenter;
 import com.wd.tech.presenter.RecommendPresenter;
 import com.wd.tech.view.SearchActivity;
 import com.wd.tech.view.SortActivity;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
+
+import org.greenrobot.greendao.Property;
 
 import java.util.List;
 
@@ -62,6 +71,9 @@ public class FragInForMation extends Fragment {
     //p层
     private RecommendPresenter mRecommendPresenter = new RecommendPresenter(new HomeListCall());
     private BannerPresenter mBanPresenter = new BannerPresenter(new BannerCall());
+    //收藏 和 取消 收藏
+    private AddCollectPresenter mAddCollectP = new AddCollectPresenter(new AddCollectCall());
+    private CancelPresenter mCancelP = new CancelPresenter(new CancelCollectCall());
     //适配器
     private HomeListAdapter mHomeListAdapter;
     //线性布局
@@ -69,6 +81,8 @@ public class FragInForMation extends Fragment {
     private View view;
     private Unbinder unbinder;
     private SmartRefreshLayout mRefreshLayout;
+    private int itemId1;
+    private User user;
 
 
     @Nullable
@@ -79,12 +93,15 @@ public class FragInForMation extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         mRefreshLayout = view.findViewById(R.id.refreshLayout);
 
+        user = WDActivity.getUser(getContext());
+
+
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishRefresh(2000);
-                mRecommendPresenter.request(true, 18, "15320748258726", 0);
+                mRecommendPresenter.request(true, user.getUserId(), user.getSessionId(), 0);
             }
         });
 
@@ -93,7 +110,7 @@ public class FragInForMation extends Fragment {
             public void onLoadmore(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishLoadmore(2000);
-                mRecommendPresenter.request(false, 18, "15320748258726", 0);
+                mRecommendPresenter.request(false, user.getUserId(), user.getSessionId(), 0);
             }
         });
 
@@ -103,13 +120,29 @@ public class FragInForMation extends Fragment {
 
         //布局管理器
         mHomeXrecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecommendPresenter.request(true, 18, "15320748258726", 0);
+        mRecommendPresenter.request(true, user.getUserId(), user.getSessionId(), 0);
         //banner图请求数据
         mBanPresenter.request();
+
+        //进行条目内容收藏
+        mHomeListAdapter.setOnItemClickListener(new HomeListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(int itemId, int isCollect) {
+                itemId1 = itemId;
+                if (isCollect == 1) {
+                    //请求取消收藏的接口
+                    mCancelP.request(user.getUserId(), user.getSessionId(), itemId1 + "");
+                } else if (isCollect == 2) {
+                    //请求收藏的接口
+                    mAddCollectP.request(user.getUserId(), user.getSessionId(), itemId1);
+                }
+            }
+        });
 
 
         return view;
     }
+
 
     @OnClick({R.id.home_menu, R.id.home_search})
     public void onClick(View v) {
@@ -223,11 +256,52 @@ public class FragInForMation extends Fragment {
         }
     }
 
+    //添加收藏
+    class AddCollectCall implements DataCall<Result> {
+
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")) {
+                Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+                mHomeListAdapter.notifyDataSetChanged();
+            } else {
+                mCancelP.request(user.getUserId(), user.getSessionId(), itemId1 + "");
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //取消收藏
+    class CancelCollectCall implements DataCall<Result> {
+
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")) {
+                Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+                mHomeListAdapter.notifyDataSetChanged();
+            } else {
+                mAddCollectP.request(user.getUserId(), user.getSessionId(), itemId1);
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         mRecommendPresenter.unBind();
+        mBanPresenter.unBind();
+        mAddCollectP.unBind();
+        mCancelP.unBind();
     }
 
 

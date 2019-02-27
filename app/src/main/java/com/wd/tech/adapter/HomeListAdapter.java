@@ -55,7 +55,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int i) {
         if (viewHolder instanceof MyViewHolder2) {
             ((MyViewHolder2) viewHolder).content.setText(mList.get(i).getInfoAdvertisingVo().getContent());
             ((MyViewHolder2) viewHolder).img.setImageURI(Uri.parse(mList.get(i).getInfoAdvertisingVo().getPic()));
@@ -77,9 +77,25 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 ((MyViewHolder) viewHolder).pay.setBackgroundColor(0x00FFFFFF);
             }
 
-
             ((MyViewHolder) viewHolder).collect.setText(homeListBean.getCollection() + "");
+            //当前用户是否收藏 1=是，2=否
+            final int isCollect = homeListBean.getWhetherCollection();
+            //赋值
+            if (isCollect == 1) {
+//                ((MyViewHolder) viewHolder).img_collect.setBackgroundResource(R.drawable.common_icon_collect_s);
+                ((MyViewHolder) viewHolder).img_collect.setImageResource(R.drawable.common_icon_collect_s);
+            } else if (isCollect == 2) {
+                ((MyViewHolder) viewHolder).img_collect.setImageResource(R.drawable.common_icon_collect_n);
+            }
+            //点击之后的变化
+            ((MyViewHolder) viewHolder).img_collect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onItemClick(homeListBean.getId(), isCollect);
+                }
+            });
             ((MyViewHolder) viewHolder).share.setText(homeListBean.getShare() + "");
+            //点击条目进入详情页面
             ((MyViewHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -118,7 +134,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     //内部类
     class MyViewHolder extends RecyclerView.ViewHolder {
         private SimpleDraweeView img;
-        private ImageView pay;
+        private ImageView pay, img_collect;
         private TextView title, summary, source, time, collect, share;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -129,6 +145,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             source = itemView.findViewById(R.id.item_home_list_source);
             time = itemView.findViewById(R.id.item_home_list_time);
             pay = itemView.findViewById(R.id.item_home_list_img_pay);
+            img_collect = itemView.findViewById(R.id.item_home_list_img_coll);
             collect = itemView.findViewById(R.id.item_home_list_txt_coll);
             share = itemView.findViewById(R.id.item_home_list_txt_share);
         }
@@ -146,5 +163,22 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         }
     }
 
+
+    /**
+     * 条目点击进入详情页面 接口回调
+     */
+
+    //定义接口
+    public interface OnItemClickListener {
+        void onItemClick(int itemId, int isCollect);
+    }
+
+    //方法名
+    private OnItemClickListener onItemClickListener;
+
+    //set方法      设置点击方法
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
 
 }

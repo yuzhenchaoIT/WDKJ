@@ -26,7 +26,7 @@
             android:src="@drawable/register_icon_name_n"
             android:layout_centerVertical="true"/>
         <EditText
-            android:id="@+id/mEditNameReg"
+            android:id="@+id/medit_name_reg"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:background="@null"
@@ -61,7 +61,7 @@
             android:layout_centerVertical="true"/>
 
         <EditText
-            android:id="@+id/mEditPhoneReg"
+            android:id="@+id/medit_phone_reg"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginLeft="40dp"
@@ -96,7 +96,7 @@
             android:src="@drawable/login_icon_lock_n"
             android:layout_centerVertical="true"/>
         <EditText
-            android:id="@+id/mEditPassReg"
+            android:id="@+id/medit_pass_reg"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:background="@null"
@@ -123,7 +123,7 @@
         android:layout_marginRight="40dp">
 
         <TextView
-            android:id="@+id/mRegister"
+            android:id="@+id/mregister"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#fff"
@@ -141,7 +141,7 @@
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp">
         <Button
-            android:id="@+id/mRegisterBt"
+            android:id="@+id/mregister_bt"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text="注册"

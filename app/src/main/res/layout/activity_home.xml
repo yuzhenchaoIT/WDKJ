@@ -2,25 +2,25 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mDraw"
+    android:id="@+id/mdraw"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.HomeActivity">
 
     <LinearLayout
-        android:id="@+id/mLinearHome"
+        android:id="@+id/mlinear_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <FrameLayout
-            android:id="@+id/mFrame"
+            android:id="@+id/mframe"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"></FrameLayout>
 
         <RadioGroup
-            android:id="@+id/mRadio"
+            android:id="@+id/mradio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -28,7 +28,7 @@
             android:padding="5dp">
 
             <RadioButton
-                android:id="@+id/mRB1"
+                android:id="@+id/mrb1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -39,7 +39,7 @@
                 android:text="资讯" />
 
             <RadioButton
-                android:id="@+id/mRB2"
+                android:id="@+id/mrb2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -50,7 +50,7 @@
                 android:text="消息" />
 
             <RadioButton
-                android:id="@+id/mRB3"
+                android:id="@+id/mrb3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -63,28 +63,28 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/mLinear"
+        android:id="@+id/mlinear"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="left"
+        android:layout_gravity="start"
         android:background="@drawable/beijing"
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/mRelative"
+            android:id="@+id/mrelative"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:visibility="visible">
 
             <LinearLayout
-                android:id="@+id/mLinearJump"
+                android:id="@+id/mlinear_jump"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true">
 
 
                 <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/mImage"
+                    android:id="@+id/mimage"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     app:placeholderImage="@drawable/login_icon"
@@ -95,7 +95,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="12dp"
-                    android:layout_toRightOf="@+id/mImage"
+                    android:layout_toRightOf="@+id/mimage"
                     android:text="登录/注册"
                     android:textColor="#fff"
                     android:textSize="14sp" />
@@ -105,7 +105,7 @@
 
         </RelativeLayout>
         <LinearLayout
-            android:id="@+id/mLinearShow"
+            android:id="@+id/mlinear_show"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -118,7 +118,7 @@
                 android:orientation="horizontal">
 
                 <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/mSimple"
+                    android:id="@+id/msimple"
                     android:layout_width="56dp"
                     android:layout_height="56dp"
                     android:layout_marginLeft="12dp"
@@ -132,7 +132,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
                     <TextView
-                        android:id="@+id/mTextName"
+                        android:id="@+id/mtext_name"
                         android:textSize="14sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
                         android:text="11111111"/>
 
                     <TextView
-                        android:id="@+id/mTextQian"
+                        android:id="@+id/mtext_qian"
                         android:textSize="12sp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
                 android:layout_marginTop="44dp">
 
                 <LinearLayout
-                    android:id="@+id/mLinearsc"
+                    android:id="@+id/mlinear_sc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
@@ -229,7 +229,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/mLineargz"
+                    android:id="@+id/mlinear_gz"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
@@ -265,7 +265,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/mLineartz"
+                    android:id="@+id/mlinear_tz"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
@@ -299,7 +299,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/mLinearno"
+                    android:id="@+id/mlinear_no"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
@@ -335,7 +335,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/mLinearjf"
+                    android:id="@+id/mlinear_jf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
@@ -370,7 +370,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/mLinearrw"
+                    android:id="@+id/mlinear_rw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"
@@ -405,7 +405,7 @@
 
 
                 <LinearLayout
-                    android:id="@+id/mLinearsz"
+                    android:id="@+id/mlinear_sz"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="30dp"

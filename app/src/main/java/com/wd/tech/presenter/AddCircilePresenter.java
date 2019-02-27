@@ -5,10 +5,8 @@ package com.wd.tech.presenter;
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.core.http.IRequest;
 import com.wd.tech.core.http.NotWorkUtils;
-
 import java.io.File;
 import java.util.List;
-
 import io.reactivex.Observable;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -36,8 +34,7 @@ public class AddCircilePresenter extends BasePresenter {
             for (int i = 1; i < list.size(); i++) {
                 File file = new File((String) list.get(i));
                 builder.addFormDataPart("file", file.getName(),
-                        RequestBody.create(MediaType.parse("multipart/octet-stream"),
-                                file));
+                        RequestBody.create(MediaType.parse("multipart/octet-stream"), file));
             }
         }
         return iRequest.fabuquanzi((int)args[0],(String)args[1],builder.build());

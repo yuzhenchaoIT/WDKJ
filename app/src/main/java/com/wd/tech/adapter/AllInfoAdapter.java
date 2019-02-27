@@ -56,6 +56,7 @@ public class AllInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
             myHolder.checkBox.setVisibility(View.GONE);
         }
         //------
+        myHolder.checkBox.setChecked(list.get(i).isCheck());
         myHolder.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

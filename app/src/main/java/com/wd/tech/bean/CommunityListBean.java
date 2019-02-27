@@ -33,13 +33,13 @@ public class CommunityListBean<T> {
     private int whetherGreat;
     private int whetherVip;
     private String signature;
-    private T communityCommentVoList;
+    private List<PlList> communityCommentVoList;
 
-    public T getCommunityCommentVoList() {
+    public List<PlList> getCommunityCommentVoList() {
         return communityCommentVoList;
     }
 
-    public void setCommunityCommentVoList(T communityCommentVoList) {
+    public void setCommunityCommentVoList(List<PlList> communityCommentVoList) {
         this.communityCommentVoList = communityCommentVoList;
     }
 
@@ -147,4 +147,23 @@ public class CommunityListBean<T> {
         this.signature = signature;
     }
 
+    @Override
+    public String toString() {
+        return "CommunityListBean{" +
+                "comment=" + comment +
+                ", content='" + content + '\'' +
+                ", file='" + file + '\'' +
+                ", headPic='" + headPic + '\'' +
+                ", id=" + id +
+                ", nickName='" + nickName + '\'' +
+                ", praise=" + praise +
+                ", publishTime=" + publishTime +
+                ", userId=" + userId +
+                ", whetherFollow=" + whetherFollow +
+                ", whetherGreat=" + whetherGreat +
+                ", whetherVip=" + whetherVip +
+                ", signature='" + signature + '\'' +
+                ", communityCommentVoList=" + communityCommentVoList +
+                '}';
+    }
 }
