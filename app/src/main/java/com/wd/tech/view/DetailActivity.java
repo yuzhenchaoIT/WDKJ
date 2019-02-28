@@ -1,9 +1,11 @@
 package com.wd.tech.view;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import com.wd.tech.R;
@@ -11,6 +13,7 @@ import com.wd.tech.adapter.MyImageAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
 
 public class DetailActivity extends AppCompatActivity {
     public static final String TAG = MainActivity.class.getSimpleName();
@@ -24,6 +27,9 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
+        //透明状态栏
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         initView();
         initData();
     }
@@ -47,7 +53,7 @@ public class DetailActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 super.onPageSelected(position);
                 currentPosition = position;
-                mTvImageCount.setText(currentPosition + 1 + "/" + Urls.size());
+                mTvImageCount.setText(currentPosition + 1 + "/"+ Urls.size());
             }
         });
     }

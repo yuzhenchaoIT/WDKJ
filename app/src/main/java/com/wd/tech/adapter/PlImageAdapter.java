@@ -25,13 +25,11 @@ public class PlImageAdapter extends RecyclerView.Adapter<PlImageAdapter.ViewHold
         if (mList!=null){
             mList.addAll(list);
         }
-
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.com_pl_item,viewGroup,false);
         return new ViewHolder(view);
     }
@@ -40,21 +38,11 @@ public class PlImageAdapter extends RecyclerView.Adapter<PlImageAdapter.ViewHold
     public void onBindViewHolder(@NonNull final ViewHolder viewHolder, final int i){
         viewHolder.name.setText(mList.get(i).getNickName()+":");
         viewHolder.pl.setText(mList.get(i).getContent());
-//        viewHolder.image.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(viewHolder.itemView.getContext(),DetailActivity.class);
-//                viewHolder.itemView.getContext().startActivity(intent);
-//            }
-//        });
     }
 
     @Override
     public int getItemCount() {
-
             return mList.size();
-
-
     }
 
     public void clear() {

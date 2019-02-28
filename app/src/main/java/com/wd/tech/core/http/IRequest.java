@@ -19,8 +19,8 @@ import com.wd.tech.bean.MyPost;
 import com.wd.tech.bean.NoticeList;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
-import com.wd.tech.bean.TaskList;
 import com.wd.tech.bean.User;
+import com.wd.tech.bean.UserPost;
 import com.wd.tech.bean.UserIntegral;
 import com.wd.tech.bean.details.InforDetailsBean;
 
@@ -510,53 +510,4 @@ public interface IRequest {
             @Header("userId") int userId,
             @Header("sessionId") String sessionId
     );
-
-    /**
-     * 查看好友通知
-     * @param userId
-     * @param sessionId
-     * @param page
-     * @param count
-     * @return
-     */
-    @GET("chat/verify/v1/findFriendNoticePageList")
-    Observable<Result<List<FriendNoticePageList>>> friendNoticePageList(
-            @Header("userId") int userId,
-            @Header("sessionId") String sessionId,
-            @Query("page") int page,
-            @Query("count") int count
-    );
-    @PUT("chat/verify/v1/reviewFriendApply")
-    Observable<Result> reviewFriend(
-            @Header("userId") int userId,
-            @Header("sessionId") String sessionId,
-            @Query("noticeId") int noticeId,
-            @Query("flag") int flag
-    );
-    /**
-     * 删除好友
-     * @param userId
-     * @param sessionId
-     * @param friendUid
-     * @return
-     */
-    @DELETE("chat/verify/v1/deleteFriendRelation")
-    Observable<Result> deleteFriendRelation(@Header("userId") int userId,
-                                            @Header("sessionId")String sessionId,
-                                            @Query("friendUid") int friendUid);
-
-    /**
-     * 转移好友到其他分组
-     * @param userId
-     * @param sessionId
-     * @param newGroupId
-     * @param friendUid
-     * @return
-     */
-    @PUT("chat/verify/v1/transferFriendGroup")
-    @FormUrlEncoded
-    Observable<Result> transferFriendGroup(@Header("userId") int userId,
-                                           @Header("sessionId")String sessionId,
-                                           @Field("newGroupId") int newGroupId,
-                                           @Field("friendUid") int friendUid );
 }
