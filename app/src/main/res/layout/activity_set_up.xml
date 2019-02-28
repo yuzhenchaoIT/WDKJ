@@ -365,17 +365,16 @@
                         android:text="邮箱"
                         android:textSize="14sp" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1" />
 
                     <TextView
                         android:id="@+id/mtext_email_up"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1111111111"
-                        android:textColor="#999999" />
+                        android:textColor="#999999"
+                        android:background="@null"
+                        android:gravity="right"
+                        android:layout_weight="1"/>
 
                 </LinearLayout>
 

@@ -324,6 +324,45 @@ public interface IRequest {
                                      @Field("newPwd")String newPwd);
 
     /**
+     * 修改邮箱
+     * @param userId
+     * @param sessionId
+     * @param email
+     * @return
+     */
+    @PUT("user/verify/v1/modifyEmail")
+    @FormUrlEncoded
+    Observable<Result> modifyEmail(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Field("email")String email);
+
+    /**
+     * 修改用户昵称
+     * @param userId
+     * @param sessionId
+     * @param nickName
+     * @return
+     */
+    @PUT("user/verify/v1/modifyNickName")
+    @FormUrlEncoded
+    Observable<Result> modifyNickName(@Header("userId") int userId,
+                                      @Header("sessionId") String sessionId,
+                                      @Field("nickName")String nickName);
+
+    /**
+     * 做任务
+     * @param userId
+     * @param sessionId
+     * @param taskId
+     * @return
+     */
+    @POST("user/verify/v1/doTheTask")
+    @FormUrlEncoded
+    Observable<Result> doTheTask(@Header("userId") int userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("taskId")int taskId);
+
+    /**
      * 资讯分类跳转列表
      *
      * @param userId

@@ -25,6 +25,7 @@ import com.wd.tech.core.PickView;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
+import com.wd.tech.presenter.DoTheTaskPresenter;
 import com.wd.tech.presenter.PerfectPresenter;
 import com.wd.tech.presenter.QueryUserPresenter;
 import com.wd.tech.view.HomeActivity;
@@ -49,7 +50,7 @@ public class PerfectActivity extends WDActivity{
     private String sigqian;
     private TextView mTextQianPer;
     private QueryUser result;
-
+    private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
     @Override
     protected int getLayoutId() {
         return R.layout.activity_perfect;
@@ -170,7 +171,24 @@ public class PerfectActivity extends WDActivity{
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
                 Toast.makeText(PerfectActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+                doTheTaskPresenter.request(user.getUserId(),user.getSessionId(),1006);
                 finish();
+            }else {
+                Toast.makeText(PerfectActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+    //实现做任务接口
+    private class DoTheTaskCall implements DataCall<Result>{
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
+                Toast.makeText(PerfectActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }else {
                 Toast.makeText(PerfectActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
