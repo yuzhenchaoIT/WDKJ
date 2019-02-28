@@ -191,7 +191,6 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     //点击按钮返回
     @OnClick(R.id.mreturn)
     public void mreturn() {
-
         finish();
     }
 
