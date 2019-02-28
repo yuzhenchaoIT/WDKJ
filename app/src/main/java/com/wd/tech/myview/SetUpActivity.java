@@ -79,8 +79,7 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     }
 
     //实现查询用户信息接口
-    class QueryUserCall implements DataCall<Result<QueryUser>> {
-
+    private class QueryUserCall implements DataCall<Result<QueryUser>> {
         @Override
         public void success(Result<QueryUser> data) {
             if (data.getStatus().equals("0000")) {
@@ -176,7 +175,13 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
             finish();
         }
     }
-
+    //点击修改密码
+    @OnClick(R.id.mtextxiu_up)
+    public void xiu(){
+        //跳转
+        Intent intent = new Intent(SetUpActivity.this, ChangePassActivity.class);
+        startActivity(intent);
+    }
     @Override
     protected void onResume() {
         super.onResume();

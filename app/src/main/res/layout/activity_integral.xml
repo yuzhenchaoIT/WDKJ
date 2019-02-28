@@ -1,9 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".myview.IntegralActivity">
-
-</android.support.constraint.ConstraintLayout>
+    tools:context=".myview.IntegralActivity"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="192dp"
+        android:orientation="vertical"
+        android:background="@drawable/myjf">
+        <TextView
+            android:id="@+id/mtext_jf"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="1200"
+            android:textSize="36sp"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:layout_marginTop="60dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="可用积分"
+            android:textSize="10sp"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:layout_marginTop="20dp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="您已连续签到10天"
+            android:textSize="10sp"
+            android:textColor="#ffffff"
+            android:gravity="center"
+            android:layout_marginTop="10dp"/>
+    </LinearLayout>
+</LinearLayout>

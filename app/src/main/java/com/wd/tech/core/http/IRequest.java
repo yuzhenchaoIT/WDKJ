@@ -21,6 +21,7 @@ import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.TaskList;
 import com.wd.tech.bean.User;
+import com.wd.tech.bean.UserIntegral;
 import com.wd.tech.bean.details.InforDetailsBean;
 
 import java.util.List;
@@ -295,6 +296,31 @@ public interface IRequest {
                                                            @Header("sessionId") String sessionId,
                                                            @Query("page") int page,
                                                            @Query("count") int count);
+
+    /**
+     * 查询用户积分
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findUserIntegral")
+    Observable<Result<UserIntegral>> findUserIntegral(@Header("userId") int userId,
+                                                      @Header("sessionId") String sessionId);
+
+    /**
+     * 修改用户密码
+     * @param userId
+     * @param sessionId
+     * @param oldPwd
+     * @param newPwd
+     * @return
+     */
+    @PUT("user/verify/v1/modifyUserPwd")
+    @FormUrlEncoded
+    Observable<Result> modifyUserPwd(@Header("userId") int userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Field("oldPwd")String oldPwd,
+                                     @Field("newPwd")String newPwd);
 
     /**
      * 资讯分类跳转列表

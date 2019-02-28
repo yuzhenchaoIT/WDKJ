@@ -74,8 +74,8 @@ public class SiginActivity extends WDActivity {
         findUserSignPresenter = new FindUserSignPresenter(new FindUserCall());
         findUserSignPresenter.request(user.getUserId(),user.getSessionId());
         //查询用户连续签到天数
-        findConSignPresenter = new FindConSignPresenter(new FindConCall());
-        findConSignPresenter.request(user.getUserId(),user.getSessionId());
+       /* findConSignPresenter = new FindConSignPresenter(new FindConCall());
+        findConSignPresenter.request(user.getUserId(),user.getSessionId());*/
         //查询用户当月所有签到的日期
         findUserSignRecPresenter = new FindUserSignRecPresenter(new FindUserSignCall());
         findUserSignRecPresenter.request(user.getUserId(),user.getSessionId());
