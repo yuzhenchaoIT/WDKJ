@@ -19,6 +19,7 @@ import com.wd.tech.bean.MyPost;
 import com.wd.tech.bean.NoticeList;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.TaskList;
 import com.wd.tech.bean.User;
 import com.wd.tech.bean.UserPost;
 import com.wd.tech.bean.details.InforDetailsBean;
@@ -121,8 +122,8 @@ public interface IRequest {
     @GET("user/verify/v1/findAllInfoCollection")
     Observable<Result<List<AllInfo>>> findAllInfoCollection(@Header("userId") int userId,
                                                             @Header("sessionId") String sessionId,
-                                                            @Query("page")int page,
-                                                            @Query("count")int count);
+                                                            @Query("page") int page,
+                                                            @Query("count") int count);
 
     /**
      * 添加收藏
@@ -150,7 +151,7 @@ public interface IRequest {
     @DELETE("user/verify/v1/cancelCollection")
     Observable<Result> cancelCollection(@Header("userId") int userId,
                                         @Header("sessionId") String sessionId,
-                                        @Query("infoId")String infoId);
+                                        @Query("infoId") String infoId);
 
     /**
      * 用户关注列表
@@ -163,8 +164,8 @@ public interface IRequest {
     @GET("user/verify/v1/findFollowUserList")
     Observable<Result<List<FollowUser>>> findFollowUserList(@Header("userId") int userId,
                                                             @Header("sessionId") String sessionId,
-                                                            @Query("page")int page,
-                                                            @Query("count")int count);
+                                                            @Query("page") int page,
+                                                            @Query("count") int count);
 
     /**
      * 取消关注
@@ -177,7 +178,7 @@ public interface IRequest {
     @DELETE("user/verify/v1/cancelFollow")
     Observable<Result> cancelFollow(@Header("userId") int userId,
                                     @Header("sessionId") String sessionId,
-                                    @Query("focusId")int focusId);
+                                    @Query("focusId") int focusId);
     /**
      * 资讯推荐展示列表
      *
@@ -204,7 +205,7 @@ public interface IRequest {
     @PUT("user/verify/v1/modifySignature")
     Observable<Result> modifySignature(@Header("userId") int userId,
                                        @Header("sessionId") String sessionId,
-                                       @Query("signature")String signature);
+                                       @Query("signature") String signature);
 
     /**
      * 我的帖子
@@ -230,7 +231,71 @@ public interface IRequest {
     @DELETE("community/verify/v1/deletePost")
     Observable<Result> deletePost(@Header("userId") int userId,
                                   @Header("sessionId") String sessionId,
-                                  @Query("communityId")String commun);
+                                  @Query("communityId") String commun);
+
+    /**
+     * 签到
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @POST("user/verify/v1/userSign")
+    Observable<Result> userSign(@Header("userId") int userId,
+                                @Header("sessionId") String sessionId);
+
+    /**
+     * 查询当天签到状态
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findUserSignStatus")
+    Observable<Result> findUserSignStatus(@Header("userId") int userId,
+                                          @Header("sessionId") String sessionId);
+
+    /**
+     * 查询用户连续签到天数
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findContinuousSignDays")
+    Observable<Result> findContinuousSignDays(@Header("userId") int userId,
+                                              @Header("sessionId") String sessionId);
+
+    /**
+     * 查询用户当月所有签到的日期
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findUserSignRecording")
+    Observable<Result> findUserSignRecording(@Header("userId") int userId,
+                                             @Header("sessionId") String sessionId);
+
+    /**
+     * 查询用户任务列表
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("user/verify/v1/findUserTaskList")
+    Observable<Result<List<TaskList>>> findUserTaskList(@Header("userId") int userId,
+                                                        @Header("sessionId") String sessionId);
+
+    /**
+     * 查询用户系统通知
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("tool/verify/v1/findSysNoticeList")
+    Observable<Result<List<NoticeList>>> findSysNoticeList(@Header("userId") int userId,
+                                                           @Header("sessionId") String sessionId,
+                                                           @Query("page") int page,
+                                                           @Query("count") int count);
 
     /**
      * 资讯分类跳转列表
@@ -360,9 +425,9 @@ public interface IRequest {
     @POST("community/verify/v1/addCommunityComment")
     @FormUrlEncoded
     Observable<Result> addCommunityComment(@Header("userId") int userId,
-                                       @Header("sessionId") String sessionId,
-                                       @Field("communityId") int communityId,
-                                       @Field("content") String content);
+                                           @Header("sessionId") String sessionId,
+                                           @Field("communityId") int communityId,
+                                           @Field("content") String content);
 
     /**
      * 根据id查组
@@ -420,4 +485,70 @@ public interface IRequest {
             @Header("userId") int userId,
             @Header("sessionId") String sessionId
     );
+
+    /**
+     * 查看好友通知
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("chat/verify/v1/findFriendNoticePageList")
+    Observable<Result<List<FriendNoticePageList>>> friendNoticePageList(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("page") int page,
+            @Query("count") int count
+    );
+    @PUT("chat/verify/v1/reviewFriendApply")
+    Observable<Result> reviewFriend(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("noticeId") int noticeId,
+            @Query("flag") int flag
+    );
+    /**
+     * 删除好友
+     * @param userId
+     * @param sessionId
+     * @param friendUid
+     * @return
+     */
+    @DELETE("chat/verify/v1/deleteFriendRelation")
+    Observable<Result> deleteFriendRelation(@Header("userId") int userId,
+                                            @Header("sessionId") String sessionId,
+                                            @Query("friendUid") int friendUid);
+
+    /**
+     * 转移好友到其他分组
+     * @param userId
+     * @param sessionId
+     * @param newGroupId
+     * @param friendUid
+     * @return
+     */
+    @PUT("chat/verify/v1/transferFriendGroup")
+    @FormUrlEncoded
+    Observable<Result> transferFriendGroup(@Header("userId") int userId,
+                                           @Header("sessionId") String sessionId,
+                                           @Field("newGroupId") int newGroupId,
+                                           @Field("friendUid") int friendUid);
+
+    /**
+     * 查看别人的社区
+     * @param userId
+     * @param sessionId
+     * @param fromUid
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("community/verify/v1/findUserPostById")
+    Observable<Result<List<UserPost>>> findUserPostById(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("fromUid") int fromUid,
+            @Query("page") int page,
+            @Query("count") int count);
 }
