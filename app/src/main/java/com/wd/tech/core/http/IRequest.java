@@ -152,7 +152,7 @@ public interface IRequest {
     @DELETE("user/verify/v1/cancelCollection")
     Observable<Result> cancelCollection(@Header("userId") int userId,
                                         @Header("sessionId") String sessionId,
-                                        @Query("infoId")String infoId);
+                                        @Query("infoId") String infoId);
 
     /**
      * 用户关注列表
@@ -165,8 +165,8 @@ public interface IRequest {
     @GET("user/verify/v1/findFollowUserList")
     Observable<Result<List<FollowUser>>> findFollowUserList(@Header("userId") int userId,
                                                             @Header("sessionId") String sessionId,
-                                                            @Query("page")int page,
-                                                            @Query("count")int count);
+                                                            @Query("page") int page,
+                                                            @Query("count") int count);
 
     /**
      * 取消关注
@@ -179,7 +179,7 @@ public interface IRequest {
     @DELETE("user/verify/v1/cancelFollow")
     Observable<Result> cancelFollow(@Header("userId") int userId,
                                     @Header("sessionId") String sessionId,
-                                    @Query("focusId")int focusId);
+                                    @Query("focusId") int focusId);
     /**
      * 资讯推荐展示列表
      *
@@ -451,9 +451,9 @@ public interface IRequest {
     @POST("community/verify/v1/addCommunityComment")
     @FormUrlEncoded
     Observable<Result> addCommunityComment(@Header("userId") int userId,
-                                       @Header("sessionId") String sessionId,
-                                       @Field("communityId") int communityId,
-                                       @Field("content") String content);
+                                           @Header("sessionId") String sessionId,
+                                           @Field("communityId") int communityId,
+                                           @Field("content") String content);
 
     /**
      * 根据id查组
@@ -513,28 +513,21 @@ public interface IRequest {
     );
 
     /**
-     * 转移好友到其他分组
+     * 查看好友通知
      * @param userId
      * @param sessionId
-     * @param newGroupId
-     * @param friendUid
+     * @param page
+     * @param count
      * @return
      */
-    @PUT("chat/verify/v1/transferFriendGroup")
-    @FormUrlEncoded
-    Observable<Result> transferFriendGroup(@Header("userId") int userId,
-                                           @Header("sessionId") String sessionId,
-                                           @Field("newGroupId")int newGroupId,
-                                           @Field("friendUid")int friendUid);
-
-    @GET("chaterify1/findFriendNoticePageList")
+    @GET("chat/verify/v1/findFriendNoticePageList")
     Observable<Result<List<FriendNoticePageList>>> friendNoticePageList(
             @Header("userId") int userId,
             @Header("sessionId") String sessionId,
             @Query("page") int page,
             @Query("count") int count
     );
-    @PUT("chaterify1/reviewFriendApply")
+    @PUT("chat/verify/v1/reviewFriendApply")
     Observable<Result> reviewFriend(
             @Header("userId") int userId,
             @Header("sessionId") String sessionId,
@@ -548,10 +541,25 @@ public interface IRequest {
      * @param friendUid
      * @return
      */
-    @DELETE("chaterify1/deleteFriendRelation")
+    @DELETE("chat/verify/v1/deleteFriendRelation")
     Observable<Result> deleteFriendRelation(@Header("userId") int userId,
-                                            @Header("sessionId")String sessionId,
+                                            @Header("sessionId") String sessionId,
                                             @Query("friendUid") int friendUid);
+
+    /**
+     * 转移好友到其他分组
+     * @param userId
+     * @param sessionId
+     * @param newGroupId
+     * @param friendUid
+     * @return
+     */
+    @PUT("chat/verify/v1/transferFriendGroup")
+    @FormUrlEncoded
+    Observable<Result> transferFriendGroup(@Header("userId") int userId,
+                                           @Header("sessionId") String sessionId,
+                                           @Field("newGroupId") int newGroupId,
+                                           @Field("friendUid") int friendUid);
 
     /**
      * 查看别人的社区
@@ -569,6 +577,5 @@ public interface IRequest {
             @Query("fromUid") int fromUid,
             @Query("page") int page,
             @Query("count") int count);
-
 
 }
