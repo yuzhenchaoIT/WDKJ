@@ -25,6 +25,7 @@ import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMMessage;
 import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.nostra13.universalimageloader.utils.L;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.wd.tech.R;
@@ -115,9 +116,10 @@ public class FragOneContact extends WDFragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 FriendInfoList friendInfoList = groups.get(groupPosition).getFriendInfoList().get(childPosition);
-                Intent intent=new Intent(getActivity(),ChatActivity.class);
-                intent.putExtra(EaseConstant.EXTRA_USER_ID,"Xi0Fe118811690458");
+                Intent intent = new Intent(getContext(), ChatActivity.class);
+                intent.putExtra(EaseConstant.EXTRA_USER_ID,friendInfoList.getUserName());
                 intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
+                intent.putExtra("friendInfoList",friendInfoList);
                 startActivity(intent);
                 return true;
             }

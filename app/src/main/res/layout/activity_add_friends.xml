@@ -155,7 +155,7 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:textColor="#333333"
-            android:text="昵称"
+            android:text="组名"
             android:layout_toRightOf="@+id/find_q_icon"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"/>

@@ -1,10 +1,12 @@
 package com.wd.tech.bean;
 
+import java.io.Serializable;
+
 /**
  * Created by ${LinJiangtao}
  * on 2019/2/21
  */
-public class FriendInfoList {
+public class FriendInfoList implements Serializable {
     int friendUid;
     String nickName;
     String remarkName;

@@ -122,11 +122,18 @@ public class AddFriendsActivity extends WDActivity {
         @Override
         public void success(Result<FindUserByPhone> data) {
             if (data.getStatus().equals("0000")) {
+                findRRelative.setVisibility(View.VISIBLE);
+                findQRelative.setVisibility(View.GONE);
+                findNot.setVisibility(View.GONE);
                 userbypehone = data.getResult();
                 findRName.setText(userbypehone.getNickName());
                 findRIcon.setImageURI(userbypehone.getHeadPic());
                 Log.i("aa", "success: "+userbypehone.getNickName());
-                }
+                }else {
+                findRRelative.setVisibility(View.GONE);
+                findQRelative.setVisibility(View.GONE);
+                findNot.setVisibility(View.VISIBLE);
+            }
         }
 
         @Override
@@ -150,18 +157,18 @@ public class AddFriendsActivity extends WDActivity {
             case R.id.find_relate_ren:
                 findROk.setVisibility(View.VISIBLE);
                 findQOk.setVisibility(View.GONE);
-
+                findRRelative.setVisibility(View.GONE);
+                findQRelative.setVisibility(View.GONE);
                 break;
             case R.id.find_relate_qun:
                 findROk.setVisibility(View.GONE);
                 findQOk.setVisibility(View.VISIBLE);
+                findRRelative.setVisibility(View.GONE);
+                findQRelative.setVisibility(View.GONE);
                 break;
             case R.id.find_search:
                 searchEdit = findSearchEdit.getText();
-
                 if (findROk.getVisibility()==View.VISIBLE){
-                    findRRelative.setVisibility(View.VISIBLE);
-                    findQRelative.setVisibility(View.GONE);
                     userPersenter = new PhoneUserPersenter(new UserPhone());
                     bean = WDActivity.getUser(this);
                     if (bean != null) {
@@ -171,8 +178,6 @@ public class AddFriendsActivity extends WDActivity {
 
                     }
                 }else if (findQOk.getVisibility()==View.VISIBLE){
-                    findRRelative.setVisibility(View.GONE);
-                    findQRelative.setVisibility(View.VISIBLE);
                     addGroupPersenter=new AddGroupPersenter(new AddGroup());
                     bean = WDActivity.getUser(this);
                     if (bean != null) {
@@ -191,16 +196,23 @@ public class AddFriendsActivity extends WDActivity {
         @Override
         public void success(Result<FindGroupByid> data) {
             if (data.getStatus().equals("0000")) {
+                findRRelative.setVisibility(View.GONE);
+                findQRelative.setVisibility(View.VISIBLE);
+                findNot.setVisibility(View.GONE);
                 findGroupByid = data.getResult();
                 findQName.setText(findGroupByid.getGroupName());
                 findQIcon.setImageURI(findGroupByid.getGroupImage());
                 Log.i("aa", "success: "+userbypehone.getNickName());
+            }else {
+                findQRelative.setVisibility(View.GONE);
+                findNot.setVisibility(View.VISIBLE);
             }
         }
 
         @Override
         public void fail(ApiException e) {
-
+            findQRelative.setVisibility(View.GONE);
+            findNot.setVisibility(View.VISIBLE);
         }
     }
 }
