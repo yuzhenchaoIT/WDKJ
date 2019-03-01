@@ -264,15 +264,6 @@ public interface IRequest {
     Observable<Result> findContinuousSignDays(@Header("userId") int userId,
                                               @Header("sessionId") String sessionId);
 
-    /**
-     * 查询用户当月所有签到的日期
-     * @param userId
-     * @param sessionId
-     * @return
-     */
-    @GET("user/verify/v1/findUserSignRecording")
-    Observable<Result> findUserSignRecording(@Header("userId") int userId,
-                                             @Header("sessionId") String sessionId);
 
     /**
      * 查询用户任务列表
@@ -298,35 +289,10 @@ public interface IRequest {
                                                            @Query("page") int page,
                                                            @Query("count") int count);
 
-    /**
-     * 签到
-     * @param userId
-     * @param sessionId
-     * @return
-     */
-    @POST("user/verify/v1/userSign")
-    Observable<Result> userSign(@Header("userId") int userId,
-                                @Header("sessionId") String sessionId);
 
-    /**
-     * 查询当天签到状态
-     * @param userId
-     * @param sessionId
-     * @return
-     */
-    @GET("user/verify/v1/findUserSignStatus")
-    Observable<Result> findUserSignStatus(@Header("userId") int userId,
-                                          @Header("sessionId") String sessionId);
 
-    /**
-     * 查询用户连续签到天数
-     * @param userId
-     * @param sessionId
-     * @return
-     */
-    @GET("user/verify/v1/findContinuousSignDays")
-    Observable<Result> findContinuousSignDays(@Header("userId") int userId,
-                                              @Header("sessionId") String sessionId);
+
+
 
     /**
      * 查询用户当月所有签到的日期
@@ -339,28 +305,8 @@ public interface IRequest {
                                              @Header("sessionId") String sessionId);
 
     /**
-     * 查询用户任务列表
-     * @param userId
-     * @param sessionId
-     * @return
-     */
-    @GET("user/verify/v1/findUserTaskList")
-    Observable<Result<List<TaskList>>> findUserTaskList(@Header("userId") int userId,
-                                                        @Header("sessionId") String sessionId);
 
-    /**
-     * 查询用户系统通知
-     * @param userId
-     * @param sessionId
-     * @param page
-     * @param count
-     * @return
-     */
-    @GET("tool/verify/v1/findSysNoticeList")
-    Observable<Result<List<NoticeList>>> findSysNoticeList(@Header("userId") int userId,
-                                                           @Header("sessionId") String sessionId,
-                                                           @Query("page") int page,
-                                                           @Query("count") int count);
+
 
     /**
      * 查询用户积分
@@ -416,7 +362,7 @@ public interface IRequest {
      */
     @GET("community/v1/findCommunityList")
     Observable<Result<List<CommunityListBean>>> communityList(
-//            @Header("userId") int userId, @Header("sessionId") String sessionId,
+            @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Query("page") int page, @Query("count") int count);
     @GET("chat/verify/v1/initFriendList")
     Observable<Result<List<InitFriendlist>>> groupList(
@@ -641,4 +587,42 @@ public interface IRequest {
             @Query("fromUid") int fromUid,
             @Query("page") int page,
             @Query("count") int count);
+
+    /**
+     * 点赞
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityGreat")
+    @FormUrlEncoded
+    Observable<Result> addCommunityGreat(@Header("userId") int userId,
+                                           @Header("sessionId") String sessionId,
+                                           @Field("communityId") int communityId);
+
+    /**
+     * 取消点赞
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @DELETE("community/verify/v1/cancelCommunityGreat")
+    Observable<Result> cancelCommunityGreat(@Header("userId") int userId,
+                                         @Header("sessionId") String sessionId,
+                                         @Query("communityId") int communityId);
+
+    /**
+     * 关注
+     * @param userId
+     * @param sessionId
+     * @param focusId
+     * @return
+     */
+    @POST("user/verify/v1/addFollow")
+    @FormUrlEncoded
+    Observable<Result> addFollow(@Header("userId") int userId,
+                                         @Header("sessionId") String sessionId,
+                                         @Field("focusId") int focusId);
 }

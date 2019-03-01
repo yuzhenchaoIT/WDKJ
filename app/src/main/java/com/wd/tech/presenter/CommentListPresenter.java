@@ -20,6 +20,6 @@ public class CommentListPresenter extends BasePresenter {
     @Override
     public Observable observable(Object... args) {
         IRequest iRequest = NotWorkUtils.getInstance().create(IRequest.class);
-        return iRequest.findCommunityUserCommentList(1010,"15380296316761010", (int) args[0],1,3);
+        return iRequest.findCommunityUserCommentList((int)args[0],(String)args[1], (int) args[2],1,20);
     }
 }

@@ -53,15 +53,6 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
     public void editTextDetailChange(Editable editable) {
         int detailLength = editable.length();
         textSum.setText(detailLength + "/300");
-//        if (detailLength == 139) {
-//            islMaxCount = true;
-//        }
-//        // 不知道为什么执行俩次，所以增加一个标识符去标识
-//        if (detailLength == 140 && islMaxCount) {
-//            UIHelper.getShortToast(self, (String) StringUtils.getResourceContent(self, Convention.RESOURCE_TYPE_STRING, R.string.string_editor_detail_input_limit));
-//            islMaxCount = false;
-//        }
-        RecyclerView recyclerView;
         if (detailLength==300){
             Toast.makeText(this, "别输入了,", Toast.LENGTH_SHORT).show();
         }
@@ -74,8 +65,6 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
         findViewById(R.id.add_qx).setOnClickListener(this);
         RecyclerView bo_image_list = (RecyclerView) findViewById(R.id.bo_image_list);
         addCircilePresenter = new AddCircilePresenter(new AddData());
-
-
         objects.add(R.drawable.common_nav_btn_add_n_hdpi);
         bo_image_list.setLayoutManager(new GridLayoutManager(this,4));
         add_image_adapter = new AddImageAdapter(this, objects, new AddImageAdapter.Dakai() {
