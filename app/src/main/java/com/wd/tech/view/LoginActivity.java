@@ -9,6 +9,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.wd.tech.R;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
@@ -105,6 +107,26 @@ public class LoginActivity extends WDActivity {
                 UserDao userDao = daoSession.getUserDao();
                 result.setStatu("1");
                 userDao.insertOrReplace(result);
+                EMClient.getInstance().login("b2RKkG17600042580","V3qmuOQnrFuLHZ7z0pz8+p/y0gg+LMVJCMvrFj+C2G1A+KlCOLB/jB0U+n+tubWpQ70XG9KUq+dks1/fyCkF23bHs+rNnMMiIfaQ7cHDTjFHxcw8WIWp9CWSZrSmbJplpLe/sHnu0Nuuz04DIobH9yIGqV2hOLSyraa2/93phns="
+                        ,new EMCallBack() {//回调
+                    @Override
+                    public void onSuccess() {
+                        EMClient.getInstance().groupManager().loadAllGroups();
+                        EMClient.getInstance().chatManager().loadAllConversations();
+                        Log.d("main", "登录聊天服务器成功！");
+
+                    }
+
+                    @Override
+                    public void onProgress(int progress, String status) {
+
+                    }
+
+                    @Override
+                    public void onError(int code, String message) {
+                        Log.d("main", "登录聊天服务器失败！");
+                    }
+                });
                 //跳转
                 finish();
             }else {
