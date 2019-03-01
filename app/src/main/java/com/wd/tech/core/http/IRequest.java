@@ -688,4 +688,21 @@ public interface IRequest {
             @Query("page") int page,
             @Query("count") int count);
 
+    /**
+     * 资讯积分兑换
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @param integralCost
+     * @return
+     */
+    @POST("information/verify/v1/infoPayByIntegral")
+    @FormUrlEncoded
+    Observable<Result> infoPayByIntegral(@Header("userId") int userId,
+                                         @Header("sessionId") String sessionId,
+                                         @Field("infoId") int infoId,
+                                         @Field("integralCost") int integralCost);
+
+
 }

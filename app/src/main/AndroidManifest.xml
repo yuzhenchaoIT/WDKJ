@@ -67,7 +67,9 @@
         <activity android:name=".myview.SiginActivity" />
         android:theme="@style/AppTheme" />
         <activity android:name=".view.MyFriendnewsActivity" />
-        <activity android:name=".view.AdvertWebActivity"></activity>
+        <activity android:name=".view.AdvertWebActivity" />
+        <activity android:name=".view.pay.PointsActivity" />
+        <activity android:name=".view.pay.VipActivity"></activity>
     </application>
 
 </manifest>
