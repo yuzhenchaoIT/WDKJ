@@ -67,7 +67,7 @@
         <activity android:name=".myview.SiginActivity" />
         android:theme="@style/AppTheme" />
         <activity android:name=".view.MyFriendnewsActivity" />
-        <activity android:name=".myview.ChangePassActivity"></activity>
+        <activity android:name=".view.AdvertWebActivity"></activity>
     </application>
 
 </manifest>

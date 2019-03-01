@@ -76,7 +76,7 @@ public class SortListActivity extends WDActivity {
             public void onRefresh(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishRefresh(2000);
-                mPlateListP.request(true, user.getUserId(), user.getSessionId(), plateId);
+                mPlateListP.request(true, 18, "15320748258726", plateId);
             }
         });
 
@@ -85,7 +85,7 @@ public class SortListActivity extends WDActivity {
             public void onLoadmore(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishLoadmore(2000);
-                mPlateListP.request(false, user.getUserId(), user.getSessionId(), plateId);
+                mPlateListP.request(false, 18, "15320748258726", plateId);
             }
         });
 
@@ -95,7 +95,7 @@ public class SortListActivity extends WDActivity {
 
         //布局管理器
         mSortListRecy.setLayoutManager(mLinearLayoutManager);
-        mPlateListP.request(true, user.getUserId(), user.getSessionId(), plateId);
+        mPlateListP.request(true, 18, "15320748258726", plateId);
     }
 
 

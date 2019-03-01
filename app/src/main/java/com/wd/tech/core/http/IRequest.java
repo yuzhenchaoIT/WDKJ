@@ -21,6 +21,7 @@ import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.TaskList;
 import com.wd.tech.bean.User;
+import com.wd.tech.bean.details.FindAllCommentListBean;
 import com.wd.tech.bean.UserPost;
 import com.wd.tech.bean.UserIntegral;
 import com.wd.tech.bean.details.InforDetailsBean;
@@ -152,7 +153,7 @@ public interface IRequest {
     @DELETE("user/verify/v1/cancelCollection")
     Observable<Result> cancelCollection(@Header("userId") int userId,
                                         @Header("sessionId") String sessionId,
-                                        @Query("infoId") String infoId);
+                                        @Query("infoId")String infoId);
 
     /**
      * 用户关注列表
@@ -165,8 +166,8 @@ public interface IRequest {
     @GET("user/verify/v1/findFollowUserList")
     Observable<Result<List<FollowUser>>> findFollowUserList(@Header("userId") int userId,
                                                             @Header("sessionId") String sessionId,
-                                                            @Query("page") int page,
-                                                            @Query("count") int count);
+                                                            @Query("page")int page,
+                                                            @Query("count")int count);
 
     /**
      * 取消关注
@@ -393,6 +394,7 @@ public interface IRequest {
     Observable<Result<List<CommunityListBean>>> communityList(
 //            @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Query("page") int page, @Query("count") int count);
+
     @GET("chat/verify/v1/initFriendList")
     Observable<Result<List<InitFriendlist>>> groupList(
 //            @Header("userId") int userId, @Header("sessionId") String sessionId,
@@ -421,6 +423,7 @@ public interface IRequest {
      */
     @POST("community/verify/v1/releasePost")
     Observable<Result> fabuquanzi(@Header("userId") int userId, @Header("sessionId") String sessionId, @Body MultipartBody body);
+
     /**
      * 根据手机号查询用户信息
      * @param userId
@@ -462,7 +465,6 @@ public interface IRequest {
                                                          @Query("count") int count);
 
 
-
     /**
      * 评论列表
      * @param userId
@@ -490,9 +492,9 @@ public interface IRequest {
     @POST("community/verify/v1/addCommunityComment")
     @FormUrlEncoded
     Observable<Result> addCommunityComment(@Header("userId") int userId,
-                                           @Header("sessionId") String sessionId,
-                                           @Field("communityId") int communityId,
-                                           @Field("content") String content);
+                                       @Header("sessionId") String sessionId,
+                                       @Field("communityId") int communityId,
+                                       @Field("content") String content);
 
     /**
      * 根据id查组
@@ -507,6 +509,7 @@ public interface IRequest {
             @Header("sessionId") String sessionId,
             @Query("groupId") int groupId
     );
+
     /**
      * 添加群
      * @param userId
@@ -566,6 +569,7 @@ public interface IRequest {
             @Query("page") int page,
             @Query("count") int count
     );
+
     @PUT("chat/verify/v1/reviewFriendApply")
     Observable<Result> reviewFriend(
             @Header("userId") int userId,
@@ -573,6 +577,7 @@ public interface IRequest {
             @Query("noticeId") int noticeId,
             @Query("flag") int flag
     );
+
     /**
      * 删除好友
      * @param userId
@@ -582,7 +587,7 @@ public interface IRequest {
      */
     @DELETE("chat/verify/v1/deleteFriendRelation")
     Observable<Result> deleteFriendRelation(@Header("userId") int userId,
-                                            @Header("sessionId") String sessionId,
+                                            @Header("sessionId")String sessionId,
                                             @Query("friendUid") int friendUid);
 
     /**
@@ -596,8 +601,46 @@ public interface IRequest {
     @PUT("chat/verify/v1/transferFriendGroup")
     @FormUrlEncoded
     Observable<Result> transferFriendGroup(@Header("userId") int userId,
-                                           @Header("sessionId") String sessionId,
+                                           @Header("sessionId")String sessionId,
                                            @Field("newGroupId") int newGroupId,
+                                           @Field("friendUid") int friendUid);
+
+
+    /**
+     * 详情页面的评论查看
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @param page
+     * @param count
+     * @return
+     */
+
+    @GET("information/v1/findAllInfoCommentList")
+    Observable<Result<List<FindAllCommentListBean>>> findAllInfoCommentList(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("infoId") int infoId,
+            @Query("page") int page,
+            @Query("count") int count);
+
+    /**
+     * 资讯用户评论
+     *
+     * @param userId
+     * @param sessionId
+     * @param content
+     * @param infoId
+     * @return
+     */
+    @POST("information/verify/v1/addInfoComment")
+    @FormUrlEncoded
+    Observable<Result> addInfoComment(@Header("userId") int userId,
+                                      @Header("sessionId") String sessionId,
+                                      @Field("content") String content,
+                                      @Field("infoId") int infoId);
+
                                            @Field("friendUid") int friendUid);
 
     /**
