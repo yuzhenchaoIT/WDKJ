@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
@@ -22,6 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.nostra13.universalimageloader.utils.L;
 import com.wd.tech.R;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
@@ -64,7 +68,11 @@ public class HomeActivity extends AppCompatActivity {
     private QueryUserPresenter queryUserPresenter;
     private SimpleDraweeView mSimple;
     private TextView mTextName,mTextQian;
-
+    private String sessionId;
+    private String userName;
+    private String pwd;
+    private int userId;
+    private User bean;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +84,14 @@ public class HomeActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         //初始化控件
         Initialize();
+        bean = WDActivity.getUser(this);
+        if (bean != null) {
+            sessionId = bean.getSessionId();
+            userId = bean.getUserId();
+
+        }
+
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         frag_InForMation = new FragInForMation();
         frag_Message = new FragMessage();

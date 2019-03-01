@@ -4,6 +4,9 @@ import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.hyphenate.EMError;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.exceptions.HyphenateException;
 import com.wd.tech.R;
 import com.wd.tech.bean.Result;
 import com.wd.tech.core.WDActivity;
@@ -24,6 +27,9 @@ public class RegisterActivity extends WDActivity {
 
     private EditText mEditNameReg,mEditPhoneReg,mEditPassReg;
     private RegisterPresenter registerPresenter;
+    private String phone;
+    private String passss;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_register;
@@ -48,14 +54,19 @@ public class RegisterActivity extends WDActivity {
     public void mRegisterBt(){
         //获取输入框的值
         String name = mEditNameReg.getText().toString().trim();
-        String phone = mEditPhoneReg.getText().toString().trim();
+        phone = mEditPhoneReg.getText().toString().trim();
+        try {
+            passss = RsaCoder.encryptByPublicKey(phone);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String pass = mEditPassReg.getText().toString().trim();
         boolean b = compileExChar(name);
         if (b){
             Toast.makeText(this, "不能有特殊符号", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (!StringUtils.isMobileNO(phone)&&phone.length()<=11){
+        if (!StringUtils.isMobileNO(phone)&& phone.length()<=11){
             Toast.makeText(this, "请输入正确的手机号", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -77,6 +88,42 @@ public class RegisterActivity extends WDActivity {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
+                new Thread(new Runnable() {
+                    public void run() {
+                        try {
+                            // call method in SDK
+                            EMClient.getInstance().createAccount(phone, passss);
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+
+                                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            });
+                        } catch (final HyphenateException e) {
+                            runOnUiThread(new Runnable() {
+                                public void run() {
+
+                                    int errorCode = e.getErrorCode();
+                                    if(errorCode== EMError.NETWORK_ERROR){
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.network_anomalies), Toast.LENGTH_SHORT).show();
+                                    }else if(errorCode == EMError.USER_ALREADY_EXIST){
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.User_already_exists), Toast.LENGTH_SHORT).show();
+                                    }else if(errorCode == EMError.USER_AUTHENTICATION_FAILED){
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.registration_failed_without_permission), Toast.LENGTH_SHORT).show();
+                                    }else if(errorCode == EMError.USER_ILLEGAL_ARGUMENT){
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.illegal_user_name),Toast.LENGTH_SHORT).show();
+                                    }else if(errorCode == EMError.EXCEED_SERVICE_LIMIT){
+                                        Toast.makeText(RegisterActivity.this, getResources().getString(R.string.register_exceed_service_limit), Toast.LENGTH_SHORT).show();
+                                    }else{
+                                        Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registration_failed), Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+                        }
+                    }
+                }).start();
+
                 Toast.makeText(RegisterActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
                 //跳转登录页
                 finish();

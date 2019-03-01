@@ -1,8 +1,10 @@
 package com.wd.tech.core;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -12,9 +14,14 @@ import android.util.Log;
 import com.facebook.cache.disk.DiskCacheConfig;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.core.ImagePipelineConfig;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMOptions;
+import com.hyphenate.easeui.EaseUI;
 
 
 import java.io.File;
+import java.util.Iterator;
+import java.util.List;
 
 
 public class WDApplication extends Application {
@@ -44,7 +51,10 @@ public class WDApplication extends Application {
         mMainLooper = getMainLooper();
         sharedPreferences = getSharedPreferences("share.xml",MODE_PRIVATE);
         Fresco.initialize(this);//图片加载框架初始化
+        EaseUI.getInstance().init(this,null);
+        EMClient.getInstance().setDebugMode(true);
     }
+
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);

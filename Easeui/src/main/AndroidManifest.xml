@@ -1,4 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.hyphenate.easeui">
+    <application>
+
+        <activity android:name=".ui.EaseBaiduMapActivity"/>
 
 
+    </application>
 </manifest>

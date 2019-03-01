@@ -1,5 +1,6 @@
 package com.wd.tech.view;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -11,9 +12,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,15 +27,21 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.wd.tech.R;
+import com.wd.tech.adapter.DetailAllCommentAdapter;
 import com.wd.tech.adapter.DetailRecommendAdapter;
 import com.wd.tech.bean.AllInfoPlateBean;
 import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
+import com.wd.tech.bean.details.FindAllCommentListBean;
 import com.wd.tech.bean.details.InforDetailsBean;
 import com.wd.tech.bean.details.InformationListBean;
+import com.wd.tech.core.InputTextMsgDialog;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.presenter.InforDetailsPresenter;
+import com.wd.tech.presenter.InforMation.DetailAddCommentPresenter;
+import com.wd.tech.presenter.InforMation.DetailAllCommentPresenter;
 import com.wd.tech.util.DateUtils;
 
 import java.text.ParseException;
@@ -78,21 +88,47 @@ public class InforDetailsActivity extends WDActivity {
     TextView mInforDetailsShareTxt;
     @BindView(R.id.infor_details_ll_no_pay)
     LinearLayout mInforDetailsLlNoPay;
+    @BindView(R.id.infor_details_ll_no_comment)
+    LinearLayout mInforDetailsLlNoComment;
     @BindView(R.id.infor_details_ll)
     LinearLayout mInforDetailsLl;
     @BindView(R.id.infor_details_afl)
     AutoFlowLayout mInforAflt;
     @BindView(R.id.infor_details_recom_recy)
     RecyclerView mIfordrr;
+    @BindView(R.id.infor_details_comm_recy)
+    RecyclerView mIforDetailCommR;
+    @BindView(R.id.rl_comment)
+    RelativeLayout mRlComment;
+    @BindView(R.id.hide_down)
+    TextView mHideDown;
+    @BindView(R.id.comment_content)
+    EditText mCommentContent;
+    @BindView(R.id.comment_send)
+    Button mCommentSend;
+    @BindView(R.id.infor_details_bottom)
+    LinearLayout mInforDetailsBottom;
+    @BindView(R.id.infor_details_go_pay)
+    TextView mInforDetailsGoPay;
+
     private TextView mInforAfltZi;
     //p层
     private InforDetailsPresenter mDetailsPresenter = new InforDetailsPresenter(new DetailsCall());
+    //查看详情所有评论
+    private DetailAllCommentPresenter mDetAllCommP = new DetailAllCommentPresenter(new DetailAllCommentCall());
+    //详情 发布 评论
+    private DetailAddCommentPresenter detailAddCommentPresenter = new DetailAddCommentPresenter(new DetailAddCommentCall());
     private URLImageParser mImageGetter;
     private InforDetailsBean mInforDetailsBean;
     //线性
     private LinearLayoutManager mManager = new LinearLayoutManager(this);
+    private LinearLayoutManager mManager2 = new LinearLayoutManager(this);
     //适配器
     private DetailRecommendAdapter mDetailRecommendA;
+    private DetailAllCommentAdapter mDetailAllCommentA;
+    private User user;
+    private int homeListId;
+    private String text;
 
 
     @Override
@@ -104,6 +140,8 @@ public class InforDetailsActivity extends WDActivity {
     protected void initView() {
         ButterKnife.bind(this);
 
+        user = WDActivity.getUser(this);
+
 
         ImageLoader imageLoader = ImageLoader.getInstance();//ImageLoader需要实例化
         imageLoader.init(ImageLoaderConfiguration.createDefault(this));
@@ -111,21 +149,32 @@ public class InforDetailsActivity extends WDActivity {
         mImageGetter = new URLImageParser(mInforDetailsContent);
 
         //获取条目id
-        int homeListId = Integer.parseInt(getIntent().getStringExtra("homeListId"));
+        homeListId = Integer.parseInt(getIntent().getStringExtra("homeListId"));
         mDetailsPresenter.request(18, "15320748258726", homeListId);
 
 
+        //详情页面的“推荐”
         mDetailRecommendA = new DetailRecommendAdapter(getBaseContext());
+        //详情页面的“评论查看”
+        mDetailAllCommentA = new DetailAllCommentAdapter(getBaseContext());
         mManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        mManager2.setOrientation(LinearLayoutManager.VERTICAL);
 
         mIfordrr.setLayoutManager(mManager);
         mIfordrr.setAdapter(mDetailRecommendA);
 
+        mIforDetailCommR.setLayoutManager(mManager2);
+        mIforDetailCommR.setAdapter(mDetailAllCommentA);
+
+        mDetAllCommP.request(1010, "15320748258726", homeListId, 1, 20);
 
     }
 
 
-    @OnClick({R.id.infor_details_back, R.id.infor_details_comment, R.id.infor_details_comment_img, R.id.infor_details_zan_img, R.id.infor_details_coll_img, R.id.infor_details_share_img})
+    @OnClick({R.id.infor_details_back, R.id.infor_details_comment,
+            R.id.infor_details_comment_img, R.id.infor_details_zan_img,
+            R.id.infor_details_coll_img, R.id.infor_details_share_img,
+            R.id.hide_down, R.id.comment_send, R.id.infor_details_go_pay})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.infor_details_back:
@@ -133,6 +182,12 @@ public class InforDetailsActivity extends WDActivity {
                 break;
             //评论输入框
             case R.id.infor_details_comment:
+                // 弹出输入法
+                InputMethodManager imm = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+                // 显示评论框
+                mInforDetailsBottom.setVisibility(View.GONE);
+                mRlComment.setVisibility(View.VISIBLE);
                 break;
             //评论图片
             case R.id.infor_details_comment_img:
@@ -145,6 +200,27 @@ public class InforDetailsActivity extends WDActivity {
                 break;
             //分享图片
             case R.id.infor_details_share_img:
+                break;
+            case R.id.hide_down:
+                // 隐藏评论框
+                mInforDetailsBottom.setVisibility(View.VISIBLE);
+                mRlComment.setVisibility(View.GONE);
+                // 隐藏输入法，然后暂存当前输入框的内容，方便下次使用
+                InputMethodManager im = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                im.hideSoftInputFromWindow(mCommentContent.getWindowToken(), 0);
+                break;
+            case R.id.comment_send:
+                if (mCommentContent.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "评论不能为空！", Toast.LENGTH_SHORT).show();
+                } else {
+                    text = mCommentContent.getText().toString().trim();
+                    detailAddCommentPresenter.request(user.getUserId(), user.getSessionId(), text, homeListId);
+                    // 发送完，清空输入框
+                    mCommentContent.setText("");
+                }
+                break;
+            case R.id.infor_details_go_pay:
+                
                 break;
         }
     }
@@ -222,7 +298,7 @@ public class InforDetailsActivity extends WDActivity {
                 mInforDetailsZanTxt.setText(mInforDetailsBean.getPraise() + "");
                 mInforDetailsShareTxt.setText(mInforDetailsBean.getShare() + "");
 
-                //详情推荐列表的展示
+                //详情 推荐列表的 展示
                 mDetailRecommendA.addItem(informationList);
                 mDetailRecommendA.notifyDataSetChanged();
 
@@ -238,9 +314,56 @@ public class InforDetailsActivity extends WDActivity {
         }
     }
 
+    //查看评论
+    class DetailAllCommentCall implements DataCall<Result> {
+
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")) {
+                List<FindAllCommentListBean> beanList = (List<FindAllCommentListBean>) data.getResult();
+                if (beanList.size() == 0) {
+                    mInforDetailsLlNoComment.setVisibility(View.VISIBLE);
+                    mIforDetailCommR.setVisibility(View.GONE);
+                } else {
+                    mDetailAllCommentA.addItem(beanList);
+                    mDetailAllCommentA.notifyDataSetChanged();
+                }
+            } else {
+                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+            }
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+            Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    //评论发布
+    class DetailAddCommentCall implements DataCall<Result> {
+
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")) {
+                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+                mDetailAllCommentA.notifyDataSetChanged();
+            } else {
+                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+            Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
     @Override
     protected void destoryData() {
         mDetailsPresenter.unBind();
+        mDetAllCommP.unBind();
     }
 
 }

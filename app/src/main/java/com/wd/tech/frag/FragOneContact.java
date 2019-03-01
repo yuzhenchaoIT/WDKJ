@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -19,6 +20,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMMessage;
+import com.hyphenate.easeui.EaseConstant;
+import com.hyphenate.easeui.EaseUI;
+import com.nostra13.universalimageloader.utils.L;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.wd.tech.R;
 import com.wd.tech.bean.FriendInfoList;
@@ -33,6 +40,8 @@ import com.wd.tech.presenter.DeleteFriendRelationPresenter;
 import com.wd.tech.presenter.GroupListPersenter;
 import com.wd.tech.presenter.TransferFriendGroupPresenter;
 import com.wd.tech.util.UIUtils;
+import com.wd.tech.view.ChatActivity;
+import com.wd.tech.view.HomeActivity;
 import com.wd.tech.view.MyFriendnewsActivity;
 import com.wd.tech.view.MyGroupActivity;
 
@@ -64,12 +73,17 @@ public class FragOneContact extends WDFragment {
     //注意，字符数组不要写成{{"A1,A2,A3,A4"}, {"B1,B2,B3,B4，B5"}, {"C1,C2,C3,C4"}}*/
     private GroupListPersenter listPresenter;
     private String sessionId;
+    private String userName;
+    private String nickName;
+    private String pwd;
     private int userId;
     private User bean;
     private DeleteFriendRelationPresenter deleteFriendRelationPresenter;
     private TransferFriendGroupPresenter transferFriendGroupPresenter;
     private PopupWindow window;
     private View inflate;
+
+
     @Override
     public String getPageName() {
         return null;
@@ -90,10 +104,24 @@ public class FragOneContact extends WDFragment {
         if (bean != null) {
             sessionId = bean.getSessionId();
             userId = bean.getUserId();
+            userName=bean.getUserName();
             listPresenter.request(userId,sessionId);
-
-        }
+            userName=bean.getUserName();
+            pwd=bean.getPwd();
+            Log.i("eee", "initView: "+userName+"--"+pwd);
+            }
         getShow();
+        exPandableListview.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                FriendInfoList friendInfoList = groups.get(groupPosition).getFriendInfoList().get(childPosition);
+                Intent intent=new Intent(getActivity(),ChatActivity.class);
+                intent.putExtra(EaseConstant.EXTRA_USER_ID,"Xi0Fe118811690458");
+                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EMMessage.ChatType.Chat);
+                startActivity(intent);
+                return true;
+            }
+        });
         exPandableListview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
            @Override
            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
