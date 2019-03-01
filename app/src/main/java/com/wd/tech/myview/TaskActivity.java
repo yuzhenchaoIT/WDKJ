@@ -24,8 +24,8 @@ import butterknife.ButterKnife;
 public class TaskActivity extends WDActivity implements View.OnClickListener {
     private TaskPresenter taskPresenter;
     private User user;
-    private Button mButtonqqd,mButtonyqd,mButtonqft,
-            mButtonyqc,mButtonqws,mButtonyws;
+    private Button mButtonyqd, mButtonyqc,mButtonyws,
+            mButtonypj,mButtonyck;
 
     @Override
     protected int getLayoutId() {
@@ -40,9 +40,13 @@ public class TaskActivity extends WDActivity implements View.OnClickListener {
         findViewById(R.id.mbutton_qqd).setOnClickListener(this);
         findViewById(R.id.mbutton_qft).setOnClickListener(this);
         findViewById(R.id.mbutton_qws).setOnClickListener(this);
+        findViewById(R.id.mbutton_qpj).setOnClickListener(this);
+        findViewById(R.id.mbutton_qck).setOnClickListener(this);
         mButtonyqd = (Button) findViewById(R.id.mButton_yqd);
         mButtonyqc = (Button) findViewById(R.id.mbutton_ywc);
         mButtonyws = (Button) findViewById(R.id.mbutton_yws);
+        mButtonypj = (Button) findViewById(R.id.mbutton_ypj);
+        mButtonyck = (Button) findViewById(R.id.mbutton_yck);
         //查询数据库
         user = WDActivity.getUser(this);
         //设置数据
@@ -83,6 +87,10 @@ public class TaskActivity extends WDActivity implements View.OnClickListener {
                         mButtonyqc.setVisibility(View.VISIBLE);
                     }else if (result.get(i).getTaskId()==1006&&status==1){
                         mButtonyws.setVisibility(View.VISIBLE);
+                    }else if (result.get(i).getTaskId()==1002&&status==1){
+                        mButtonypj.setVisibility(View.VISIBLE);
+                    }else if (result.get(i).getTaskId()==1005&&status==1){
+                        mButtonyck.setVisibility(View.VISIBLE);
                     }
                 }
             }

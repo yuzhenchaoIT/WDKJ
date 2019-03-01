@@ -3,6 +3,7 @@ package com.wd.tech.core;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -44,6 +45,7 @@ public class WDApplication extends Application {
         mMainLooper = getMainLooper();
         sharedPreferences = getSharedPreferences("share.xml",MODE_PRIVATE);
         Fresco.initialize(this);//图片加载框架初始化
+
     }
     @Override
     protected void attachBaseContext(Context base) {

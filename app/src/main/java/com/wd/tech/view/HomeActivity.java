@@ -15,6 +15,7 @@ import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -64,6 +65,7 @@ public class HomeActivity extends AppCompatActivity {
     private QueryUserPresenter queryUserPresenter;
     private SimpleDraweeView mSimple;
     private TextView mTextName,mTextQian;
+    private ImageView vip;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -156,7 +158,7 @@ public class HomeActivity extends AppCompatActivity {
         mSimple = findViewById(R.id.msimple);
         mTextName = findViewById(R.id.mtext_name);
         mTextQian = findViewById(R.id.mtext_qian);
-
+        vip = findViewById(R.id.vip);
 
     }
     //点击头像跳转
@@ -205,6 +207,12 @@ public class HomeActivity extends AppCompatActivity {
                 mSimple.setImageURI(result.getHeadPic());
                 mTextName.setText(result.getNickName());
                 mTextQian.setText(result.getSignature());
+                int whetherVip = result.getWhetherVip();
+                if (whetherVip==1){
+                    vip.setVisibility(View.VISIBLE);
+                }else {
+                    vip.setVisibility(View.GONE);
+                }
             }
         }
 

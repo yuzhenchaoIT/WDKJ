@@ -44,7 +44,8 @@
             android:layout_marginRight="15dp"
             android:textSize="14sp"
             android:textColorHint="#fff"
-            android:textColor="#fff"/>
+            android:textColor="#fff"
+            android:hint="记住你的心情！"/>
         <TextView
             android:id="@+id/mtext_num_sig"
             android:layout_width="match_parent"

@@ -1,12 +1,22 @@
 package com.wd.tech.myview;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,13 +39,16 @@ import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.DaoSession;
 import com.wd.tech.dao.UserDao;
 import com.wd.tech.presenter.ModifyEmailPresenter;
+import com.wd.tech.presenter.ModifyHeadPicPresenter;
 import com.wd.tech.presenter.ModifyNickNamePresenter;
 import com.wd.tech.presenter.QueryUserPresenter;
 import com.wd.tech.view.HomeActivity;
 import com.wd.tech.view.LoginActivity;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,6 +67,13 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     private int sex;
     private ModifyEmailPresenter modifyEmailPresenter;
     private ModifyNickNamePresenter modifyNickNamePresenter;
+    List<Object> objects = new ArrayList<>();
+    private ModifyHeadPicPresenter modifyHeadPicPresenter = new ModifyHeadPicPresenter(new HeadPicCall());
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE};
+    //请求状态码
+    private static int REQUEST_PERMISSION_CODE = 6;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_set_up;
@@ -129,6 +149,12 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     //点击头像弹出提示框
     @OnClick(R.id.mimage_up)
     public void miangeu() {
+        //读写权限
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
+            }
+        }
         dialog = new Dialog(this, R.style.DialogTheme);
         //填充对话框的布局
         inflate = LayoutInflater.from(this).inflate(R.layout.dialog_item, null);
@@ -157,10 +183,15 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.mcamear:
-                Toast.makeText(this, "111", Toast.LENGTH_SHORT).show();
+                /*Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,2);*/
+                dialog.cancel();
                 break;
             case R.id.mpictrue:
-                Toast.makeText(this, "222", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(Intent.ACTION_PICK);
+                intent1.setType("image/*");
+                startActivityForResult(intent1,0);
+                dialog.cancel();
                 break;
             case R.id.cancel:
                 dialog.cancel();
@@ -202,6 +233,58 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
                 break;
         }
     }
+    //上传头像回调方法
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data==null){
+            return;
+        }
+        if(requestCode==0){
+            String filePath = getFilePath(null,requestCode,data);
+            objects.add(filePath);
+            Uri data1 = data.getData();
+            mImageUp.setImageURI(data1);
+            modifyHeadPicPresenter.request(user.getUserId(),user.getSessionId(),objects);
+        }/*else if (requestCode == 2){
+            Bundle extras = data.getExtras();
+            Bitmap bitmap = (Bitmap) extras.get("data");
+            mImageUp.setImageBitmap(bitmap);
+            modifyHeadPicPresenter.request(user.getUserId(),user.getSessionId(),bitmap);
+        }*/
+
+    }
+    //申请权限
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSION_CODE) {
+            for (int i = 0; i < permissions.length; i++) {
+                Log.i("MainActivity", "申请的权限为：" + permissions[i] + ",申请结果：" + grantResults[i]);
+                if (grantResults[i]==-1){
+                    finish();
+                }
+            }
+        }
+    }
+    public String getFilePath(String fileName, int requestCode, Intent data) {
+        if (requestCode == 1) {
+            return fileName;
+        } else if (requestCode == 0) {
+            Uri uri = data.getData();
+            String[] proj = {MediaStore.Images.Media.DATA};
+            Cursor actualimagecursor = managedQuery(uri, proj, null, null, null);
+            int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            actualimagecursor.moveToFirst();
+            String img_path = actualimagecursor.getString(actual_image_column_index);
+            // 4.0以上平台会自动关闭cursor,所以加上版本判断,OK
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.ICE_CREAM_SANDWICH){
+                actualimagecursor.close();
+            }
+            return img_path;
+        }
+        return null;
+    }
     //实现修改用户名接口
     private class NickNameCall implements DataCall<Result>{
         @Override
@@ -225,6 +308,21 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
                 Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }else {
                 Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+    //实现用户修改头像
+    private class HeadPicCall implements DataCall<Result>{
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
+                Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+                queryUserPresenter.request(user.getUserId(), user.getSessionId());
             }
         }
 

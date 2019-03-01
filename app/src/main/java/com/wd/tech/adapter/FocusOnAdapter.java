@@ -48,6 +48,7 @@ public class FocusOnAdapter extends RecyclerView.Adapter<FocusOnAdapter.MyViewHo
                 .apply(RequestOptions.bitmapTransform(new CircleCrop()))
                 .into(holder.head);
         holder.name.setText(""+mDatas.get(position).getNickName());
+        holder.qian.setText(mDatas.get(position).getSignature());
         holder.sideslipView.close();
         holder.shanchu.setOnClickListener(new View.OnClickListener() {
             @Override
