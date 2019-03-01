@@ -9,9 +9,16 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.wd.tech.R;
+import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
+import com.wd.tech.core.exception.ApiException;
+import com.wd.tech.core.http.DataCall;
+import com.wd.tech.myview.PerfectActivity;
+import com.wd.tech.presenter.DoTheTaskPresenter;
 
 /**
  * 广告的webView
@@ -23,6 +30,8 @@ public class AdvertWebActivity extends WDActivity {
 
     private ProgressBar mProgressBar;
     private WebView mWebView;
+    private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
+    private User user;
 
     @Override
     protected int getLayoutId() {
@@ -33,6 +42,8 @@ public class AdvertWebActivity extends WDActivity {
     protected void initView() {
         mWebView = (WebView) findViewById(R.id.wed);
         mProgressBar = (ProgressBar) findViewById(R.id.prog);
+        //查询数据库
+        user = WDActivity.getUser(this);
         Intent intent = getIntent();
         String url = intent.getStringExtra("AdvertUrl");
 
@@ -62,6 +73,7 @@ public class AdvertWebActivity extends WDActivity {
                 if (newProgress == 100) {
                     // 网页加载完成
                     mProgressBar.setVisibility(View.GONE);//加载完网页进度条消失
+                    doTheTaskPresenter.request(user.getUserId(),user.getSessionId(),1005);
                 } else {
                     // 加载中
                     mProgressBar.setVisibility(View.VISIBLE);//开始加载网页时显示进度条
@@ -71,7 +83,20 @@ public class AdvertWebActivity extends WDActivity {
         });
 
     }
+    //实现做任务接口
+    private class DoTheTaskCall implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
+                Toast.makeText(AdvertWebActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
 
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
     @Override
     protected void destoryData() {
 
