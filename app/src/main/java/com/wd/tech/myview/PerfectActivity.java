@@ -174,6 +174,8 @@ public class PerfectActivity extends WDActivity{
                 doTheTaskPresenter.request(user.getUserId(),user.getSessionId(),1006);
                 finish();
             }else {
+
+
                 Toast.makeText(PerfectActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
