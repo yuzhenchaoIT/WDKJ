@@ -3,4 +3,21 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+
+    <color name="text_Grey">#8496a0</color>
+
+    <color name="colorWhite">#ffffff</color>
+
+    <color name="dot_hong">#E73111</color>
+    <color name="text_bottom_comment">#9B9B9B</color>
+
+    <color name="mainColor">#4dc445</color>
+    <color name="colorPrimaryDark2">#303F9F</color>
+    <color name="balck">#000000</color>
+
+    <color name="grey">#ececec</color>
+    <color name="txtgrey">#7c7b7b</color>
+    <color name="greyhite">#aeacac</color>
+
+
 </resources>

@@ -83,7 +83,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="12dp"
                         android:layout_marginTop="10dp"
@@ -126,6 +126,7 @@
                     android:src="@drawable/no_pay_img" />
 
                 <TextView
+                    android:id="@+id/infor_details_go_pay"
                     android:layout_width="250dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
@@ -135,7 +136,7 @@
                     android:gravity="center"
                     android:text="尚未购买，付费再来阅读吧"
                     android:textColor="#fff"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
 
             </LinearLayout>
@@ -144,28 +145,53 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="80dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="-40dp"
+                android:layout_marginBottom="50dp"
                 android:background="#fff"
                 android:orientation="vertical">
 
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="10dp"
-                    android:text="推荐"
+                    android:text="评论"
                     android:textColor="#999"
                     android:textSize="10sp" />
 
                 <android.support.v7.widget.RecyclerView
+                    android:id="@+id/infor_details_comm_recy"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginRight="12dp"
-                    android:layout_marginBottom="20dp"></android.support.v7.widget.RecyclerView>
+                    android:layout_marginBottom="20dp"
+                    android:visibility="visible"></android.support.v7.widget.RecyclerView>
+
+                <!--没有评论时显示的评论页面-->
+
+                <LinearLayout
+                    android:id="@+id/infor_details_ll_no_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginBottom="10dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="该内容暂时还没有评论~~~"
+                        android:textColor="#999"
+                        android:textSize="14sp" />
+
+
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -174,7 +200,11 @@
 
     </android.support.v4.widget.NestedScrollView>
 
+
+    <!--最底部相关事物-->
+
     <LinearLayout
+        android:id="@+id/infor_details_bottom"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
@@ -317,6 +347,61 @@
 
 
     </LinearLayout>
+    <!--最底部相关事物-->
 
+    <RelativeLayout
+        android:id="@+id/rl_comment"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#fff"
+        android:visibility="gone">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey" />
+
+        <TextView
+            android:id="@+id/hide_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:text="取消"
+            android:textColor="@color/txtgrey"
+            android:textSize="13sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/hide_down"
+            android:background="@color/grey" />
+
+        <EditText
+            android:id="@+id/comment_content"
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/hide_down"
+            android:background="@null"
+            android:hint="@string/comment_content"
+            android:singleLine="true"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/comment_send"
+            android:layout_width="50dp"
+            android:layout_height="35dp"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="10dp"
+            android:background="@color/mainColor"
+            android:text="@string/send"
+            android:textColor="#fff"
+            android:textSize="13sp" />
+    </RelativeLayout>
 
 </RelativeLayout>

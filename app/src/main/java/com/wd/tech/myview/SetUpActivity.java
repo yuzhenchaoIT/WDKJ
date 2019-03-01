@@ -1,6 +1,8 @@
 package com.wd.tech.myview;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +28,8 @@ import com.wd.tech.core.http.DataCall;
 import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.DaoSession;
 import com.wd.tech.dao.UserDao;
+import com.wd.tech.presenter.ModifyEmailPresenter;
+import com.wd.tech.presenter.ModifyNickNamePresenter;
 import com.wd.tech.presenter.QueryUserPresenter;
 import com.wd.tech.view.HomeActivity;
 import com.wd.tech.view.LoginActivity;
@@ -38,7 +43,7 @@ import butterknife.OnClick;
 public class SetUpActivity extends WDActivity implements View.OnClickListener {
     private QueryUserPresenter queryUserPresenter;
     private SimpleDraweeView mImageUp;
-    private TextView mTextNameUp, mTextSexUp, mTextDateUp, mTextPhoneUp, mTextEmailUp, mTextjfUp, mTextVipUp,mTextQianSet;
+    private TextView mTextNameUp, mTextSexUp, mTextDateUp,mTextEmailUp, mTextPhoneUp, mTextjfUp, mTextVipUp,mTextQianSet;
     private View inflate;
     private TextView camera;
     private TextView pic;
@@ -47,7 +52,8 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     private User user;
     private QueryUser result;
     private int sex;
-
+    private ModifyEmailPresenter modifyEmailPresenter;
+    private ModifyNickNamePresenter modifyNickNamePresenter;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_set_up;
@@ -76,11 +82,14 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
         mTextjfUp = (TextView) findViewById(R.id.mtextjf_up);
         mTextVipUp = (TextView) findViewById(R.id.mtext_vip_up);
         mTextQianSet = (TextView) findViewById(R.id.mtext_qian_set);
+        //点击修改用户名
+        mTextNameUp.setOnClickListener(this);
+        //点击修改邮箱
+       mTextEmailUp.setOnClickListener(this);
     }
 
     //实现查询用户信息接口
-    class QueryUserCall implements DataCall<Result<QueryUser>> {
-
+    private class QueryUserCall implements DataCall<Result<QueryUser>> {
         @Override
         public void success(Result<QueryUser> data) {
             if (data.getStatus().equals("0000")) {
@@ -156,6 +165,72 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
             case R.id.cancel:
                 dialog.cancel();
                 break;
+            case R.id.mtext_name_up:
+                final EditText editText = new EditText(this);
+                editText.setText(result.getNickName());
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("修改用户名称");
+                builder.setView(editText);
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String s = editText.getText().toString().trim();
+                        mTextNameUp.setText(s);
+                        modifyNickNamePresenter = new ModifyNickNamePresenter(new NickNameCall());
+                        modifyNickNamePresenter.request(user.getUserId(),user.getSessionId(),s);
+                    }
+                });
+                builder.setNegativeButton("取消", null);
+                builder.show();
+                break;
+            case R.id.mtext_email_up:
+                final EditText editemail = new EditText(SetUpActivity.this);
+                editemail.setText(result.getEmail());
+                AlertDialog builder3 = new AlertDialog.Builder(SetUpActivity.this)
+                        .setTitle("修改邮箱")
+                        .setView(editemail)//设置输入框
+                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String trim = editemail.getText().toString().trim();
+                                mTextEmailUp.setText(trim);
+                                modifyEmailPresenter = new ModifyEmailPresenter(new EmailCall());
+                                modifyEmailPresenter.request(user.getUserId(), user.getSessionId(),trim);
+                            }
+                        }).setNegativeButton("取消", null).create();
+                builder3.show();
+                break;
+        }
+    }
+    //实现修改用户名接口
+    private class NickNameCall implements DataCall<Result>{
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
+                Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+    //实现修改邮箱接口
+    private class EmailCall implements DataCall<Result>{
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
+                Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
         }
     }
     //点击跳转个性签名
@@ -176,7 +251,13 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
             finish();
         }
     }
-
+    //点击修改密码
+    @OnClick(R.id.mtextxiu_up)
+    public void xiu(){
+        //跳转
+        Intent intent = new Intent(SetUpActivity.this, ChangePassActivity.class);
+        startActivity(intent);
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -186,7 +267,6 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     //点击按钮返回
     @OnClick(R.id.mreturn)
     public void mreturn() {
-
         finish();
     }
 

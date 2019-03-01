@@ -26,7 +26,9 @@ import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
+import com.wd.tech.myview.SiginActivity;
 import com.wd.tech.presenter.AddCircilePresenter;
+import com.wd.tech.presenter.DoTheTaskPresenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +47,9 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
             Manifest.permission.WRITE_EXTERNAL_STORAGE};
     //请求状态码
     private static int REQUEST_PERMISSION_CODE = 6;
+    private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
+    private User user;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_adcircle;
@@ -134,9 +139,9 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.add_send:
-                User user = WDActivity.getUser(this);
-                if (user!= null){
-                    addCircilePresenter.request(user.getUserId(),user.getSessionId(),editTex.getText(),objects);
+                user = WDActivity.getUser(this);
+                if (user != null){
+                    addCircilePresenter.request(user.getUserId(), user.getSessionId(),editTex.getText(),objects);
                 }else {
                     Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
                 }
@@ -146,12 +151,28 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
                 break;
         }
     }
+    //实现做任务接口
+    private class DoTheTaskCall implements DataCall<Result>{
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
+                Toast.makeText(AddCircleActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(AddCircleActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
 
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
     private class AddData implements DataCall<Result>  {
         @Override
         public void success(Result data) {
-            Toast.makeText(AddCircleActivity.this, data.getMessage()+"", Toast.LENGTH_SHORT).show();
             if(data.getStatus().equals("0000")){
+                Toast.makeText(AddCircleActivity.this, data.getMessage()+"", Toast.LENGTH_SHORT).show();
+                doTheTaskPresenter.request(user.getUserId(),user.getSessionId(),1003);
                 finish();
             }
         }
