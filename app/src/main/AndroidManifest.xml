@@ -45,7 +45,6 @@
         <activity android:name=".myview.SetUpActivity" />
         <activity android:name=".view.AddFriendsActivity" />
         <activity android:name=".view.FlockActivity" />
-
         <activity android:name=".view.SortListActivity" />
         <activity android:name=".myview.PerfectActivity" />
         <activity android:name=".myview.SignatureActivity" />
@@ -56,7 +55,8 @@
         <activity android:name=".view.AddGroupActivity" />
         <activity android:name=".view.MyGroupActivity" />
         <activity android:name=".view.WXLoginActivity" />
-        <activity android:name=".wxapi.WXEntryActivity"
+        <activity
+            android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme" />
@@ -64,10 +64,10 @@
             android:name=".view.SearchResultActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".view.SpaceActivity" />
-        <activity android:name=".myview.SiginActivity"></activity>
-
-            android:theme="@style/AppTheme" />
-        <activity android:name=".view.MyFriendnewsActivity"></activity>
+        <activity android:name=".myview.SiginActivity" />
+        android:theme="@style/AppTheme" />
+        <activity android:name=".view.MyFriendnewsActivity" />
+        <activity android:name=".view.AdvertWebActivity"></activity>
     </application>
 
 </manifest>

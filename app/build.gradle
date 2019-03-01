@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'tech'
             keyPassword '123456'
-            storeFile file('C:/Users/王子龙/Desktop/tech.keystore')
+            storeFile file('D:/tech.keystore')
             storePassword '123456'
         }
     }

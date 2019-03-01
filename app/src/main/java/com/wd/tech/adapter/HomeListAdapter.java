@@ -1,5 +1,6 @@
 package com.wd.tech.adapter;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import com.wd.tech.R;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.details.InforDetailsBean;
 import com.wd.tech.util.DateUtils;
+import com.wd.tech.view.AdvertWebActivity;
 import com.wd.tech.view.InforDetailsActivity;
 
 import java.text.ParseException;
@@ -55,10 +57,18 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull final RecyclerView.ViewHolder viewHolder, final int i) {
         if (viewHolder instanceof MyViewHolder2) {
             ((MyViewHolder2) viewHolder).content.setText(mList.get(i).getInfoAdvertisingVo().getContent());
             ((MyViewHolder2) viewHolder).img.setImageURI(Uri.parse(mList.get(i).getInfoAdvertisingVo().getPic()));
+            ((MyViewHolder2) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(mContext, AdvertWebActivity.class);
+                    intent.putExtra("AdvertUrl", mList.get(i).getInfoAdvertisingVo().getUrl() + "");
+                    mContext.startActivity(intent);
+                }
+            });
         } else if (viewHolder instanceof MyViewHolder) {
             final HomeListBean homeListBean = mList.get(i);
             ((MyViewHolder) viewHolder).img.setImageURI((homeListBean.getThumbnail()));

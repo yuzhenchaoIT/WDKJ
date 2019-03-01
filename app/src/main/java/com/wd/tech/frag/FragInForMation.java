@@ -38,6 +38,7 @@ import com.wd.tech.presenter.AllInfoPresenter;
 import com.wd.tech.presenter.BannerPresenter;
 import com.wd.tech.presenter.CancelPresenter;
 import com.wd.tech.presenter.RecommendPresenter;
+import com.wd.tech.view.AdvertWebActivity;
 import com.wd.tech.view.SearchActivity;
 import com.wd.tech.view.SortActivity;
 import com.zhouwei.mzbanner.MZBannerView;
@@ -101,7 +102,7 @@ public class FragInForMation extends Fragment {
             public void onRefresh(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishRefresh(2000);
-                mRecommendPresenter.request(true, user.getUserId(), user.getSessionId(), 0);
+                mRecommendPresenter.request(true, 18, "15320748258726", 0);
             }
         });
 
@@ -110,7 +111,7 @@ public class FragInForMation extends Fragment {
             public void onLoadmore(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishLoadmore(2000);
-                mRecommendPresenter.request(false, user.getUserId(), user.getSessionId(), 0);
+                mRecommendPresenter.request(false, 18, "15320748258726", 0);
             }
         });
 
@@ -120,7 +121,7 @@ public class FragInForMation extends Fragment {
 
         //布局管理器
         mHomeXrecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecommendPresenter.request(true, user.getUserId(), user.getSessionId(), 0);
+        mRecommendPresenter.request(true, 18, "15320748258726", 0);
         //banner图请求数据
         mBanPresenter.request();
 
@@ -167,6 +168,9 @@ public class FragInForMation extends Fragment {
     public void onResume() {
         super.onResume();
         mHomeBanner.start();//开始轮播
+        if (user == null) {
+            Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -212,6 +216,7 @@ public class FragInForMation extends Fragment {
 
         private SimpleDraweeView mImageView;
         private TextView mBanName;
+        private String jumpUrl;
 
         @Override
         public View createView(Context context) {
@@ -219,6 +224,14 @@ public class FragInForMation extends Fragment {
             View view = LayoutInflater.from(context).inflate(R.layout.banner_item, null);
             mImageView = view.findViewById(R.id.banner_image);
             mBanName = view.findViewById(R.id.banner_name);
+            mImageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), AdvertWebActivity.class);
+                    intent.putExtra("AdvertUrl", jumpUrl + "");
+                    startActivity(intent);
+                }
+            });
             return view;
         }
 
@@ -227,7 +240,10 @@ public class FragInForMation extends Fragment {
             // 数据绑定
             mImageView.setImageURI(Uri.parse(data.getImageUrl()));
             mBanName.setText(data.getTitle());
+            //获取图片地址
+            jumpUrl = data.getJumpUrl();
         }
+
 
     }
 
