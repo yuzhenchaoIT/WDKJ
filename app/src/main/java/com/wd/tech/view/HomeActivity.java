@@ -44,6 +44,8 @@ import com.wd.tech.myview.TaskActivity;
 import com.wd.tech.presenter.QueryUserPresenter;
 import com.wd.tech.util.StringUtils;
 
+import java.util.HashMap;
+
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -154,6 +156,7 @@ public class HomeActivity extends AppCompatActivity {
         mSimple = findViewById(R.id.msimple);
         mTextName = findViewById(R.id.mtext_name);
         mTextQian = findViewById(R.id.mtext_qian);
+
 
     }
     //点击头像跳转

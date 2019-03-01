@@ -5,8 +5,6 @@ import com.wd.tech.core.http.DataCall;
 import com.wd.tech.core.http.IRequest;
 import com.wd.tech.core.http.NotWorkUtils;
 
-import java.util.List;
-
 import io.reactivex.Observable;
 
 public class RecommendPresenter extends BasePresenter {

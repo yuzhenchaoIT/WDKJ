@@ -15,6 +15,7 @@ import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.presenter.BasePresenter;
+import com.wd.tech.presenter.DoTheTaskPresenter;
 import com.wd.tech.presenter.FindConSignPresenter;
 import com.wd.tech.presenter.FindUserSignPresenter;
 import com.wd.tech.presenter.FindUserSignRecPresenter;
@@ -40,6 +41,7 @@ public class SiginActivity extends WDActivity {
     private FindUserSignPresenter findUserSignPresenter;
     private FindConSignPresenter findConSignPresenter;
     private FindUserSignRecPresenter findUserSignRecPresenter;
+    private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
     @Override
     protected int getLayoutId() {
         return R.layout.activity_sigin;
@@ -74,8 +76,8 @@ public class SiginActivity extends WDActivity {
         findUserSignPresenter = new FindUserSignPresenter(new FindUserCall());
         findUserSignPresenter.request(user.getUserId(),user.getSessionId());
         //查询用户连续签到天数
-        findConSignPresenter = new FindConSignPresenter(new FindConCall());
-        findConSignPresenter.request(user.getUserId(),user.getSessionId());
+       /* findConSignPresenter = new FindConSignPresenter(new FindConCall());
+        findConSignPresenter.request(user.getUserId(),user.getSessionId());*/
         //查询用户当月所有签到的日期
         findUserSignRecPresenter = new FindUserSignRecPresenter(new FindUserSignCall());
         findUserSignRecPresenter.request(user.getUserId(),user.getSessionId());
@@ -160,6 +162,23 @@ public class SiginActivity extends WDActivity {
                 calendar.textColor();
                 rlBtnSign.setText("已签到");
                 rlBtnSign.setClickable(false);
+                doTheTaskPresenter.request(user.getUserId(),user.getSessionId(),1001);
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+    //实现做任务接口
+    private class DoTheTaskCall implements DataCall<Result>{
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
+                Toast.makeText(SiginActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }else {
+                Toast.makeText(SiginActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -175,9 +194,7 @@ public class SiginActivity extends WDActivity {
     }
     @Override
     protected void destoryData() {
-        findUserSignRecPresenter.unBind();
-        findConSignPresenter.unBind();
-        findUserSignPresenter.unBind();
+
     }
 
 }

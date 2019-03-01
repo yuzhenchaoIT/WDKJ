@@ -5,7 +5,10 @@
     android:id="@+id/mdraw"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.HomeActivity">
+    tools:context=".view.HomeActivity"
+    android:focusable="false"
+    android:hapticFeedbackEnabled="false"
+    android:background="#fff">
 
     <LinearLayout
         android:id="@+id/mlinear_home"
@@ -48,7 +51,6 @@
                 android:gravity="center"
                 android:paddingTop="10dp"
                 android:text="消息" />
-
             <RadioButton
                 android:id="@+id/mrb3"
                 android:layout_width="wrap_content"
