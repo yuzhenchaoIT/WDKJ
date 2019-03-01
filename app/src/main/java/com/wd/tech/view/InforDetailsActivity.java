@@ -108,7 +108,8 @@ public class InforDetailsActivity extends WDActivity {
     Button mCommentSend;
     @BindView(R.id.infor_details_bottom)
     LinearLayout mInforDetailsBottom;
-
+    @BindView(R.id.infor_details_go_pay)
+    TextView mInforDetailsGoPay;
 
     private TextView mInforAfltZi;
     //p层
@@ -173,7 +174,7 @@ public class InforDetailsActivity extends WDActivity {
     @OnClick({R.id.infor_details_back, R.id.infor_details_comment,
             R.id.infor_details_comment_img, R.id.infor_details_zan_img,
             R.id.infor_details_coll_img, R.id.infor_details_share_img,
-            R.id.hide_down, R.id.comment_send})
+            R.id.hide_down, R.id.comment_send, R.id.infor_details_go_pay})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.infor_details_back:
@@ -217,6 +218,9 @@ public class InforDetailsActivity extends WDActivity {
                     // 发送完，清空输入框
                     mCommentContent.setText("");
                 }
+                break;
+            case R.id.infor_details_go_pay:
+                
                 break;
         }
     }
