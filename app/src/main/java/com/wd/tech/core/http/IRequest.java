@@ -26,6 +26,7 @@ import com.wd.tech.bean.details.FindAllCommentListBean;
 import com.wd.tech.bean.UserPost;
 import com.wd.tech.bean.UserIntegral;
 import com.wd.tech.bean.details.InforDetailsBean;
+import com.wd.tech.bean.details.VipGoodsBean;
 
 import java.util.List;
 
@@ -324,6 +325,7 @@ public interface IRequest {
 
     /**
      * 查询用户积分明细
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -333,8 +335,8 @@ public interface IRequest {
     @GET("user/verify/v1/findUserIntegralRecord")
     Observable<Result<List<UserInRecord>>> findUserIntegralRecord(@Header("userId") int userId,
                                                                   @Header("sessionId") String sessionId,
-                                                                  @Query("page")int page,
-                                                                  @Query("count")int count);
+                                                                  @Query("page") int page,
+                                                                  @Query("count") int count);
 
     /**
      * 修改用户密码
@@ -396,6 +398,7 @@ public interface IRequest {
 
     /**
      * 用户上传头像
+     *
      * @param userId
      * @param sessionId
      * @param body
@@ -731,5 +734,29 @@ public interface IRequest {
                                          @Field("infoId") int infoId,
                                          @Field("integralCost") int integralCost);
 
+    /**
+     * 查询所有会员商品
+     *
+     * @return
+     */
+    @GET("tool/v1/findVipCommodityList")
+    Observable<Result<List<VipGoodsBean>>> findVipCommodityList();
+
+    /**
+     * 用户购买VIP
+     *
+     * @param userId
+     * @param sessionId
+     * @param commodityId
+     * @param sign
+     * @return
+     */
+
+    @POST("tool/verify/v1/buyVip")
+    @FormUrlEncoded
+    Observable<Result> buyVip(@Header("userId") int userId,
+                              @Header("sessionId") String sessionId,
+                              @Field("commodityId") int commodityId,
+                              @Field("sign") String sign);
 
 }
