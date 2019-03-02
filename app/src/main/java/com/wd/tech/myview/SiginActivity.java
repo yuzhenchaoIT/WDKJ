@@ -39,7 +39,6 @@ public class SiginActivity extends WDActivity {
     private int year;
     private String date;
     private FindUserSignPresenter findUserSignPresenter;
-    private FindConSignPresenter findConSignPresenter;
     private FindUserSignRecPresenter findUserSignRecPresenter;
     private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
     @Override
@@ -75,9 +74,6 @@ public class SiginActivity extends WDActivity {
         //查询当天签到状态
         findUserSignPresenter = new FindUserSignPresenter(new FindUserCall());
         findUserSignPresenter.request(user.getUserId(),user.getSessionId());
-        //查询用户连续签到天数
-       /* findConSignPresenter = new FindConSignPresenter(new FindConCall());
-        findConSignPresenter.request(user.getUserId(),user.getSessionId());*/
         //查询用户当月所有签到的日期
         findUserSignRecPresenter = new FindUserSignRecPresenter(new FindUserSignCall());
         findUserSignRecPresenter.request(user.getUserId(),user.getSessionId());
@@ -99,29 +95,7 @@ public class SiginActivity extends WDActivity {
 
         }
     }
-    //实现查询用户连续签到天数接口
-    class FindConCall implements DataCall<Result>{
-        private Double result;
-        @Override
-        public void success(Result data) {
-            if (data.getStatus().equals("0000")){
-                result = (Double) data.getResult();
-                if (result==1){
-                    calendar.setCalendarDayBgColor(date, R.drawable.yiqiandao);
-                    calendar.textColor();
-                    rlBtnSign.setText("已签到");
-                    rlBtnSign.setClickable(false);
-                }else {
-                    calendar.textColor();
-                }
-            }
-        }
 
-        @Override
-        public void fail(ApiException e) {
-
-        }
-    }
     //实现查询当天签到状态接口
     class FindUserCall implements DataCall<Result>{
         private Double resultInt;

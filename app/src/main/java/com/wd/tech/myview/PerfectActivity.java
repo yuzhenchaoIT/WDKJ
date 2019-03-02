@@ -67,6 +67,7 @@ public class PerfectActivity extends WDActivity{
         //设置数据
         queryUserPresenter = new QueryUserPresenter(new QueryUserCall());
         queryUserPresenter.request(user.getUserId(),user.getSessionId());
+
     }
     //实现查询用户信息接口
     class QueryUserCall implements DataCall<Result<QueryUser>> {
@@ -190,8 +191,6 @@ public class PerfectActivity extends WDActivity{
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
-                Toast.makeText(PerfectActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
-            }else {
                 Toast.makeText(PerfectActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }

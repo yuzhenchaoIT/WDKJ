@@ -30,9 +30,11 @@ import com.wd.tech.core.http.DataCall;
 import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.DaoSession;
 import com.wd.tech.dao.UserDao;
+import com.wd.tech.myview.PerfectActivity;
 import com.wd.tech.presenter.AddCommentPresenter;
 import com.wd.tech.presenter.CommentListPresenter;
 import com.wd.tech.presenter.CommunitPresenter;
+import com.wd.tech.presenter.DoTheTaskPresenter;
 import com.wd.tech.view.AddCircleActivity;
 
 import java.util.List;
@@ -56,6 +58,8 @@ public class FragCommunity extends WDFragment  {
     LinearLayout linearLayout;
     private CommunityAdapter communityAdapter;
     private CommunitPresenter communitPresenter;
+    private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
+    private User user;
 
     @Override
     public String getPageName() {
@@ -93,10 +97,10 @@ public class FragCommunity extends WDFragment  {
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            User user = list.get(0);
+                            user = list.get(0);
                             String trim = editText.getText().toString().trim();
                             AddCommentPresenter addCommentPresenter = new AddCommentPresenter(new AddData());
-                            addCommentPresenter.request(user.getUserId(),user.getSessionId(),s,trim);
+                            addCommentPresenter.request(user.getUserId(), user.getSessionId(),s,trim);
                         }
                     });
 
@@ -169,11 +173,26 @@ public class FragCommunity extends WDFragment  {
         @Override
         public void success(Result data) {
             Toast.makeText(getActivity(), data.getMessage()+"", Toast.LENGTH_SHORT).show();
+            doTheTaskPresenter.request(user.getUserId(),user.getSessionId(),1002);
             linearLayout.setVisibility(View.GONE);
             communityAdapter.notifyDataSetChanged();
             editText.setText("");
             communityAdapter.clearlist();
             communitPresenter.request(true);
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+    //实现做任务接口
+    private class DoTheTaskCall implements DataCall<Result>{
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
+                Toast.makeText(getActivity(), ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }
         }
 
         @Override

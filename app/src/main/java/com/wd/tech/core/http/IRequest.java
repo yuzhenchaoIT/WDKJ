@@ -21,10 +21,12 @@ import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.TaskList;
 import com.wd.tech.bean.User;
+import com.wd.tech.bean.UserInRecord;
 import com.wd.tech.bean.details.FindAllCommentListBean;
 import com.wd.tech.bean.UserPost;
 import com.wd.tech.bean.UserIntegral;
 import com.wd.tech.bean.details.InforDetailsBean;
+import com.wd.tech.bean.details.VipGoodsBean;
 
 import java.util.List;
 
@@ -322,6 +324,21 @@ public interface IRequest {
                                                       @Header("sessionId") String sessionId);
 
     /**
+     * 查询用户积分明细
+     *
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("user/verify/v1/findUserIntegralRecord")
+    Observable<Result<List<UserInRecord>>> findUserIntegralRecord(@Header("userId") int userId,
+                                                                  @Header("sessionId") String sessionId,
+                                                                  @Query("page") int page,
+                                                                  @Query("count") int count);
+
+    /**
      * 修改用户密码
      *
      * @param userId
@@ -378,6 +395,19 @@ public interface IRequest {
     Observable<Result> doTheTask(@Header("userId") int userId,
                                  @Header("sessionId") String sessionId,
                                  @Field("taskId") int taskId);
+
+    /**
+     * 用户上传头像
+     *
+     * @param userId
+     * @param sessionId
+     * @param body
+     * @return
+     */
+    @POST("user/verify/v1/modifyHeadPic")
+    Observable<Result> modifyHeadPic(@Header("userId") int userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Body MultipartBody body);
 
     /**
      * 资讯分类跳转列表
@@ -687,5 +717,46 @@ public interface IRequest {
             @Query("fromUid") int fromUid,
             @Query("page") int page,
             @Query("count") int count);
+
+    /**
+     * 资讯积分兑换
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @param integralCost
+     * @return
+     */
+    @POST("information/verify/v1/infoPayByIntegral")
+    @FormUrlEncoded
+    Observable<Result> infoPayByIntegral(@Header("userId") int userId,
+                                         @Header("sessionId") String sessionId,
+                                         @Field("infoId") int infoId,
+                                         @Field("integralCost") int integralCost);
+
+    /**
+     * 查询所有会员商品
+     *
+     * @return
+     */
+    @GET("tool/v1/findVipCommodityList")
+    Observable<Result<List<VipGoodsBean>>> findVipCommodityList();
+
+    /**
+     * 用户购买VIP
+     *
+     * @param userId
+     * @param sessionId
+     * @param commodityId
+     * @param sign
+     * @return
+     */
+
+    @POST("tool/verify/v1/buyVip")
+    @FormUrlEncoded
+    Observable<Result> buyVip(@Header("userId") int userId,
+                              @Header("sessionId") String sessionId,
+                              @Field("commodityId") int commodityId,
+                              @Field("sign") String sign);
 
 }
