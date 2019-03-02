@@ -456,4 +456,9 @@
     <string name="hide_down">隐藏</string>
     <string name="comment_content">输入评论内容</string>
     <string name="send">发送</string>
+    <string name="app_tip">提示</string>
+    <string name="pay_result_tip">您点击了取消支付,来到了取消支付页面</string>
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+
+
 </resources>
