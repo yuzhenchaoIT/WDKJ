@@ -1,10 +1,11 @@
 package com.wd.tech.wxapi;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -13,10 +14,11 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wd.tech.R;
-import com.wd.tech.core.WDActivity;
+import com.wd.tech.view.pay.VipActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 微信支付
@@ -24,19 +26,18 @@ import butterknife.ButterKnife;
  * @author lmx
  * @date 2019/3/2
  */
-public class WXPayEntryActivity extends WDActivity implements IWXAPIEventHandler {
+public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     @BindView(R.id.txt_pay_result)
     TextView mTxtPayResult;
+    @BindView(R.id.wx_pay_restart)
+    TextView mWxPayRestart;
     private IWXAPI api;
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_wxpay_entry;
-    }
-
-    @Override
-    protected void initView() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_wxpay_entry);
         ButterKnife.bind(this);
         api = WXAPIFactory.createWXAPI(this, "wx4c96b6b8da494224");
         api.handleIntent(getIntent(), this);
@@ -50,11 +51,6 @@ public class WXPayEntryActivity extends WDActivity implements IWXAPIEventHandler
     }
 
     @Override
-    protected void destoryData() {
-
-    }
-
-    @Override
     public void onReq(BaseReq baseReq) {
 
     }
@@ -63,29 +59,34 @@ public class WXPayEntryActivity extends WDActivity implements IWXAPIEventHandler
     public void onResp(BaseResp resp) {
         String result = "";
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-            switch (resp.errCode) {
-                case BaseResp.ErrCode.ERR_OK:
-                    //支付成功后的逻辑
-                    result = "微信支付成功";
-                    break;
-                case BaseResp.ErrCode.ERR_COMM:
-                    result = "微信支付失败";
-                    break;
-                case BaseResp.ErrCode.ERR_USER_CANCEL:
-                    result = "微信支付取消";
-                    break;
-                default:
-                    result = "微信支付未知异常";
-                    break;
-            }
-            mTxtPayResult.setText(result);
+//            switch (resp.errCode) {
+//                case BaseResp.ErrCode.ERR_OK:
+//                    //支付成功后的逻辑
+//                    result = "微信支付成功";
+//                    break;
+//                case BaseResp.ErrCode.ERR_COMM:
+//                    result = "微信支付失败";
+//                    break;
+//                case BaseResp.ErrCode.ERR_USER_CANCEL:
+//                    result = "微信支付取消";
+//                    break;
+//            }
+//            mTxtPayResult.setText(result);
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.app_tip);
             builder.setMessage(getString(R.string.pay_result_callback_msg, String.valueOf(resp.errCode)));
             builder.show();
         }
-        Toast.makeText(this, result, Toast.LENGTH_LONG).show();
     }
 
 
+    @OnClick(R.id.wx_pay_restart)
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.wx_pay_restart:
+                startActivity(new Intent(WXPayEntryActivity.this, VipActivity.class));
+                finish();
+                break;
+        }
+    }
 }

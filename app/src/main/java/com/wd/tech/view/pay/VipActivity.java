@@ -184,7 +184,7 @@ public class VipActivity extends WDActivity {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
-                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 IWXAPI api = WXAPIFactory.createWXAPI(VipActivity.this, "wx4c96b6b8da494224", false);//填写自己的APPID
                 api.registerApp("wx4c96b6b8da494224");//填写自己的APPID，注册本身APP
                 PayReq req = new PayReq();//PayReq就是订单信息对象

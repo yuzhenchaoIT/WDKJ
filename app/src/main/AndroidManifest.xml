@@ -109,7 +109,9 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".wxapi.WXPayEntryActivity"></activity>
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"></activity>
     </application>
 
 </manifest>
