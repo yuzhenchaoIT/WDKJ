@@ -759,4 +759,21 @@ public interface IRequest {
                               @Field("commodityId") int commodityId,
                               @Field("sign") String sign);
 
+    /**
+     * 微信支付
+     *
+     * @param userId
+     * @param sessionId
+     * @param orderId
+     * @param payType
+     * @return
+     */
+    @POST("tool/verify/v1/pay")
+    @FormUrlEncoded
+    Observable<Result> wxPay(@Header("userId") int userId,
+                             @Header("sessionId") String sessionId,
+                             @Field("orderId") String orderId,
+                             @Field("payType") int payType);
+
+
 }
