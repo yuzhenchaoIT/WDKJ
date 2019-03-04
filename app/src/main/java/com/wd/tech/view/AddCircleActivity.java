@@ -1,7 +1,9 @@
 package com.wd.tech.view;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -37,12 +39,14 @@ import com.wd.tech.core.http.DataCall;
 import com.wd.tech.myview.SiginActivity;
 import com.wd.tech.presenter.AddCircilePresenter;
 import com.wd.tech.presenter.DoTheTaskPresenter;
+import com.wd.tech.util.StringUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -56,6 +60,7 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
     private AddImageAdapter add_image_adapter;
     private TextView textSum;
     private EditText editTex;
+    private static final int TAKE_PICTURE = 1;
     private AddCircilePresenter addCircilePresenter;
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -65,6 +70,8 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
     private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
     private User user;
     private Dialog dialog;
+    private String picturePath;
+    List<File> files = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -101,6 +108,39 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
                 ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
             }
         }
+        if(ActivityCompat.checkSelfPermission(this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
+            //权限发生了改变 true  //  false 小米
+            if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.CAMERA)){
+
+
+
+                new AlertDialog.Builder(this).setTitle("title")
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // 请求授权
+                                ActivityCompat.requestPermissions(AddCircleActivity.this,new String[]{Manifest.permission.CAMERA},1);
+
+                            }
+                        }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }).create().show();
+
+
+
+            }else {
+                ActivityCompat.requestPermissions(AddCircleActivity.this,new String[]{Manifest.permission.CAMERA},1);
+
+            }
+
+        }else{
+
+
+        }
+
     }
 
     @Override
@@ -117,11 +157,27 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
             String filePath = getFilePath(null,requestCode,data);
             objects.add(filePath);
             add_image_adapter.notifyDataSetChanged();
-        }
-        if(requestCode==2){
 
+            Uri data1 = data.getData();
+            String[] proj = { MediaStore.Images.Media.DATA };
+            Cursor actualimagecursor = managedQuery(data1,proj,null,null,null);
+            int actual_image_column_index = actualimagecursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            actualimagecursor.moveToFirst();
+            String img_path = actualimagecursor.getString(actual_image_column_index);
+             File file = new File(img_path);
+            files.add(file);
 
         }
+        if (requestCode==2){
+                Bundle extras = data.getExtras();
+                Bitmap data1 = (Bitmap) extras.get("data");
+                File file = compressImage(data1);
+            String uri = file.getAbsolutePath();
+            objects.add(uri);
+                files.add(file);
+            add_image_adapter.notifyDataSetChanged();
+        }
+
     }
     //申请权限
     @Override
@@ -135,6 +191,27 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
                 }
             }
         }
+        if(requestCode == 1){
+            // camear 权限回调
+
+            if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+                // 表示用户授权
+                Toast.makeText(this, " user Permission" , Toast.LENGTH_SHORT).show();
+
+
+
+            } else {
+
+                //用户拒绝权限
+                Toast.makeText(this, " no Permission" , Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
+
+
+        }
+
     }
     @Override
     public void onClick(View view) {
@@ -142,7 +219,7 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
             case R.id.add_send:
                 user = WDActivity.getUser(this);
                 if (user != null){
-                    addCircilePresenter.request(user.getUserId(), user.getSessionId(),editTex.getText(),objects);
+                    addCircilePresenter.request(user.getUserId(), user.getSessionId(),editTex.getText(),files);
                 }
                 break;
             case R.id.add_qx:
@@ -150,13 +227,14 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
                 break;
             case R.id.mcamear:
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,2);
+                startActivityForResult(intent, 2);
+                dialog.dismiss();
                 break;
-
             case R.id.mpictrue:
                 Intent intent1 = new Intent(Intent.ACTION_PICK);
                 intent1.setType("image/*");
                 startActivityForResult(intent1,0);
+                dialog.dismiss();
                 break;
             case R.id.cancel:
                     dialog.dismiss();
@@ -233,6 +311,53 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
         //  将属性设置给窗体
         dialogWindow.setAttributes(lp);
         dialog.show();//显示对话框
+    }
+
+
+    /**
+     * 压缩图片（质量压缩）
+     * @param bitmap
+     */
+    public static File compressImage(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 100;
+        while (baos.toByteArray().length / 1024 > 500) {  //循环判断如果压缩后图片是否大于500kb,大于继续压缩
+            baos.reset();//重置baos即清空baos
+            options -= 10;//每次都减少10
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+            long length = baos.toByteArray().length;
+        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date(System.currentTimeMillis());
+        String filename = format.format(date);
+        File file = new File(Environment.getExternalStorageDirectory(),filename+".png");
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            try {
+                fos.write(baos.toByteArray());
+                fos.flush();
+                fos.close();
+            } catch (IOException e) {
+                Log.e("---",e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("----",e.getMessage());
+            e.printStackTrace();
+        }
+        recycleBitmap(bitmap);
+        return file;
+    }
+    public static void recycleBitmap(Bitmap... bitmaps) {
+        if (bitmaps==null) {
+            return;
+        }
+        for (Bitmap bm : bitmaps) {
+            if (null != bm && !bm.isRecycled()) {
+                bm.recycle();
+            }
+        }
     }
 
 }

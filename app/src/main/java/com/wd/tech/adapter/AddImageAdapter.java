@@ -1,6 +1,7 @@
 package com.wd.tech.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 
+import java.net.URI;
 import java.util.List;
 
 
@@ -49,6 +51,8 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.MyView
                 Uri uri = Uri.parse("file://" + imageUrl);
                 holder.iv15.setImageURI(uri);
             }
+        }else  if(mDatas.get(position) instanceof URI){
+            holder.iv15.setImageURI((Uri) mDatas.get(position));
         }else {
             int id = (int) mDatas.get(position);
             Uri uri = Uri.parse("res:///" + id);

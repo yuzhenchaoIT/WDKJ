@@ -83,8 +83,14 @@ public class FragCommunity extends WDFragment  {
                 startActivity(new Intent(getActivity(),AddCircleActivity.class));
             }
         });
-        communitPresenter = new CommunitPresenter(new ComData());
-        communitPresenter.request(user.getUserId(),user.getSessionId(),true);
+        if (user!=null){
+            communitPresenter = new CommunitPresenter(new ComData());
+            communitPresenter.request(user.getUserId(),user.getSessionId(),true);
+        }else {
+            communitPresenter = new CommunitPresenter(new ComData());
+            communitPresenter.request(1010,"15320748258726",true);
+        }
+
         ButterKnife.bind(getActivity());
         communityAdapter = new CommunityAdapter(getActivity());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -94,23 +100,21 @@ public class FragCommunity extends WDFragment  {
             @Override
             public void OnclickPl(View view,final int s) {
                 linearLayout.setVisibility(View.VISIBLE);
-                DaoSession daoSession = DaoMaster.newDevSession(getActivity(), UserDao.TABLENAME);
-                UserDao userDao = daoSession.getUserDao();
-                final List<User> list = userDao.queryBuilder().where(UserDao.Properties.Statu.eq("1")).build().list();
-                if (list.size()>0) {
+
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            user = list.get(0);
+                            if (WDActivity.getUser(getActivity())!=null) {
                             String trim = editText.getText().toString().trim();
                             AddCommentPresenter addCommentPresenter = new AddCommentPresenter(new AddData());
                             addCommentPresenter.request(user.getUserId(), user.getSessionId(),s,trim);
+                            }else {
+                                Toast.makeText(getActivity(), "请先登录!", Toast.LENGTH_SHORT).show();
+                            }
                         }
                     });
 
-                }else {
-                    Toast.makeText(getActivity(), "请先登录!", Toast.LENGTH_SHORT).show();
-                }
+
             }
         });
         recycler.setLoadingListener(new XRecyclerView.LoadingListener() {
@@ -121,8 +125,14 @@ public class FragCommunity extends WDFragment  {
 //                    recycler.refreshComplete();
 //                    recycler.loadMoreComplete();
 //                }
-                communityAdapter.clearlist();
-                communitPresenter.request(user.getUserId(),user.getSessionId(),true);
+                if (user!=null){
+                    communityAdapter.clearlist();
+                    communitPresenter.request(user.getUserId(),user.getSessionId(),true);
+                }else {
+                    Toast.makeText(getActivity(), "请先登录!", Toast.LENGTH_SHORT).show();
+                    recycler.refreshComplete();
+                }
+
             }
 
             @Override
@@ -131,7 +141,13 @@ public class FragCommunity extends WDFragment  {
 //                    recycler.refreshComplete();
 //                    recycler.loadMoreComplete();
 //                }
-                communitPresenter.request(user.getUserId(),user.getSessionId(),false);
+
+                if (user!=null){
+                    communitPresenter.request(user.getUserId(),user.getSessionId(),false);
+                }else {
+                    Toast.makeText(getActivity(), "请先登录!", Toast.LENGTH_SHORT).show();
+                    recycler.loadMoreComplete();
+                }
             }
         });
         recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {

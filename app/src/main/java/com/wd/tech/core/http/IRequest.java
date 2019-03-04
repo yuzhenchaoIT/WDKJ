@@ -408,7 +408,7 @@ public interface IRequest {
      */
     @GET("community/v1/findCommunityList")
     Observable<Result<List<CommunityListBean>>> communityList(
-//            @Header("userId") int userId, @Header("sessionId") String sessionId,
+            @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Query("page") int page, @Query("count") int count);
 
     @GET("chat/verify/v1/initFriendList")
