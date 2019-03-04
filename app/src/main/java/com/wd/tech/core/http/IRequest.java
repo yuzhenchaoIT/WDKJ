@@ -301,71 +301,12 @@ public interface IRequest {
                                                            @Query("page") int page,
                                                            @Query("count") int count);
 
-    /**
-     * 签到
-     * @param userId
-     * @param sessionId
-     * @return
-     */
-    @POST("user/verify/v1/userSign")
-    Observable<Result> userSign(@Header("userId") int userId,
-                                @Header("sessionId") String sessionId);
 
-    /**
-     * 查询当天签到状态
-     * @param userId
-     * @param sessionId
-     * @return
-     */
-    @GET("user/verify/v1/findUserSignStatus")
-    Observable<Result> findUserSignStatus(@Header("userId") int userId,
-                                          @Header("sessionId") String sessionId);
 
-    /**
-     * 查询用户连续签到天数
-     * @param userId
-     * @param sessionId
-     * @return
-     */
-    @GET("user/verify/v1/findContinuousSignDays")
-    Observable<Result> findContinuousSignDays(@Header("userId") int userId,
-                                              @Header("sessionId") String sessionId);
 
-    /**
-     * 查询用户当月所有签到的日期
-     * @param userId
-     * @param sessionId
-     * @return
-     */
-    @GET("user/verify/v1/findUserSignRecording")
-    Observable<Result> findUserSignRecording(@Header("userId") int userId,
-                                             @Header("sessionId") String sessionId);
 
-    /**
-     * 查询用户任务列表
-     *
-     * @param userId
-     * @param sessionId
-     * @return
-     */
-    @GET("user/verify/v1/findUserTaskList")
-    Observable<Result<List<TaskList>>> findUserTaskList(@Header("userId") int userId,
-                                                        @Header("sessionId") String sessionId);
 
-    /**
-     * 查询用户系统通知
-     *
-     * @param userId
-     * @param sessionId
-     * @param page
-     * @param count
-     * @return
-     */
-    @GET("tool/verify/v1/findSysNoticeList")
-    Observable<Result<List<NoticeList>>> findSysNoticeList(@Header("userId") int userId,
-                                                           @Header("sessionId") String sessionId,
-                                                           @Query("page") int page,
-                                                           @Query("count") int count);
+
 
     /**
      * 查询用户积分
@@ -646,4 +587,116 @@ public interface IRequest {
             @Query("fromUid") int fromUid,
             @Query("page") int page,
             @Query("count") int count);
+    /**
+     * 做任务
+     *
+     * @param userId
+     * @param sessionId
+     * @param taskId
+     * @return
+     */
+    @POST("usererify1/doTheTask")
+    @FormUrlEncoded
+    Observable<Result> doTheTask(@Header("userId") int userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("taskId") int taskId);
+    /**
+     * 修改用户昵称
+     *
+     * @param userId
+     * @param sessionId
+     * @param nickName
+     * @return
+     */
+    @PUT("usererify1/modifyNickName")
+    @FormUrlEncoded
+    Observable<Result> modifyNickName(@Header("userId") int userId,
+                                      @Header("sessionId") String sessionId,
+                                      @Field("nickName") String nickName);
+    /**
+     * 修改邮箱
+     *
+     * @param userId
+     * @param sessionId
+     * @param email
+     * @return
+     */
+    @PUT("user/verify/v1/modifyEmail")
+    @FormUrlEncoded
+    Observable<Result> modifyEmail(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Field("email") String email);
+
+    /**
+     * 点赞
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityGreat")
+    @FormUrlEncoded
+    Observable<Result> addCommunityGreat(@Header("userId") int userId,
+                                         @Header("sessionId") String sessionId,
+                                         @Field("communityId") int communityId);
+
+    /**
+     * 取消点赞
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @DELETE("community/verify/v1/cancelCommunityGreat")
+    Observable<Result> cancelCommunityGreat(@Header("userId") int userId,
+                                            @Header("sessionId") String sessionId,
+                                            @Query("communityId") int communityId);
+    /**
+     * 详情页面的评论查看
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @param page
+     * @param count
+     * @return
+     */
+
+    @GET("information/v1/findAllInfoCommentList")
+    Observable<Result<List<FindAllCommentListBean>>> findAllInfoCommentList(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("infoId") int infoId,
+            @Query("page") int page,
+            @Query("count") int count);
+
+    /**
+     * 资讯用户评论
+     *
+     * @param userId
+     * @param sessionId
+     * @param content
+     * @param infoId
+     * @return
+     */
+    @POST("information/verify/v1/addInfoComment")
+    @FormUrlEncoded
+    Observable<Result> addInfoComment(@Header("userId") int userId,
+                                      @Header("sessionId") String sessionId,
+                                      @Field("content") String content,
+                                      @Field("infoId") int infoId);
+
+
+    /**
+     * 关注
+     * @param userId
+     * @param sessionId
+     * @param focusId
+     * @return
+     */
+    @POST("user/verify/v1/addFollow")
+    @FormUrlEncoded
+    Observable<Result> addFollow(@Header("userId") int userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("focusId") int focusId);
 }

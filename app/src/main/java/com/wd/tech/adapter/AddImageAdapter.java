@@ -29,7 +29,9 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.MyView
         this.dakai=dakai;
         inflater=LayoutInflater.from(mContext);
     }
-
+    public void add(Object c){
+        mDatas.add(c);
+    }
     @Override
     public int getItemCount() {
         return mDatas.size();
