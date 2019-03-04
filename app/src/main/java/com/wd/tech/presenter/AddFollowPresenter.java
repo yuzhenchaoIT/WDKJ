@@ -6,20 +6,14 @@ import com.wd.tech.core.http.NotWorkUtils;
 
 import io.reactivex.Observable;
 
-/**
- * 详情p层
- *
- * @author lmx
- * @date 2019/2/23
- */
-public class CommentListPresenter extends BasePresenter {
-    public CommentListPresenter(DataCall dataCall) {
+public class AddFollowPresenter extends BasePresenter {
+    public AddFollowPresenter(DataCall dataCall) {
         super(dataCall);
     }
 
     @Override
     public Observable observable(Object... args) {
         IRequest iRequest = NotWorkUtils.getInstance().create(IRequest.class);
-        return iRequest.findCommunityUserCommentList((int)args[0],(String)args[1], (int) args[2],1,20);
+        return iRequest.addFollow((int) args[0], (String) args[1], (int) args[2]);
     }
 }

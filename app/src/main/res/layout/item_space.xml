@@ -69,16 +69,13 @@
                     android:textColor="#666"
                     android:textSize="12sp" />
 
-                <CheckBox
-                    android:id="@+id/spaceadd_zan"
-                    android:layout_width="19dp"
-                    android:layout_height="19dp"
-                    android:layout_marginTop="2dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@drawable/sel_com"
-                    android:button="@null"
-                    android:padding="5dp" />
-
+                <ImageView
+                    android:id="@+id/space_com_zan"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:padding="5dp"
+                    android:src="@drawable/common_icon_prise"
+                    android:layout_marginRight="5dp"/>
                 <TextView
                     android:id="@+id/space_sum"
                     android:layout_width="wrap_content"

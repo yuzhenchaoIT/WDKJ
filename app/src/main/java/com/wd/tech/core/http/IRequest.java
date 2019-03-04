@@ -312,6 +312,13 @@ public interface IRequest {
                                                            @Query("page") int page,
                                                            @Query("count") int count);
 
+
+
+
+
+
+
+
     /**
      * 查询用户积分
      *
@@ -663,7 +670,86 @@ public interface IRequest {
                                            @Field("newGroupId") int newGroupId,
                                            @Field("friendUid") int friendUid);
 
+    /**
+     * 查看别人的社区
+     * @param userId
+     * @param sessionId
+     * @param fromUid
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("community/verify/v1/findUserPostById")
+    Observable<Result<List<UserPost>>> findUserPostById(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("fromUid") int fromUid,
+            @Query("page") int page,
+            @Query("count") int count);
+    /**
+     * 做任务
+     *
+     * @param userId
+     * @param sessionId
+     * @param taskId
+     * @return
+     */
+    @POST("usererify1/doTheTask")
+    @FormUrlEncoded
+    Observable<Result> doTheTask(@Header("userId") int userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("taskId") int taskId);
+    /**
+     * 修改用户昵称
+     *
+     * @param userId
+     * @param sessionId
+     * @param nickName
+     * @return
+     */
+    @PUT("usererify1/modifyNickName")
+    @FormUrlEncoded
+    Observable<Result> modifyNickName(@Header("userId") int userId,
+                                      @Header("sessionId") String sessionId,
+                                      @Field("nickName") String nickName);
+    /**
+     * 修改邮箱
+     *
+     * @param userId
+     * @param sessionId
+     * @param email
+     * @return
+     */
+    @PUT("user/verify/v1/modifyEmail")
+    @FormUrlEncoded
+    Observable<Result> modifyEmail(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Field("email") String email);
 
+    /**
+     * 点赞
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityGreat")
+    @FormUrlEncoded
+    Observable<Result> addCommunityGreat(@Header("userId") int userId,
+                                         @Header("sessionId") String sessionId,
+                                         @Field("communityId") int communityId);
+
+    /**
+     * 取消点赞
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @DELETE("community/verify/v1/cancelCommunityGreat")
+    Observable<Result> cancelCommunityGreat(@Header("userId") int userId,
+                                            @Header("sessionId") String sessionId,
+                                            @Query("communityId") int communityId);
     /**
      * 详情页面的评论查看
      *
@@ -710,6 +796,11 @@ public interface IRequest {
      * @param count
      * @return
      */
+    @POST("user/verify/v1/addFollow")
+    @FormUrlEncoded
+    Observable<Result> addFollow(@Header("userId") int userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("focusId") int focusId);
     @GET("community/verify/v1/findUserPostById")
     Observable<Result<List<UserPost>>> findUserPostById(
             @Header("userId") int userId,

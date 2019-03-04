@@ -1,11 +1,15 @@
 package com.wd.tech.view;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,7 +18,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +38,14 @@ import com.wd.tech.myview.SiginActivity;
 import com.wd.tech.presenter.AddCircilePresenter;
 import com.wd.tech.presenter.DoTheTaskPresenter;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.OnTextChanged;
@@ -49,6 +64,7 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
     private static int REQUEST_PERMISSION_CODE = 6;
     private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
     private User user;
+    private Dialog dialog;
 
     @Override
     protected int getLayoutId() {
@@ -58,15 +74,6 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
     public void editTextDetailChange(Editable editable) {
         int detailLength = editable.length();
         textSum.setText(detailLength + "/300");
-//        if (detailLength == 139) {
-//            islMaxCount = true;
-//        }
-//        // 不知道为什么执行俩次，所以增加一个标识符去标识
-//        if (detailLength == 140 && islMaxCount) {
-//            UIHelper.getShortToast(self, (String) StringUtils.getResourceContent(self, Convention.RESOURCE_TYPE_STRING, R.string.string_editor_detail_input_limit));
-//            islMaxCount = false;
-//        }
-        RecyclerView recyclerView;
         if (detailLength==300){
             Toast.makeText(this, "别输入了,", Toast.LENGTH_SHORT).show();
         }
@@ -79,21 +86,12 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
         findViewById(R.id.add_qx).setOnClickListener(this);
         RecyclerView bo_image_list = (RecyclerView) findViewById(R.id.bo_image_list);
         addCircilePresenter = new AddCircilePresenter(new AddData());
-
-
         objects.add(R.drawable.common_nav_btn_add_n_hdpi);
         bo_image_list.setLayoutManager(new GridLayoutManager(this,4));
         add_image_adapter = new AddImageAdapter(this, objects, new AddImageAdapter.Dakai() {
             @Override
             public void onDakaiXiangCe() {
-                Intent intent1 = new Intent(Intent.ACTION_PICK);
-                intent1.setType("image/*");
-                startActivityForResult(intent1,0);
-//                Intent  intent = new Intent();
-//                              // 指定开启系统相机的Action
-//                          intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-//                             intent.addCategory(Intent.CATEGORY_DEFAULT);
-//                startActivityForResult(intent,2);
+                doaLog();
             }
         });
         bo_image_list.setAdapter(add_image_adapter);
@@ -120,7 +118,10 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
             objects.add(filePath);
             add_image_adapter.notifyDataSetChanged();
         }
+        if(requestCode==2){
 
+
+        }
     }
     //申请权限
     @Override
@@ -147,6 +148,20 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
             case R.id.add_qx:
                 finish();
                 break;
+            case R.id.mcamear:
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,2);
+                break;
+
+            case R.id.mpictrue:
+                Intent intent1 = new Intent(Intent.ACTION_PICK);
+                intent1.setType("image/*");
+                startActivityForResult(intent1,0);
+                break;
+            case R.id.cancel:
+                    dialog.dismiss();
+                break;
+
         }
     }
     //实现做任务接口
@@ -196,4 +211,28 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
         }
         return null;
     }
+    private void doaLog(){
+        dialog = new Dialog(this, R.style.DialogTheme);
+        //填充对话框的布局
+        View inflate = LayoutInflater.from(this).inflate(R.layout.dialog_item, null);
+        //初始化控件
+        inflate.findViewById(R.id.mcamear).setOnClickListener(this);
+        inflate.findViewById(R.id.mpictrue).setOnClickListener(this);
+        inflate.findViewById(R.id.cancel).setOnClickListener(this);
+        //将布局设置给Dialog
+        dialog.setContentView(inflate);
+        //获取当前Activity所在的窗体
+        Window dialogWindow = dialog.getWindow();
+        //设置Dialog从窗体底部弹出
+        dialogWindow.setGravity(Gravity.BOTTOM);
+
+        //获得窗体的属性
+        WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;//设置Dialog距离底部的距离//
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        //  将属性设置给窗体
+        dialogWindow.setAttributes(lp);
+        dialog.show();//显示对话框
+    }
+
 }
