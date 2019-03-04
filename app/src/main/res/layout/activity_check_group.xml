@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
+    android:background="#f2f2f2">
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="40dp"
+          android:layout_marginTop="30dp">
+         <ImageView
+             android:id="@+id/check_group_back"
+             android:layout_width="24dp"
+             android:layout_height="24dp"
+             android:layout_marginLeft="20dp"
+             android:src="@drawable/common_nav_btn_back_n_xhdpi"
+             android:layout_centerVertical="true"/>
+         <TextView
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true"
+             android:textSize="20sp"
+             android:text="选择分组"/>
+
+      </RelativeLayout>
+   <View
+       android:layout_width="match_parent"
+       android:layout_height="1dp"
+       android:layout_marginTop="10dp"
+      android:background="#ccc"/>
+   <LinearLayout
+       android:id="@+id/check_group_new_group"
+       android:layout_width="match_parent"
+       android:layout_marginTop="30dp"
+       android:layout_height="46dp"
+       android:layout_marginBottom="10dp"
+       android:gravity="center_vertical"
+       android:background="#ffffff">
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginLeft="12dp"
+          android:textSize="14sp"
+          android:textColor="#333333"
+          android:text="添加到新分组"/>
+
+   </LinearLayout>
+   <com.scwang.smartrefresh.layout.SmartRefreshLayout
+       android:id="@+id/check_group_smart"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       app:srlAccentColor="#00000000"
+       app:srlPrimaryColor="#00000000"
+       app:srlEnablePreviewInEditMode="true">
+
+      <com.scwang.smartrefresh.layout.header.ClassicsHeader
+
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"/>
+      <android.support.v7.widget.RecyclerView
+          android:id="@+id/check_group_recycle"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+      <com.scwang.smartrefresh.layout.footer.ClassicsFooter
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"/>
+
+   </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</LinearLayout>

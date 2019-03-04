@@ -56,9 +56,9 @@ public class ChatActivity extends WDActivity {
                 finish();
                 break;
             case R.id.chat_setting:
-               // Intent intent = new Intent(ChatActivity.this, ChatSettingsActivity.class);
-                //intent.putExtra("friendInfoList",friendInfoList);
-               // startActivity(intent);
+                Intent intent = new Intent(ChatActivity.this, ChatSettingsActivity.class);
+                intent.putExtra("friendInfoList",friendInfoList);
+                startActivity(intent);
                 break;
         }
     }

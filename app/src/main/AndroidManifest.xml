@@ -108,7 +108,8 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-
+        <activity android:name=".view.ChatSettingsActivity"/>
+        <activity android:name=".view.CheckGroupActivity"/>
     </application>
 
 </manifest>
