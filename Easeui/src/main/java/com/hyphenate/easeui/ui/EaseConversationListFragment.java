@@ -19,6 +19,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.hyphenate.EMConnectionListener;
 import com.hyphenate.EMConversationListener;
@@ -92,6 +93,7 @@ public class EaseConversationListFragment extends EaseBaseFragment{
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     EMConversation conversation = conversationListView.getItem(position);
                     listItemClickListener.onListItemClicked(conversation);
+                    Toast.makeText(getContext(),"点击了",Toast.LENGTH_SHORT).show();
                 }
             });
         }

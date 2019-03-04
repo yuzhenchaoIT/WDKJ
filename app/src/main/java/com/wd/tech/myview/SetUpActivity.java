@@ -1,12 +1,23 @@
 package com.wd.tech.myview;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,13 +40,21 @@ import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.DaoSession;
 import com.wd.tech.dao.UserDao;
 import com.wd.tech.presenter.ModifyEmailPresenter;
+import com.wd.tech.presenter.ModifyHeadPicPresenter;
 import com.wd.tech.presenter.ModifyNickNamePresenter;
 import com.wd.tech.presenter.QueryUserPresenter;
 import com.wd.tech.view.HomeActivity;
 import com.wd.tech.view.LoginActivity;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -54,6 +73,13 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     private int sex;
     private ModifyEmailPresenter modifyEmailPresenter;
     private ModifyNickNamePresenter modifyNickNamePresenter;
+    private ModifyHeadPicPresenter modifyHeadPicPresenter = new ModifyHeadPicPresenter(new HeadPicCall());
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA};
+    //请求状态码
+    private static int REQUEST_PERMISSION_CODE = 6;
     @Override
     protected int getLayoutId() {
         return R.layout.activity_set_up;
@@ -129,6 +155,12 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     //点击头像弹出提示框
     @OnClick(R.id.mimage_up)
     public void miangeu() {
+        //读写权限
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
+            }
+        }
         dialog = new Dialog(this, R.style.DialogTheme);
         //填充对话框的布局
         inflate = LayoutInflater.from(this).inflate(R.layout.dialog_item, null);
@@ -157,10 +189,15 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.mcamear:
-                Toast.makeText(this, "111", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,2);
+                dialog.cancel();
                 break;
             case R.id.mpictrue:
-                Toast.makeText(this, "222", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(Intent.ACTION_PICK);
+                intent1.setType("image/*");
+                startActivityForResult(intent1,1);
+                dialog.cancel();
                 break;
             case R.id.cancel:
                 dialog.cancel();
@@ -202,6 +239,36 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
                 break;
         }
     }
+    //上传头像回调方法
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(data==null){
+            return;
+        }
+        if(requestCode==1){
+            String icon = getFilePath("icon",0,data);
+            modifyHeadPicPresenter.request(user.getUserId(),user.getSessionId(),icon,1);
+        }else if (requestCode == 2){
+            Bundle extras = data.getExtras();
+            Bitmap data1 = (Bitmap) extras.get("data");
+            File file = compressImage(data1);
+            modifyHeadPicPresenter.request(user.getUserId(),user.getSessionId(),file,2);
+        }
+    }
+    //申请权限
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_PERMISSION_CODE) {
+            for (int i = 0; i < permissions.length; i++) {
+                Log.i("MainActivity", "申请的权限为：" + permissions[i] + ",申请结果：" + grantResults[i]);
+                if (grantResults[i]==-1){
+                    finish();
+                }
+            }
+        }
+    }
     //实现修改用户名接口
     private class NickNameCall implements DataCall<Result>{
         @Override
@@ -225,6 +292,21 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
                 Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }else {
                 Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+    //实现用户修改头像
+    private class HeadPicCall implements DataCall<Result>{
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
+                Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+                queryUserPresenter.request(user.getUserId(), user.getSessionId());
             }
         }
 
@@ -274,4 +356,50 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     protected void destoryData() {
 
     }
+    /**
+     * 压缩图片（质量压缩）
+     * @param bitmap
+     */
+    public static File compressImage(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);//质量压缩方法，这里100表示不压缩，把压缩后的数据存放到baos中
+        int options = 100;
+        while (baos.toByteArray().length / 1024 > 500) {  //循环判断如果压缩后图片是否大于500kb,大于继续压缩
+            baos.reset();//重置baos即清空baos
+            options -= 10;//每次都减少10
+            bitmap.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
+            long length = baos.toByteArray().length;
+        }
+        SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+        Date date = new Date(System.currentTimeMillis());
+        String filename = format.format(date);
+        File file = new File(Environment.getExternalStorageDirectory(),filename+".png");
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            try {
+                fos.write(baos.toByteArray());
+                fos.flush();
+                fos.close();
+            } catch (IOException e) {
+                Log.e("---",e.getMessage());
+                e.printStackTrace();
+            }
+        } catch (FileNotFoundException e) {
+            Log.e("----",e.getMessage());
+            e.printStackTrace();
+        }
+        recycleBitmap(bitmap);
+        return file;
+    }
+    public static void recycleBitmap(Bitmap... bitmaps) {
+        if (bitmaps==null) {
+            return;
+        }
+        for (Bitmap bm : bitmaps) {
+            if (null != bm && !bm.isRecycled()) {
+                bm.recycle();
+            }
+        }
+    }
+
 }

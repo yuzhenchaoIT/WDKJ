@@ -20,6 +20,8 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.easeui.ui.EaseContactListFragment;
+import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.wd.tech.R;
 import com.wd.tech.adapter.FragmentViewAdapter;
 import com.wd.tech.core.WDFragment;
@@ -73,7 +75,7 @@ public class FragMessage extends WDFragment implements View.OnClickListener {
         myMessage.setTextColor(Color.WHITE);
         myMessage.setBackgroundResource(R.drawable.text_magess_shape);
         List<Fragment> list = new ArrayList<>();
-        list.add(new FragOneMessage());
+        list.add(new EaseConversationListFragment());
         list.add(new FragOneContact());
         FragmentPagerAdapter fragmentPagerAdapter = new FragmentViewAdapter(getActivity().getSupportFragmentManager(), list);
         myMessageViewPager.setAdapter(fragmentPagerAdapter);

@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_vip_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".view.pay.VipActivity">
+
+    <RelativeLayout
+        android:id="@+id/aa"
+        android:layout_width="match_parent"
+        android:layout_height="80dp">
+
+        <ImageView
+            android:id="@+id/activity_vip_main_back"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:src="@drawable/common_nav_btn_back_n" />
+
+        <TextView
+            android:id="@+id/tname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="开通会员"
+            android:textColor="#000000"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/aa"
+        android:background="#f2f2f2" />
+
+
+    <RelativeLayout
+        android:id="@+id/bb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/aa"
+        android:layout_marginTop="1dp">
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/year"
+                android:layout_width="129dp"
+                android:layout_height="53dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/chose_vip"
+                android:button="@null"
+                android:drawableLeft="@drawable/year"
+                android:paddingLeft="15dp"
+                android:text="     年VIP" />
+
+            <RadioButton
+                android:id="@+id/quarter"
+                android:layout_width="129dp"
+                android:layout_height="53dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/chose_vip"
+                android:button="@null"
+                android:drawableLeft="@drawable/quarter"
+                android:paddingLeft="15dp"
+                android:text="     季VIP" />
+
+            <RadioButton
+                android:id="@+id/month"
+                android:layout_width="129dp"
+                android:layout_height="53dp"
+                android:layout_marginLeft="-287dp"
+                android:layout_marginTop="90dp"
+                android:background="@drawable/chose_vip"
+                android:button="@null"
+                android:drawableLeft="@drawable/month"
+                android:paddingLeft="15dp"
+                android:text="     月VIP" />
+
+            <RadioButton
+                android:id="@+id/week"
+                android:layout_width="129dp"
+                android:layout_height="53dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="90dp"
+                android:background="@drawable/chose_vip"
+                android:button="@null"
+                android:drawableLeft="@drawable/week"
+                android:paddingLeft="15dp"
+                android:text="     周VIP" />
+        </RadioGroup>
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/s"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/bb"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:background="#f2f2f2" />
+
+    <RelativeLayout
+        android:id="@+id/n"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@id/s">
+
+        <ImageView
+            android:id="@+id/m"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/money" />
+
+        <TextView
+            android:id="@+id/activity_vip_main_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/m"
+            android:text="0"
+            android:textColor="#ff5757"
+            android:textSize="24sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/activity_vip_main_money"
+            android:text="元"
+            android:textColor="#999999"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/d"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/n"
+        android:background="#f2f2f2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
+            android:text="选择支付方式"
+            android:textColor="#666666"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/d"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:id="@+id/weixin"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginLeft="30dp"
+            android:src="@drawable/common_icon_weixin_n" />
+
+        <TextView
+            android:id="@+id/wx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/weixin"
+            android:text="微信支付"
+            android:textColor="#666666"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/zhifubao"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_below="@id/weixin"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/common_icon_zhifubao_n" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/wx"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/zhifubao"
+            android:text="支付宝支付"
+            android:textColor="#666666"
+            android:textSize="14sp" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical">
+
+            <RadioButton
+                android:id="@+id/chose_wx"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/chose_pay_type"
+                android:button="@null"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/chose_zfb"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/chose_pay_type"
+                android:button="@null" />
+        </RadioGroup>
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/activity_vip_main_once_vip"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#e5c076"
+        android:text="立即开通"
+        android:textColor="#666666"
+        android:textSize="20sp" />
+
+
+</RelativeLayout>

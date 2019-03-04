@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pay_way_pop_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/dia_chose_pay">
+
+    <TextView
+        android:id="@+id/a"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="30dp"
+        android:text="选择付费方式"
+        android:textColor="#666666"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/b"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/a"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="10dp"
+        android:text="让阅读随时随地" />
+
+    <RelativeLayout
+        android:id="@+id/r"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_below="@id/b"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginRight="12dp"
+        android:background="@drawable/bg_pay_select_orange">
+
+        <TextView
+            android:id="@+id/w"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="积分兑换"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/q"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="20dp"
+            android:text="购买说明："
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/q"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="6dp"
+            android:paddingRight="20dp"
+            android:text="只需一次性付费可对该条资讯永久免费阅读。"
+            android:textColor="#ffffff"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/i"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/w"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="Integral purchase"
+            android:textColor="#ffffff"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_below="@id/i"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/payment_method_icon_integration_n" />
+
+        <TextView
+            android:id="@+id/pay_way_go_exchage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="点击兑换>>"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/t"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_below="@id/r"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/bg_pay_select_green">
+
+        <TextView
+            android:id="@+id/p"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:text="开通会员"
+            android:textColor="#ffffff"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/o"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="20dp"
+            android:text="会员说明："
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/o"
+            android:layout_marginLeft="150dp"
+            android:layout_marginTop="6dp"
+            android:paddingRight="20dp"
+            android:text="会员可以免费阅读所有付费资讯。"
+            android:textColor="#ffffff"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/e"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/p"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:text="membership purchase"
+            android:textColor="#ffffff"
+            android:textSize="10sp" />
+
+        <ImageView
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:layout_below="@id/e"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/payment_method_icon_vip_n" />
+
+        <TextView
+            android:id="@+id/pay_way_go_vip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:text="点击开通>>"
+            android:textColor="#ffffff"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</RelativeLayout>
+
+

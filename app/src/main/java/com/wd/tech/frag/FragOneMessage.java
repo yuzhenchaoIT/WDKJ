@@ -18,6 +18,5 @@ public class FragOneMessage extends WDFragment {
 
     @Override
     protected void initView() {
-
-    }
+        }
 }

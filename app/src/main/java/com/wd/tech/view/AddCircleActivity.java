@@ -143,8 +143,6 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
                 user = WDActivity.getUser(this);
                 if (user != null){
                     addCircilePresenter.request(user.getUserId(), user.getSessionId(),editTex.getText(),objects);
-                }else {
-                    Toast.makeText(this, "请先登录！", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.add_qx:
@@ -171,8 +169,6 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
-                Toast.makeText(AddCircleActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
-            }else {
                 Toast.makeText(AddCircleActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }

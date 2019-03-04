@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -36,6 +37,7 @@ import com.wd.tech.bean.details.FindAllCommentListBean;
 import com.wd.tech.bean.details.InforDetailsBean;
 import com.wd.tech.bean.details.InformationListBean;
 import com.wd.tech.core.InputTextMsgDialog;
+import com.wd.tech.core.SelectPayPopupWindow;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
@@ -43,6 +45,8 @@ import com.wd.tech.presenter.InforDetailsPresenter;
 import com.wd.tech.presenter.InforMation.DetailAddCommentPresenter;
 import com.wd.tech.presenter.InforMation.DetailAllCommentPresenter;
 import com.wd.tech.util.DateUtils;
+import com.wd.tech.view.pay.PointsActivity;
+import com.wd.tech.view.pay.VipActivity;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -129,6 +133,7 @@ public class InforDetailsActivity extends WDActivity {
     private User user;
     private int homeListId;
     private String text;
+    private SelectPayPopupWindow menuWindow;
 
 
     @Override
@@ -220,10 +225,31 @@ public class InforDetailsActivity extends WDActivity {
                 }
                 break;
             case R.id.infor_details_go_pay:
-                
+                //实例化SelectPicPopupWindow
+                menuWindow = new SelectPayPopupWindow(InforDetailsActivity.this, itemsOnClick);
+                //显示窗口
+                menuWindow.showAtLocation(InforDetailsActivity.this.findViewById(R.id.activity_infor_details_main), Gravity.BOTTOM, 0, 0); //设置layout在PopupWindow中显示的位置
                 break;
         }
     }
+
+    //为弹出窗口实现监听类
+    private View.OnClickListener itemsOnClick = new View.OnClickListener() {
+
+        public void onClick(View v) {
+            menuWindow.dismiss();
+            switch (v.getId()) {
+                case R.id.pay_way_go_exchage:
+                    Intent intent = new Intent(InforDetailsActivity.this, PointsActivity.class);
+                    intent.putExtra("DataId", homeListId + "");
+                    startActivity(intent);
+                    break;
+                case R.id.pay_way_go_vip:
+                    startActivity(new Intent(InforDetailsActivity.this, VipActivity.class));
+                    break;
+            }
+        }
+    };
 
 
     /**

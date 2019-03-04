@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.os.Handler;
@@ -53,6 +54,7 @@ public class WDApplication extends Application {
         Fresco.initialize(this);//图片加载框架初始化
         EaseUI.getInstance().init(this,null);
         EMClient.getInstance().setDebugMode(true);
+
     }
 
     @Override

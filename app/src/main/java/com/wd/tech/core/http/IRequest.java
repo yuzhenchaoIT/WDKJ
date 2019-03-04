@@ -21,10 +21,12 @@ import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.TaskList;
 import com.wd.tech.bean.User;
+import com.wd.tech.bean.UserInRecord;
 import com.wd.tech.bean.details.FindAllCommentListBean;
 import com.wd.tech.bean.UserPost;
 import com.wd.tech.bean.UserIntegral;
 import com.wd.tech.bean.details.InforDetailsBean;
+import com.wd.tech.bean.details.VipGoodsBean;
 
 import java.util.List;
 
@@ -201,6 +203,7 @@ public interface IRequest {
 
     /**
      * 修改用户签名
+     *
      * @param userId
      * @param sessionId
      * @param signature
@@ -213,6 +216,7 @@ public interface IRequest {
 
     /**
      * 我的帖子
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -227,6 +231,7 @@ public interface IRequest {
 
     /**
      * 删除帖子
+     *
      * @param userId
      * @param sessionId
      * @param commun
@@ -239,6 +244,7 @@ public interface IRequest {
 
     /**
      * 签到
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -249,6 +255,7 @@ public interface IRequest {
 
     /**
      * 查询当天签到状态
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -259,6 +266,7 @@ public interface IRequest {
 
     /**
      * 查询用户连续签到天数
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -269,6 +277,7 @@ public interface IRequest {
 
     /**
      * 查询用户当月所有签到的日期
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -279,6 +288,7 @@ public interface IRequest {
 
     /**
      * 查询用户任务列表
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -289,6 +299,7 @@ public interface IRequest {
 
     /**
      * 查询用户系统通知
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -310,6 +321,7 @@ public interface IRequest {
 
     /**
      * 查询用户积分
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -319,7 +331,23 @@ public interface IRequest {
                                                       @Header("sessionId") String sessionId);
 
     /**
+     * 查询用户积分明细
+     *
+     * @param userId
+     * @param sessionId
+     * @param page
+     * @param count
+     * @return
+     */
+    @GET("user/verify/v1/findUserIntegralRecord")
+    Observable<Result<List<UserInRecord>>> findUserIntegralRecord(@Header("userId") int userId,
+                                                                  @Header("sessionId") String sessionId,
+                                                                  @Query("page") int page,
+                                                                  @Query("count") int count);
+
+    /**
      * 修改用户密码
+     *
      * @param userId
      * @param sessionId
      * @param oldPwd
@@ -330,8 +358,63 @@ public interface IRequest {
     @FormUrlEncoded
     Observable<Result> modifyUserPwd(@Header("userId") int userId,
                                      @Header("sessionId") String sessionId,
-                                     @Field("oldPwd")String oldPwd,
-                                     @Field("newPwd")String newPwd);
+                                     @Field("oldPwd") String oldPwd,
+                                     @Field("newPwd") String newPwd);
+
+    /**
+     * 修改邮箱
+     *
+     * @param userId
+     * @param sessionId
+     * @param email
+     * @return
+     */
+    @PUT("user/verify/v1/modifyEmail")
+    @FormUrlEncoded
+    Observable<Result> modifyEmail(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Field("email") String email);
+
+    /**
+     * 修改用户昵称
+     *
+     * @param userId
+     * @param sessionId
+     * @param nickName
+     * @return
+     */
+    @PUT("user/verify/v1/modifyNickName")
+    @FormUrlEncoded
+    Observable<Result> modifyNickName(@Header("userId") int userId,
+                                      @Header("sessionId") String sessionId,
+                                      @Field("nickName") String nickName);
+
+    /**
+     * 做任务
+     *
+     * @param userId
+     * @param sessionId
+     * @param taskId
+     * @return
+     */
+    @POST("user/verify/v1/doTheTask")
+    @FormUrlEncoded
+    Observable<Result> doTheTask(@Header("userId") int userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("taskId") int taskId);
+
+    /**
+     * 用户上传头像
+     *
+     * @param userId
+     * @param sessionId
+     * @param body
+     * @return
+     */
+    @POST("user/verify/v1/modifyHeadPic")
+    Observable<Result> modifyHeadPic(@Header("userId") int userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Body MultipartBody body);
 
     /**
      * 资讯分类跳转列表
@@ -364,6 +447,7 @@ public interface IRequest {
     Observable<Result<List<CommunityListBean>>> communityList(
 //            @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Query("page") int page, @Query("count") int count);
+
     @GET("chat/verify/v1/initFriendList")
     Observable<Result<List<InitFriendlist>>> groupList(
 //            @Header("userId") int userId, @Header("sessionId") String sessionId,
@@ -385,6 +469,7 @@ public interface IRequest {
 
     /**
      * 发布圈子
+     *
      * @param userId
      * @param sessionId
      * @param body
@@ -392,8 +477,10 @@ public interface IRequest {
      */
     @POST("community/verify/v1/releasePost")
     Observable<Result> fabuquanzi(@Header("userId") int userId, @Header("sessionId") String sessionId, @Body MultipartBody body);
+
     /**
      * 根据手机号查询用户信息
+     *
      * @param userId
      * @param sessionId
      * @param phone
@@ -408,6 +495,7 @@ public interface IRequest {
 
     /**
      * 添加好友
+     *
      * @param userId
      * @param sessionId
      * @param friendUid
@@ -433,9 +521,9 @@ public interface IRequest {
                                                          @Query("count") int count);
 
 
-
     /**
      * 评论列表
+     *
      * @param userId
      * @param sessionId
      * @param communityId
@@ -452,6 +540,7 @@ public interface IRequest {
 
     /**
      * 圈子发布
+     *
      * @param userId
      * @param sessionId
      * @param communityId
@@ -467,6 +556,7 @@ public interface IRequest {
 
     /**
      * 根据id查组
+     *
      * @param userId
      * @param sessionId
      * @param groupId
@@ -478,8 +568,10 @@ public interface IRequest {
             @Header("sessionId") String sessionId,
             @Query("groupId") int groupId
     );
+
     /**
      * 添加群
+     *
      * @param userId
      * @param sessionId
      * @param groupId
@@ -496,6 +588,7 @@ public interface IRequest {
 
     /**
      * 创建群
+     *
      * @param userId
      * @param sessionId
      * @param name
@@ -512,6 +605,7 @@ public interface IRequest {
 
     /**
      * 查询加入的群
+     *
      * @param userId
      * @param sessionId
      * @return
@@ -524,6 +618,7 @@ public interface IRequest {
 
     /**
      * 查看好友通知
+     *
      * @param userId
      * @param sessionId
      * @param page
@@ -537,6 +632,7 @@ public interface IRequest {
             @Query("page") int page,
             @Query("count") int count
     );
+
     @PUT("chat/verify/v1/reviewFriendApply")
     Observable<Result> reviewFriend(
             @Header("userId") int userId,
@@ -544,8 +640,10 @@ public interface IRequest {
             @Query("noticeId") int noticeId,
             @Query("flag") int flag
     );
+
     /**
      * 删除好友
+     *
      * @param userId
      * @param sessionId
      * @param friendUid
@@ -558,6 +656,7 @@ public interface IRequest {
 
     /**
      * 转移好友到其他分组
+     *
      * @param userId
      * @param sessionId
      * @param newGroupId
@@ -688,10 +787,13 @@ public interface IRequest {
 
 
     /**
-     * 关注
+     * 查看别人的社区
+     *
      * @param userId
      * @param sessionId
-     * @param focusId
+     * @param fromUid
+     * @param page
+     * @param count
      * @return
      */
     @POST("user/verify/v1/addFollow")
@@ -699,4 +801,70 @@ public interface IRequest {
     Observable<Result> addFollow(@Header("userId") int userId,
                                  @Header("sessionId") String sessionId,
                                  @Field("focusId") int focusId);
+    @GET("community/verify/v1/findUserPostById")
+    Observable<Result<List<UserPost>>> findUserPostById(
+            @Header("userId") int userId,
+            @Header("sessionId") String sessionId,
+            @Query("fromUid") int fromUid,
+            @Query("page") int page,
+            @Query("count") int count);
+
+    /**
+     * 资讯积分兑换
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @param integralCost
+     * @return
+     */
+    @POST("information/verify/v1/infoPayByIntegral")
+    @FormUrlEncoded
+    Observable<Result> infoPayByIntegral(@Header("userId") int userId,
+                                         @Header("sessionId") String sessionId,
+                                         @Field("infoId") int infoId,
+                                         @Field("integralCost") int integralCost);
+
+    /**
+     * 查询所有会员商品
+     *
+     * @return
+     */
+    @GET("tool/v1/findVipCommodityList")
+    Observable<Result<List<VipGoodsBean>>> findVipCommodityList();
+
+    /**
+     * 用户购买VIP
+     *
+     * @param userId
+     * @param sessionId
+     * @param commodityId
+     * @param sign
+     * @return
+     */
+
+    @POST("tool/verify/v1/buyVip")
+    @FormUrlEncoded
+    Observable<Result> buyVip(@Header("userId") int userId,
+                              @Header("sessionId") String sessionId,
+                              @Field("commodityId") int commodityId,
+                              @Field("sign") String sign);
+
+    /**
+     * 微信支付
+     *
+     * @param userId
+     * @param sessionId
+     * @param orderId
+     * @param payType
+     * @return
+     */
+    @POST("tool/verify/v1/pay")
+    @FormUrlEncoded
+    Observable<Result> wxPay(@Header("userId") int userId,
+                             @Header("sessionId") String sessionId,
+                             @Field("orderId") String orderId,
+                             @Field("payType") int payType);
+
+
 }
