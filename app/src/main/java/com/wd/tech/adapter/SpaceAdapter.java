@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +20,14 @@ import com.wd.tech.R;
 import com.wd.tech.bean.CommunityListBean;
 import com.wd.tech.bean.CommunityUserPostVoListBean;
 import com.wd.tech.bean.CommunityUserVoBean;
+import com.wd.tech.bean.Result;
+import com.wd.tech.bean.User;
 import com.wd.tech.bean.UserPost;
+import com.wd.tech.core.WDActivity;
+import com.wd.tech.core.exception.ApiException;
+import com.wd.tech.core.http.DataCall;
+import com.wd.tech.presenter.AddGreatPresenter;
+import com.wd.tech.presenter.CancelGreatPresenter;
 import com.wd.tech.util.StringUtils;
 import com.wd.tech.view.SpaceActivity;
 
@@ -52,16 +60,42 @@ public class SpaceAdapter extends  RecyclerView.Adapter {
     }
     @Override
     public  void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
-        MyHodler myHodler = new MyHodler(viewHolder.itemView);
+        final MyHodler myHodler = new MyHodler(viewHolder.itemView);
         myHodler.text.setText(postVoList.get(i).getContent());
-        myHodler.text_sum.setText(""+postVoList.get(i).getWhetherGreat());
+        myHodler.text_sum.setText(""+postVoList.get(i).getPraise());
         myHodler.plsum.setText(postVoList.get(i).getComment()+"");
+        if (postVoList.get(i).getWhetherGreat()==1){
+            myHodler.imageView.setImageResource(R.drawable.common_icon_praise);
+        }else if (postVoList.get(i).getWhetherGreat()==2){
+            myHodler.imageView.setImageResource(R.drawable.common_icon_prise);
+        }
+        myHodler.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                User user = WDActivity.getUser(context);
+
+                if (postVoList.get(i).getWhetherGreat()==1){
+                    CancelGreatPresenter cancelGreatPresenter = new CancelGreatPresenter(new CancelData());
+                    cancelGreatPresenter.request(user.getUserId(),user.getSessionId(),postVoList.get(i).getId());
+                    myHodler.imageView.setImageResource(R.drawable.common_icon_prise);
+                    postVoList.get(i).setWhetherGreat(2);
+                    postVoList.get(i).setPraise(postVoList.get(i).getPraise()-1);
+                    myHodler.text_sum.setText(""+postVoList.get(i).getPraise());
+                }else {
+                    AddGreatPresenter addGreatPresenter = new AddGreatPresenter(new GreatData());
+                    addGreatPresenter.request(user.getUserId(),user.getSessionId(),postVoList.get(i).getId());
+                    myHodler.imageView.setImageResource(R.drawable.common_icon_praise);
+                    postVoList.get(i).setWhetherGreat(1);
+                    postVoList.get(i).setPraise(postVoList.get(i).getPraise()+1);
+                    myHodler.text_sum.setText(""+postVoList.get(i).getPraise());
+                }
+            }
+        });
         if(StringUtils.isEmpty(postVoList.get(i).getFile())){
             myHodler.gridView.setVisibility(View.GONE);
         } else {
             myHodler.gridView.setVisibility(View.VISIBLE);
             String[] images = postVoList.get(i).getFile().split(",");
-//            int imageCount = (int) (Math.random() * 9) + 1;
             int imageCount = images.length;
             int colNum;//列数
             if (imageCount == 1) {
@@ -86,7 +120,7 @@ public class SpaceAdapter extends  RecyclerView.Adapter {
     class MyHodler extends RecyclerView.ViewHolder {
         TextView text;
         RecyclerView gridView;
-        CheckBox checkBox;
+        ImageView  imageView;
         TextView text_sum;
         TextView plsum;
         ImageAdapter imageAdapter;
@@ -95,7 +129,7 @@ public class SpaceAdapter extends  RecyclerView.Adapter {
 
         public MyHodler(@NonNull View itemView) {
             super(itemView);
-            checkBox = itemView.findViewById(R.id.spaceadd_zan);
+            imageView = itemView.findViewById(R.id.space_com_zan);
             text_sum = itemView.findViewById(R.id.space_sum);
             text = itemView.findViewById(R.id.space_item_text);
             plsum = itemView.findViewById(R.id.space_com_sum);
@@ -107,5 +141,27 @@ public class SpaceAdapter extends  RecyclerView.Adapter {
             gridView.setAdapter(imageAdapter);
         }
     }
+    private class CancelData implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+            Log.e("ll",data.getMessage());
+        }
 
+        @Override
+        public void fail(ApiException e) {
+            Log.e("ll",e+"");
+        }
+    }
+
+    private class GreatData implements DataCall<Result> {
+        @Override
+        public void success(Result data) {
+
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
 }

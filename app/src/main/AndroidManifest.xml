@@ -59,6 +59,7 @@
         <activity android:name=".myview.SetUpActivity" />
         <activity android:name=".view.AddFriendsActivity" />
         <activity android:name=".view.FlockActivity" />
+
         <activity android:name=".view.SortListActivity" />
         <activity android:name=".myview.PerfectActivity" />
         <activity android:name=".myview.SignatureActivity" />
@@ -110,6 +111,8 @@
         </receiver>
         <activity android:name=".view.ChatSettingsActivity"/>
         <activity android:name=".view.CheckGroupActivity"/>
+        <activity android:name=".view.CommentActivity"></activity>
+
     </application>
 
 </manifest>

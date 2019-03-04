@@ -55,4 +55,15 @@ public class CommentList {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "CommentList{" +
+                "content='" + content + '\'' +
+                ", headPic='" + headPic + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", commentTime=" + commentTime +
+                ", userId=" + userId +
+                '}';
+    }
 }

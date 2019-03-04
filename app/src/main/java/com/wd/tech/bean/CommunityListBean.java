@@ -34,6 +34,15 @@ public class CommunityListBean<T> {
     private int whetherVip;
     private String signature;
     private List<PlList> communityCommentVoList;
+    private boolean check;
+
+    public boolean isCheck() {
+        return check;
+    }
+
+    public void setCheck(boolean check) {
+        this.check = check;
+    }
 
     public List<PlList> getCommunityCommentVoList() {
         return communityCommentVoList;

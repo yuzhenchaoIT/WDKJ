@@ -1,25 +1,21 @@
-package com.wd.tech.presenter;
+package com.wd.tech.presenter.InforMation;
 
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.core.http.IRequest;
 import com.wd.tech.core.http.NotWorkUtils;
+import com.wd.tech.presenter.BasePresenter;
 
 import io.reactivex.Observable;
 
-/**
- * 详情p层
- *
- * @author lmx
- * @date 2019/2/23
- */
-public class CommentListPresenter extends BasePresenter {
-    public CommentListPresenter(DataCall dataCall) {
+public class WxPayPresenter extends BasePresenter {
+
+    public WxPayPresenter(DataCall dataCall) {
         super(dataCall);
     }
 
     @Override
     public Observable observable(Object... args) {
         IRequest iRequest = NotWorkUtils.getInstance().create(IRequest.class);
-        return iRequest.findCommunityUserCommentList((int)args[0],(String)args[1], (int) args[2],1,20);
+        return iRequest.wxPay((int) args[0], (String) args[1], (String) args[2], (int) args[3]);
     }
 }
