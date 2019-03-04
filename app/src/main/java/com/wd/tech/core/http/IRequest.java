@@ -361,47 +361,10 @@ public interface IRequest {
                                      @Field("oldPwd") String oldPwd,
                                      @Field("newPwd") String newPwd);
 
-    /**
-     * 修改邮箱
-     *
-     * @param userId
-     * @param sessionId
-     * @param email
-     * @return
-     */
-    @PUT("user/verify/v1/modifyEmail")
-    @FormUrlEncoded
-    Observable<Result> modifyEmail(@Header("userId") int userId,
-                                   @Header("sessionId") String sessionId,
-                                   @Field("email") String email);
 
-    /**
-     * 修改用户昵称
-     *
-     * @param userId
-     * @param sessionId
-     * @param nickName
-     * @return
-     */
-    @PUT("user/verify/v1/modifyNickName")
-    @FormUrlEncoded
-    Observable<Result> modifyNickName(@Header("userId") int userId,
-                                      @Header("sessionId") String sessionId,
-                                      @Field("nickName") String nickName);
 
-    /**
-     * 做任务
-     *
-     * @param userId
-     * @param sessionId
-     * @param taskId
-     * @return
-     */
-    @POST("user/verify/v1/doTheTask")
-    @FormUrlEncoded
-    Observable<Result> doTheTask(@Header("userId") int userId,
-                                 @Header("sessionId") String sessionId,
-                                 @Field("taskId") int taskId);
+
+
 
     /**
      * 用户上传头像
@@ -670,22 +633,7 @@ public interface IRequest {
                                            @Field("newGroupId") int newGroupId,
                                            @Field("friendUid") int friendUid);
 
-    /**
-     * 查看别人的社区
-     * @param userId
-     * @param sessionId
-     * @param fromUid
-     * @param page
-     * @param count
-     * @return
-     */
-    @GET("community/verify/v1/findUserPostById")
-    Observable<Result<List<UserPost>>> findUserPostById(
-            @Header("userId") int userId,
-            @Header("sessionId") String sessionId,
-            @Query("fromUid") int fromUid,
-            @Query("page") int page,
-            @Query("count") int count);
+
     /**
      * 做任务
      *
@@ -791,9 +739,6 @@ public interface IRequest {
      *
      * @param userId
      * @param sessionId
-     * @param fromUid
-     * @param page
-     * @param count
      * @return
      */
     @POST("user/verify/v1/addFollow")
