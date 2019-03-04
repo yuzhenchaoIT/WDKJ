@@ -12,6 +12,7 @@ import com.wd.tech.bean.FindGroupByid;
 import com.wd.tech.bean.FindUserByPhone;
 import com.wd.tech.bean.FindUserJoinGroup;
 import com.wd.tech.bean.FollowUser;
+import com.wd.tech.bean.FriendGroup;
 import com.wd.tech.bean.FriendNoticePageList;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.InitFriendlist;
@@ -408,7 +409,7 @@ public interface IRequest {
      */
     @GET("community/v1/findCommunityList")
     Observable<Result<List<CommunityListBean>>> communityList(
-//            @Header("userId") int userId, @Header("sessionId") String sessionId,
+            @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Query("page") int page, @Query("count") int count);
 
     @GET("chat/verify/v1/initFriendList")
@@ -794,6 +795,40 @@ public interface IRequest {
                               @Header("sessionId") String sessionId,
                               @Field("commodityId") int commodityId,
                               @Field("sign") String sign);
+    /**
+     * 查询个人群
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("chat/verify/v1/findFriendGroupList")
+    Observable<Result<List<FriendGroup>>> findFriendGroupList(@Header("userId") int userId,
+                                                              @Header("sessionId") String sessionId);
+
+    /**
+     * 创建自定义好友分组
+     * @param userId
+     * @param sessionId
+     * @param groupName
+     * @return
+     */
+    @POST("chat/verify/v1/addFriendGroup")
+    @FormUrlEncoded
+    Observable<Result> addFriendGroup(@Header("userId") int userId,
+                                      @Header("sessionId") String sessionId,
+                                      @Field("groupName") String groupName);
+
+    /**
+     * 删除好友聊天记录
+     * @param userId
+     * @param sessionId
+     * @param friendUid
+     * @return
+     */
+    @DELETE("chat/verify/v1/deleteChatRecord")
+    Observable<Result> deleteChatRecord(@Header("userId") int userId,
+                                        @Header("sessionId")String sessionId,
+                                        @Query("friendUid") int friendUid);
 
     /**
      * 微信支付

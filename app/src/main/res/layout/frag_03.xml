@@ -34,7 +34,7 @@
             android:layout_height="35dp"
             android:layout_marginLeft="12dp"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="7dp"
+            android:layout_marginBottom="14dp"
             android:background="@drawable/shape_com"
             android:paddingLeft="8dp"/>
         <TextView
@@ -43,6 +43,7 @@
             android:layout_height="wrap_content"
             android:text="发送"
             android:layout_gravity="center"
-            android:layout_marginLeft="12dp"/>
+            android:layout_marginLeft="12dp"
+            android:layout_marginBottom="7dp"/>
     </LinearLayout>
 </RelativeLayout>

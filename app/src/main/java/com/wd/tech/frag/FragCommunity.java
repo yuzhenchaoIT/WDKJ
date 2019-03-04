@@ -83,8 +83,14 @@ public class FragCommunity extends WDFragment  {
                 startActivity(new Intent(getActivity(),AddCircleActivity.class));
             }
         });
-        communitPresenter = new CommunitPresenter(new ComData());
-        communitPresenter.request(true);
+        if (user!=null){
+            communitPresenter = new CommunitPresenter(new ComData());
+            communitPresenter.request(user.getUserId(),user.getSessionId(),true);
+        }else {
+            communitPresenter = new CommunitPresenter(new ComData());
+            communitPresenter.request(1010,"15320748258726",true);
+        }
+
         ButterKnife.bind(getActivity());
         communityAdapter = new CommunityAdapter(getActivity());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
