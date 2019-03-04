@@ -150,9 +150,7 @@ public class SiginActivity extends WDActivity {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
-                Toast.makeText(SiginActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
-            }else {
-                Toast.makeText(SiginActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         }
 

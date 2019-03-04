@@ -1,6 +1,7 @@
 package com.wd.tech.myview;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,14 +9,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.wd.tech.R;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
@@ -32,16 +36,17 @@ import com.wd.tech.view.HomeActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class PerfectActivity extends WDActivity{
+public class PerfectActivity extends WDActivity implements View.OnClickListener {
 
     private User user;
-    private EditText mEditNamePer,mEditDatePer,mEditEmailPer;
-    private TextView mTextSexPer;
+    private EditText mEditNamePer,mEditEmailPer;
+    private TextView mTextSexPer,mTextDatePer;
     private QueryUserPresenter queryUserPresenter;
     private PerfectPresenter perfectPresenter;
     private SharedPreferences sp;
@@ -51,6 +56,7 @@ public class PerfectActivity extends WDActivity{
     private TextView mTextQianPer;
     private QueryUser result;
     private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_perfect;
@@ -67,8 +73,8 @@ public class PerfectActivity extends WDActivity{
         //设置数据
         queryUserPresenter = new QueryUserPresenter(new QueryUserCall());
         queryUserPresenter.request(user.getUserId(),user.getSessionId());
-
     }
+
     //实现查询用户信息接口
     class QueryUserCall implements DataCall<Result<QueryUser>> {
 
@@ -87,7 +93,7 @@ public class PerfectActivity extends WDActivity{
                 Date date = new Date(birthday);
                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
                 String s = format.format(date);
-                mEditDatePer.setText(s);
+                mTextDatePer.setText(s);
                 mEditEmailPer.setText(result.getEmail());
                 mTextQianPer.setText(result.getSignature());
             }
@@ -102,12 +108,32 @@ public class PerfectActivity extends WDActivity{
     private void Initialize() {
         mEditNamePer = (EditText) findViewById(R.id.medit_name_per);
         mTextSexPer = (TextView) findViewById(R.id.mtext_sex_per);
-        mEditDatePer = (EditText) findViewById(R.id.medit_date_per);
+        mTextDatePer = (TextView) findViewById(R.id.medit_date_per);
         mEditEmailPer = (EditText) findViewById(R.id.medit_email_per);
         mTextQianPer = (TextView) findViewById(R.id.mtext_qian_per);
-        mTextSexPer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        //修改性别
+        mTextSexPer.setOnClickListener(this);
+        //点击弹出出生日期
+        mTextDatePer.setOnClickListener(this);
+    }
+    //点击方法
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.medit_date_per:
+                TimePickerView pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
+                    @Override
+                    public void onTimeSelect(Date date, View v) {
+                        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+                        mTextDatePer.setText(sf.format(date)+"");
+                    }
+                })
+                        .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示.setCancelText("取消")
+                        .setSubmitText("确定").build();
+                pvTime.show();
+                break;
+            case R.id.mtext_sex_per:
                 View view = View.inflate(PerfectActivity.this,R.layout.dialogsex_item,null);
                 dialog = new MyDialog(PerfectActivity.this, view);
                 dialog.getWindow().setGravity(Gravity.BOTTOM);
@@ -137,8 +163,8 @@ public class PerfectActivity extends WDActivity{
                     }
                 });
                 dialog.show();
-            }
-        });
+                break;
+        }
     }
     //点击完成
     @OnClick(R.id.mtext_finish)
@@ -153,7 +179,7 @@ public class PerfectActivity extends WDActivity{
         }else {
             currentSex = 2;
         }
-        String date = mEditDatePer.getText().toString().trim();
+        String date = mTextDatePer.getText().toString().trim();
         String email = mEditEmailPer.getText().toString().trim();
         //接收值
         sp = getSharedPreferences("signatrue",Context.MODE_PRIVATE);
@@ -171,11 +197,9 @@ public class PerfectActivity extends WDActivity{
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
-                Toast.makeText(PerfectActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
                 doTheTaskPresenter.request(user.getUserId(),user.getSessionId(),1006);
                 finish();
             }else {
-
 
                 Toast.makeText(PerfectActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -191,7 +215,7 @@ public class PerfectActivity extends WDActivity{
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
-                Toast.makeText(PerfectActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         }
 

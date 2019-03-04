@@ -2,6 +2,7 @@ package com.wd.tech.myview;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,16 +24,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bigkoo.pickerview.TimePickerView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
+import com.wd.tech.core.MyDialog;
+import com.wd.tech.core.PickView;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
@@ -42,6 +47,7 @@ import com.wd.tech.dao.UserDao;
 import com.wd.tech.presenter.ModifyEmailPresenter;
 import com.wd.tech.presenter.ModifyHeadPicPresenter;
 import com.wd.tech.presenter.ModifyNickNamePresenter;
+import com.wd.tech.presenter.PerfectPresenter;
 import com.wd.tech.presenter.QueryUserPresenter;
 import com.wd.tech.view.HomeActivity;
 import com.wd.tech.view.LoginActivity;
@@ -53,6 +59,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -80,6 +87,7 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
             Manifest.permission.CAMERA};
     //请求状态码
     private static int REQUEST_PERMISSION_CODE = 6;
+    private PerfectPresenter perfectPresenter = new PerfectPresenter(new PerfectCall());
     @Override
     protected int getLayoutId() {
         return R.layout.activity_set_up;
@@ -112,6 +120,10 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
         mTextNameUp.setOnClickListener(this);
         //点击修改邮箱
        mTextEmailUp.setOnClickListener(this);
+       //点击修改性别
+        mTextSexUp.setOnClickListener(this);
+        //点击修改出生日期
+        mTextDateUp.setOnClickListener(this);
     }
 
     //实现查询用户信息接口
@@ -202,7 +214,7 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
             case R.id.cancel:
                 dialog.cancel();
                 break;
-            case R.id.mtext_name_up:
+            case R.id.mtext_name_up://修改用户名
                 final EditText editText = new EditText(this);
                 editText.setText(result.getNickName());
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -220,7 +232,49 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
                 builder.setNegativeButton("取消", null);
                 builder.show();
                 break;
-            case R.id.mtext_email_up:
+            case R.id.mtext_sex_up://修改性别
+                View view = View.inflate(SetUpActivity.this,R.layout.dialogsex_item,null);
+                dialog = new MyDialog(SetUpActivity.this, view);
+                dialog.getWindow().setGravity(Gravity.BOTTOM);
+                PickView pvPickView = view.findViewById(R.id.pvPickView);
+                TextView tv_sexdialog_sure = view.findViewById(R.id.tv_sexdialog_sure);
+                TextView tv_sexdialog_cancel = view.findViewById(R.id.tv_sexdialog_cancel);
+                ArrayList<String> grade = new ArrayList<>();
+                grade.add("男");
+                grade.add("女");
+                pvPickView.setData(grade);
+                pvPickView.setOnSelectListener(new PickView.onSelectListener() {
+                    @Override
+                    public void onSelect(String text) {
+                        mTextSexUp.setText(text);
+                    }
+                });
+                tv_sexdialog_cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                tv_sexdialog_sure.setOnClickListener(new View.OnClickListener() {
+                    //声明当前性别
+                    int currentSex;
+                    @Override
+                    public void onClick(View v) {
+                        String sex = mTextSexUp.getText().toString().trim();
+                        if (sex.equals("男")){
+                            currentSex = 1;
+                        }else {
+                            currentSex = 2;
+                        }
+                        perfectPresenter = new PerfectPresenter(new PerfectCall());
+                        perfectPresenter.request(user.getUserId(),user.getSessionId(),result.getNickName(),currentSex,result.getSignature(),result.getBirthday()+"",result.getEmail());
+                        dialog.dismiss();
+                    }
+                });
+                dialog.show();
+                break;
+            case R.id.mtext_email_up://修改邮箱
                 final EditText editemail = new EditText(SetUpActivity.this);
                 editemail.setText(result.getEmail());
                 AlertDialog builder3 = new AlertDialog.Builder(SetUpActivity.this)
@@ -236,6 +290,22 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
                             }
                         }).setNegativeButton("取消", null).create();
                 builder3.show();
+                break;
+            case R.id.mtext_date_up:
+                TimePickerView pvTime = new TimePickerView.Builder(this, new TimePickerView.OnTimeSelectListener() {
+                    @Override
+                    public void onTimeSelect(Date date, View v) {
+                        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+
+                        String s = sf.format(date) + "";
+                        perfectPresenter = new PerfectPresenter(new PerfectCall());
+                        perfectPresenter.request(user.getUserId(),user.getSessionId(),result.getNickName(),result.getSex(),result.getSignature(),s,result.getEmail());
+                    }
+                })
+                        .setType(new boolean[]{true, true, true, false, false, false})// 默认全部显示.setCancelText("取消")
+                        .setSubmitText("确定").build();
+                pvTime.show();
+
                 break;
         }
     }
@@ -274,7 +344,7 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
-                Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+
             }else {
                 Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -291,7 +361,7 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
-                Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+
             }else {
                 Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -341,6 +411,25 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
         //跳转
         Intent intent = new Intent(SetUpActivity.this, ChangePassActivity.class);
         startActivity(intent);
+    }
+    //实现完善个人信息接口
+    class PerfectCall implements DataCall<Result>{
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
+                Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+                queryUserPresenter.request(user.getUserId(), user.getSessionId());
+            }else {
+
+
+                Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
     }
     @Override
     protected void onResume() {

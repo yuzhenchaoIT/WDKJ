@@ -60,7 +60,6 @@ public class CollectionActivity extends WDActivity {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
-                Toast.makeText(CollectionActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
                 result1.clear();
                 allInfoPresenter.request(user.getUserId(),user.getSessionId(),true,5);
             }
@@ -75,6 +74,7 @@ public class CollectionActivity extends WDActivity {
     protected void initView() {
         //绑定
         ButterKnife.bind(this);
+        getSwipeBackLayout();
         //初始化控件
         mRecycler = (RecyclerView) findViewById(R.id.mrecycler);
         mSmartRefresh = (SmartRefreshLayout) findViewById(R.id.msmart_refresh);

@@ -14,7 +14,7 @@ public class CommunitPresenter extends BasePresenter {
 
     @Override
     public Observable observable(Object... args) {
-        boolean refresh = (boolean)args[2];
+        boolean refresh = (boolean)args[0];
         if (refresh){
             page = 1;
         }else{
