@@ -278,6 +278,8 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
             }else {
                 Toast.makeText(SetUpActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
+
+
         }
         @Override
         public void fail(ApiException e) {
