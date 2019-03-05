@@ -1,6 +1,7 @@
 package com.wd.tech.wxapi;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
 
     @Override
     protected void initView() {
+        getSwipeBackLayout();
         api = WXAPIFactory.createWXAPI(this, "wx4c96b6b8da494224");
         api.handleIntent(getIntent(), this);
     }
@@ -59,8 +61,13 @@ public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
             case BaseResp.ErrCode.ERR_OK:
                 if (baseResp instanceof SendAuth.Resp) {
                     SendAuth.Resp sendAuthResp = (SendAuth.Resp) baseResp;
-                    WXPresenter wxLoginPresenter = new WXPresenter(new WxLogin());
-                    wxLoginPresenter.request("1.0",sendAuthResp.code);
+                    try {
+                        String versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
+                        WXPresenter wxLoginPresenter = new WXPresenter(new WxLogin());
+                        wxLoginPresenter.request(versionName,sendAuthResp.code);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:

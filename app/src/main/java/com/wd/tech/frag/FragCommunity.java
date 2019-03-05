@@ -23,6 +23,7 @@ import com.wd.tech.adapter.CommunityAdapter;
 import com.wd.tech.bean.CommunityListBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
+import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.WDApplication;
 import com.wd.tech.core.WDFragment;
 import com.wd.tech.core.exception.ApiException;
@@ -73,14 +74,23 @@ public class FragCommunity extends WDFragment  {
 
     @Override
     protected void initView() {
+
+        user = WDActivity.getUser(getActivity());
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(),AddCircleActivity.class));
             }
         });
-        communitPresenter = new CommunitPresenter(new ComData());
-        communitPresenter.request(true);
+        if (user!=null){
+            communitPresenter = new CommunitPresenter(new ComData());
+            communitPresenter.request(user.getUserId(),user.getSessionId(),true);
+        }else {
+            communitPresenter = new CommunitPresenter(new ComData());
+            communitPresenter.request(1010,"15320748258726",true);
+        }
+
         ButterKnife.bind(getActivity());
         communityAdapter = new CommunityAdapter(getActivity());
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
@@ -118,7 +128,7 @@ public class FragCommunity extends WDFragment  {
 //                    recycler.loadMoreComplete();
 //                }
                 communityAdapter.clearlist();
-                    communitPresenter.request(true);
+                communitPresenter.request(user.getUserId(),user.getSessionId(),true);
             }
 
             @Override
@@ -127,7 +137,7 @@ public class FragCommunity extends WDFragment  {
 //                    recycler.refreshComplete();
 //                    recycler.loadMoreComplete();
 //                }
-                     communitPresenter.request(false);
+                communitPresenter.request(user.getUserId(),user.getSessionId(),false);
             }
         });
         recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -178,7 +188,7 @@ public class FragCommunity extends WDFragment  {
             communityAdapter.notifyDataSetChanged();
             editText.setText("");
             communityAdapter.clearlist();
-            communitPresenter.request(true);
+            communitPresenter.request(user.getUserId(),user.getSessionId(),true);
         }
 
         @Override

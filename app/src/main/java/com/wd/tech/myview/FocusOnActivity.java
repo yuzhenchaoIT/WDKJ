@@ -72,7 +72,6 @@ public class FocusOnActivity extends WDActivity implements FocusOnAdapter.Shan {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
-                Toast.makeText(FocusOnActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
                 result.clear();
                 followUserPresenter.request(user.getUserId(),user.getSessionId(),1,20);
             }

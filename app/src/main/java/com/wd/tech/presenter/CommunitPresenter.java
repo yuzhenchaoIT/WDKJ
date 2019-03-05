@@ -14,13 +14,13 @@ public class CommunitPresenter extends BasePresenter {
 
     @Override
     public Observable observable(Object... args) {
-        boolean refresh = (boolean)args[0];
+        boolean refresh = (boolean)args[2];
         if (refresh){
             page = 1;
         }else{
             page++;
         }
         IRequest iRequest = NotWorkUtils.getInstance().create(IRequest.class);
-        return iRequest.communityList(/*(int)(args[0]),(String) args[1]*/page,10);
+        return iRequest.communityList((int)args[0],(String) args[1],page,10);
     }
 }

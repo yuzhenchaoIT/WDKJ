@@ -12,6 +12,7 @@ import com.wd.tech.bean.FindGroupByid;
 import com.wd.tech.bean.FindUserByPhone;
 import com.wd.tech.bean.FindUserJoinGroup;
 import com.wd.tech.bean.FollowUser;
+import com.wd.tech.bean.FriendGroup;
 import com.wd.tech.bean.FriendNoticePageList;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.InitFriendlist;
@@ -312,6 +313,13 @@ public interface IRequest {
                                                            @Query("page") int page,
                                                            @Query("count") int count);
 
+
+
+
+
+
+
+
     /**
      * 查询用户积分
      *
@@ -354,47 +362,10 @@ public interface IRequest {
                                      @Field("oldPwd") String oldPwd,
                                      @Field("newPwd") String newPwd);
 
-    /**
-     * 修改邮箱
-     *
-     * @param userId
-     * @param sessionId
-     * @param email
-     * @return
-     */
-    @PUT("user/verify/v1/modifyEmail")
-    @FormUrlEncoded
-    Observable<Result> modifyEmail(@Header("userId") int userId,
-                                   @Header("sessionId") String sessionId,
-                                   @Field("email") String email);
 
-    /**
-     * 修改用户昵称
-     *
-     * @param userId
-     * @param sessionId
-     * @param nickName
-     * @return
-     */
-    @PUT("user/verify/v1/modifyNickName")
-    @FormUrlEncoded
-    Observable<Result> modifyNickName(@Header("userId") int userId,
-                                      @Header("sessionId") String sessionId,
-                                      @Field("nickName") String nickName);
 
-    /**
-     * 做任务
-     *
-     * @param userId
-     * @param sessionId
-     * @param taskId
-     * @return
-     */
-    @POST("user/verify/v1/doTheTask")
-    @FormUrlEncoded
-    Observable<Result> doTheTask(@Header("userId") int userId,
-                                 @Header("sessionId") String sessionId,
-                                 @Field("taskId") int taskId);
+
+
 
     /**
      * 用户上传头像
@@ -438,7 +409,7 @@ public interface IRequest {
      */
     @GET("community/v1/findCommunityList")
     Observable<Result<List<CommunityListBean>>> communityList(
-//            @Header("userId") int userId, @Header("sessionId") String sessionId,
+            @Header("userId") int userId, @Header("sessionId") String sessionId,
             @Query("page") int page, @Query("count") int count);
 
     @GET("chat/verify/v1/initFriendList")
@@ -665,6 +636,70 @@ public interface IRequest {
 
 
     /**
+     * 做任务
+     *
+     * @param userId
+     * @param sessionId
+     * @param taskId
+     * @return
+     */
+    @POST("usererify1/doTheTask")
+    @FormUrlEncoded
+    Observable<Result> doTheTask(@Header("userId") int userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("taskId") int taskId);
+    /**
+     * 修改用户昵称
+     *
+     * @param userId
+     * @param sessionId
+     * @param nickName
+     * @return
+     */
+    @PUT("usererify1/modifyNickName")
+    @FormUrlEncoded
+    Observable<Result> modifyNickName(@Header("userId") int userId,
+                                      @Header("sessionId") String sessionId,
+                                      @Field("nickName") String nickName);
+    /**
+     * 修改邮箱
+     *
+     * @param userId
+     * @param sessionId
+     * @param email
+     * @return
+     */
+    @PUT("user/verify/v1/modifyEmail")
+    @FormUrlEncoded
+    Observable<Result> modifyEmail(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Field("email") String email);
+
+    /**
+     * 点赞
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @POST("community/verify/v1/addCommunityGreat")
+    @FormUrlEncoded
+    Observable<Result> addCommunityGreat(@Header("userId") int userId,
+                                         @Header("sessionId") String sessionId,
+                                         @Field("communityId") int communityId);
+
+    /**
+     * 取消点赞
+     * @param userId
+     * @param sessionId
+     * @param communityId
+     * @return
+     */
+    @DELETE("community/verify/v1/cancelCommunityGreat")
+    Observable<Result> cancelCommunityGreat(@Header("userId") int userId,
+                                            @Header("sessionId") String sessionId,
+                                            @Query("communityId") int communityId);
+    /**
      * 详情页面的评论查看
      *
      * @param userId
@@ -705,11 +740,13 @@ public interface IRequest {
      *
      * @param userId
      * @param sessionId
-     * @param fromUid
-     * @param page
-     * @param count
      * @return
      */
+    @POST("user/verify/v1/addFollow")
+    @FormUrlEncoded
+    Observable<Result> addFollow(@Header("userId") int userId,
+                                 @Header("sessionId") String sessionId,
+                                 @Field("focusId") int focusId);
     @GET("community/verify/v1/findUserPostById")
     Observable<Result<List<UserPost>>> findUserPostById(
             @Header("userId") int userId,
@@ -758,6 +795,40 @@ public interface IRequest {
                               @Header("sessionId") String sessionId,
                               @Field("commodityId") int commodityId,
                               @Field("sign") String sign);
+    /**
+     * 查询个人群
+     * @param userId
+     * @param sessionId
+     * @return
+     */
+    @GET("chat/verify/v1/findFriendGroupList")
+    Observable<Result<List<FriendGroup>>> findFriendGroupList(@Header("userId") int userId,
+                                                              @Header("sessionId") String sessionId);
+
+    /**
+     * 创建自定义好友分组
+     * @param userId
+     * @param sessionId
+     * @param groupName
+     * @return
+     */
+    @POST("chat/verify/v1/addFriendGroup")
+    @FormUrlEncoded
+    Observable<Result> addFriendGroup(@Header("userId") int userId,
+                                      @Header("sessionId") String sessionId,
+                                      @Field("groupName") String groupName);
+
+    /**
+     * 删除好友聊天记录
+     * @param userId
+     * @param sessionId
+     * @param friendUid
+     * @return
+     */
+    @DELETE("chat/verify/v1/deleteChatRecord")
+    Observable<Result> deleteChatRecord(@Header("userId") int userId,
+                                        @Header("sessionId")String sessionId,
+                                        @Query("friendUid") int friendUid);
 
     /**
      * 微信支付

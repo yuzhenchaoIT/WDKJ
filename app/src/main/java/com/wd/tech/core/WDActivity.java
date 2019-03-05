@@ -14,9 +14,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 
 
@@ -59,8 +62,12 @@ public abstract class WDActivity extends SwipeBackActivity {
         setContentView(getLayoutId());
         ButterKnife.bind(this);//绑定布局
         initView();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        WDPage.fullScreen(this,false);
+        /*getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setStatusBarColor(Color.WHITE);*/
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         // 可以调用该方法，设置是否允许滑动退出
         setSwipeBackEnable(true);
         mSwipeBackLayout = getSwipeBackLayout();
@@ -154,8 +161,6 @@ public abstract class WDActivity extends SwipeBackActivity {
     protected void onStart() {
         super.onStart();
         mForegroundActivity = this;
-        //透明状态栏
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
     }
 
     /**

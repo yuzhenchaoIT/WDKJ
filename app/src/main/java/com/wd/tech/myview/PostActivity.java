@@ -130,7 +130,6 @@ public class PostActivity extends WDActivity implements PostAdapter.Shan,View.On
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
-                Toast.makeText(PostActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
                 result.clear();
                 myPostPresenter.request(user.getUserId(),user.getSessionId(),true,5);
             }

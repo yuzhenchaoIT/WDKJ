@@ -56,7 +56,6 @@ public class ChangePassActivity extends WDActivity {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
-                Toast.makeText(ChangePassActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
                 finish();
             }else {
                 Toast.makeText(ChangePassActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
