@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 import com.wd.tech.R;
 import com.wd.tech.bean.HomeListBean;
 import com.wd.tech.bean.details.InforDetailsBean;
@@ -24,6 +26,8 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static com.wd.tech.util.UIUtils.getResources;
 
 public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -71,41 +75,40 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             });
         } else if (viewHolder instanceof MyViewHolder) {
             final HomeListBean homeListBean = mList.get(i);
+            //图片
             ((MyViewHolder) viewHolder).img.setImageURI((homeListBean.getThumbnail()));
+            //标题
             ((MyViewHolder) viewHolder).title.setText(homeListBean.getTitle());
+            //简介
             ((MyViewHolder) viewHolder).summary.setText(homeListBean.getSummary());
+            //来源地
             ((MyViewHolder) viewHolder).source.setText(homeListBean.getSource());
             try {
+                //时间格式化
                 ((MyViewHolder) viewHolder).time.setText(DateUtils.dateFormat(new Date(homeListBean.getReleaseTime()), DateUtils.DATE_PATTERN));
             } catch (ParseException e) {
                 e.printStackTrace();
             }
+            //是否付费
             int isPay = homeListBean.getWhetherPay();
             if (isPay == 1) {
+                //赋值收费标识
                 ((MyViewHolder) viewHolder).pay.setBackgroundResource(R.drawable.money_bag_icon);
             } else {
+                //赋值空白
                 ((MyViewHolder) viewHolder).pay.setBackgroundColor(0x00FFFFFF);
             }
-
-            ((MyViewHolder) viewHolder).collect.setText(homeListBean.getCollection() + "");
+            ((MyViewHolder) viewHolder).collect.setText(String.valueOf(homeListBean.getCollection()));
             //当前用户是否收藏 1=是，2=否
-            final int isCollect = homeListBean.getWhetherCollection();
-            //赋值
-            if (isCollect == 1) {
-//                ((MyViewHolder) viewHolder).img_collect.setBackgroundResource(R.drawable.common_icon_collect_s);
-                ((MyViewHolder) viewHolder).img_collect.setImageResource(R.drawable.common_icon_collect_s);
-            } else if (isCollect == 2) {
-                ((MyViewHolder) viewHolder).img_collect.setImageResource(R.drawable.common_icon_collect_n);
+            final int whetherGreat = homeListBean.getWhetherCollection();
+            if (whetherGreat == 1) {
+                ((MyViewHolder) viewHolder).img_collect.setLiked(true);
+            } else {
+                ((MyViewHolder) viewHolder).img_collect.setLiked(false);
             }
-            //点击之后的变化
-            ((MyViewHolder) viewHolder).img_collect.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    onItemClickListener.onItemClick(homeListBean.getId(), isCollect);
-                }
-            });
+            //分享值
             ((MyViewHolder) viewHolder).share.setText(homeListBean.getShare() + "");
-            //点击条目进入详情页面
+            //点击资讯条目进入详情页面
             ((MyViewHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -144,8 +147,9 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     //内部类
     class MyViewHolder extends RecyclerView.ViewHolder {
         private SimpleDraweeView img;
-        private ImageView pay, img_collect;
+        private ImageView pay;
         private TextView title, summary, source, time, collect, share;
+        private LikeButton img_collect;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -158,6 +162,39 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             img_collect = itemView.findViewById(R.id.item_home_list_img_coll);
             collect = itemView.findViewById(R.id.item_home_list_txt_coll);
             share = itemView.findViewById(R.id.item_home_list_txt_share);
+
+            img_collect.setOnLikeListener(new OnLikeListener() {
+                @Override
+                public void liked(LikeButton likeButton) {
+                    img_collect.setEnabled(true);
+                    img_collect.setLikeDrawableRes(R.drawable.common_icon_collect_s);
+                    HomeListBean homeListBean = mList.get(getAdapterPosition());
+                    //是否收藏
+                    int whetherCollection = homeListBean.getWhetherCollection();
+                    if (whetherCollection == 2) {
+                        homeListBean.setWhetherCollection(1);
+                        homeListBean.setCollection(homeListBean.getCollection() + 1);
+                    }
+                    if (homeListBean != null) {
+                        int id = homeListBean.getId();
+                        mCommPriceListener.onPriceSuccessLitener(id);
+                    }
+                }
+
+                @Override
+                public void unLiked(LikeButton likeButton) {
+                    img_collect.setEnabled(true);
+                    img_collect.setLikeDrawableRes(R.drawable.common_icon_collect_n);
+                    HomeListBean homeListBean = mList.get(getAdapterPosition());
+                    //是否收藏
+                    int whetherCollection = homeListBean.getWhetherCollection();
+                    if (whetherCollection == 1) {
+                        homeListBean.setWhetherCollection(2);
+                        homeListBean.setCollection(homeListBean.getCollection() - 1);
+                    }
+                    mCommPriceListener.onPriceFiureLitener(homeListBean.getId());
+                }
+            });
         }
     }
 
@@ -191,4 +228,19 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         this.onItemClickListener = onItemClickListener;
     }
 
+
+    //收藏的接口
+    public interface CommPriceListener {
+        void onPriceSuccessLitener(int uid);
+
+        void onPriceFiureLitener(int uid);
+    }
+
+    //收藏的接口
+    private CommPriceListener mCommPriceListener;
+
+    //收藏的接口
+    public void setCommPriceListener(CommPriceListener mCommPriceListener) {
+        this.mCommPriceListener = mCommPriceListener;
+    }
 }

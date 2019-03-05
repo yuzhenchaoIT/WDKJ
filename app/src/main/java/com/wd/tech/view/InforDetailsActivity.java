@@ -41,7 +41,11 @@ import com.wd.tech.core.SelectPayPopupWindow;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
+import com.wd.tech.presenter.AddCollectPresenter;
+import com.wd.tech.presenter.CancelPresenter;
 import com.wd.tech.presenter.InforDetailsPresenter;
+import com.wd.tech.presenter.InforMation.AddGreatPresenter;
+import com.wd.tech.presenter.InforMation.CancelGreatPresenter;
 import com.wd.tech.presenter.InforMation.DetailAddCommentPresenter;
 import com.wd.tech.presenter.InforMation.DetailAllCommentPresenter;
 import com.wd.tech.util.DateUtils;
@@ -122,6 +126,12 @@ public class InforDetailsActivity extends WDActivity {
     private DetailAllCommentPresenter mDetAllCommP = new DetailAllCommentPresenter(new DetailAllCommentCall());
     //详情 发布 评论
     private DetailAddCommentPresenter detailAddCommentPresenter = new DetailAddCommentPresenter(new DetailAddCommentCall());
+    //点赞
+    private AddGreatPresenter mAddGreatP = new AddGreatPresenter(new AddGreatCall());
+    private CancelGreatPresenter mCancelGreatP = new CancelGreatPresenter(new CancelGreatCall());
+    //收藏 和 取消 收藏
+    private AddCollectPresenter mAddCollectP = new AddCollectPresenter(new AddCollectCall2());
+    private CancelPresenter mCancelP = new CancelPresenter(new CancelCollectCall2());
     private URLImageParser mImageGetter;
     private InforDetailsBean mInforDetailsBean;
     //线性
@@ -134,6 +144,7 @@ public class InforDetailsActivity extends WDActivity {
     private int homeListId;
     private String text;
     private SelectPayPopupWindow menuWindow;
+    private int isCollection;
 
 
     @Override
@@ -199,9 +210,18 @@ public class InforDetailsActivity extends WDActivity {
                 break;
             //点赞图片
             case R.id.infor_details_zan_img:
+                mInforDetailsZanImg.setImageResource(R.drawable.common_icon_praise_s);
+                mAddGreatP.request(user.getUserId(), user.getSessionId(), homeListId);
                 break;
             //收藏图片
             case R.id.infor_details_coll_img:
+                if (isCollection == 1) {
+                    //请求取消收藏的接口
+                    mCancelP.request(user.getUserId(), user.getSessionId(), homeListId + "");
+                } else if (isCollection == 2) {
+                    //请求收藏的接口
+                    mAddCollectP.request(user.getUserId(), user.getSessionId(), homeListId);
+                }
                 break;
             //分享图片
             case R.id.infor_details_share_img:
@@ -290,6 +310,9 @@ public class InforDetailsActivity extends WDActivity {
     }
 
 
+    /**
+     * 详情页面赋值
+     */
     class DetailsCall implements DataCall<Result> {
 
         @Override
@@ -310,7 +333,9 @@ public class InforDetailsActivity extends WDActivity {
                     mInforDetailsLlNoPay.setVisibility(View.VISIBLE);
                     mInforDetailsLl.setVisibility(View.GONE);
                 } else {
+                    mInforDetailsLl.setVisibility(View.VISIBLE);
                     mInforDetailsContent.setText(Html.fromHtml(mInforDetailsBean.getContent(), mImageGetter, null));
+                    mInforDetailsLlNoPay.setVisibility(View.GONE);
                     //展示该内容的类别
                     for (int i = 0; i < plateBeans.size(); i++) {
                         final View item = View.inflate(InforDetailsActivity.this, R.layout.item_search_infor_deatail, null);
@@ -322,6 +347,15 @@ public class InforDetailsActivity extends WDActivity {
                 }
                 mInforDetailsCommentTxt.setText(mInforDetailsBean.getComment() + "");
                 mInforDetailsZanTxt.setText(mInforDetailsBean.getPraise() + "");
+                //当前用户是否过点赞(1为是，2为否)
+//                int isGreat = mInforDetailsBean.getWhetherGreat();
+                isCollection = mInforDetailsBean.getWhetherCollection();
+                //当前用户是否收藏 1=是，2=否
+                if (isCollection == 1) {
+                    mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_s);
+                } else if (isCollection == 2) {
+                    mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_n);
+                }
                 mInforDetailsShareTxt.setText(mInforDetailsBean.getShare() + "");
 
                 //详情 推荐列表的 展示
@@ -385,6 +419,81 @@ public class InforDetailsActivity extends WDActivity {
         }
     }
 
+    //点赞
+    class AddGreatCall implements DataCall<Result> {
+
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")) {
+                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+                mInforDetailsZanTxt.setText(String.valueOf(mInforDetailsBean.getPraise() + 1));
+            } else {
+//                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+                mCancelGreatP.request(user.getUserId(), user.getSessionId(), homeListId);
+                mInforDetailsZanImg.setImageResource(R.drawable.common_icon_prise_n);
+                mInforDetailsZanTxt.setText(String.valueOf(mInforDetailsBean.getPraise()));
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
+    //取消点赞
+    class CancelGreatCall implements DataCall<Result> {
+
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")) {
+                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
+    //收藏
+    class AddCollectCall2 implements DataCall<Result> {
+
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")) {
+                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
+    //取消收藏
+    class CancelCollectCall2 implements DataCall<Result> {
+
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")) {
+                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
 
     @Override
     protected void destoryData() {

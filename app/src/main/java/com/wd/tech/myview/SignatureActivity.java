@@ -118,7 +118,11 @@ public class SignatureActivity extends WDActivity {
 
         }
     }
-
+    //点击按钮返回
+    @OnClick(R.id.mreturn)
+    public void mreturn(){
+        finish();
+    }
     @Override
     protected void destoryData() {
 

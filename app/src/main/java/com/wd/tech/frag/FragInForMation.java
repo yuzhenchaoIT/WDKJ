@@ -84,6 +84,7 @@ public class FragInForMation extends Fragment {
     private SmartRefreshLayout mRefreshLayout;
     private int itemId1;
     private User user;
+    private int uid1;
 
 
     @Nullable
@@ -125,18 +126,20 @@ public class FragInForMation extends Fragment {
         //banner图请求数据
         mBanPresenter.request();
 
-        //进行条目内容收藏
-        mHomeListAdapter.setOnItemClickListener(new HomeListAdapter.OnItemClickListener() {
+
+        //实现收藏
+        mHomeListAdapter.setCommPriceListener(new HomeListAdapter.CommPriceListener() {
             @Override
-            public void onItemClick(int itemId, int isCollect) {
-                itemId1 = itemId;
-                if (isCollect == 1) {
-                    //请求取消收藏的接口
-                    mCancelP.request(user.getUserId(), user.getSessionId(), itemId1 + "");
-                } else if (isCollect == 2) {
-                    //请求收藏的接口
-                    mAddCollectP.request(user.getUserId(), user.getSessionId(), itemId1);
-                }
+            public void onPriceSuccessLitener(int uid) {
+                uid1 = uid;
+                //请求收藏的接口
+                mAddCollectP.request(user.getUserId(), user.getSessionId(), uid);
+            }
+
+            @Override
+            public void onPriceFiureLitener(int uid) {
+                //请求取消收藏的接口
+                mCancelP.request(user.getUserId(), user.getSessionId(), uid + "");
             }
         });
 
@@ -260,10 +263,10 @@ public class FragInForMation extends Fragment {
                     mHomeListAdapter.clear();
                 }
                 mHomeListAdapter.addItem(data.getResult());
-                mHomeListAdapter.notifyDataSetChanged();
             } else {
                 Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             }
+            mHomeListAdapter.notifyDataSetChanged();
         }
 
         @Override
@@ -279,10 +282,10 @@ public class FragInForMation extends Fragment {
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
                 Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
-                mHomeListAdapter.notifyDataSetChanged();
             } else {
-                mCancelP.request(user.getUserId(), user.getSessionId(), itemId1 + "");
+                mCancelP.request(user.getUserId(), user.getSessionId(), uid1 + "");
             }
+            mHomeListAdapter.notifyDataSetChanged();
         }
 
         @Override
@@ -298,16 +301,17 @@ public class FragInForMation extends Fragment {
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
                 Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
-                mHomeListAdapter.notifyDataSetChanged();
             } else {
-                mAddCollectP.request(user.getUserId(), user.getSessionId(), itemId1);
+                mAddCollectP.request(user.getUserId(), user.getSessionId(), uid1);
             }
+            mHomeListAdapter.notifyDataSetChanged();
         }
 
         @Override
         public void fail(ApiException e) {
             Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
+
     }
 
 

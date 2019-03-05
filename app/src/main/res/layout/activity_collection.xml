@@ -6,42 +6,48 @@
     android:layout_height="match_parent"
     tools:context=".myview.CollectionActivity"
     android:orientation="vertical">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="80dp"
         android:background="#f2f2f2">
-        <ImageView
-            android:id="@+id/mreturn"
-            android:layout_width="12dp"
-            android:layout_height="24dp"
-            android:src="@drawable/common_nav_btn_back_n"
-            android:layout_marginLeft="25dp"
-            android:layout_centerVertical="true" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我的收藏"
-            android:textSize="20sp"
-            android:textColor="#666666"
-            android:layout_centerInParent="true" />
-        <ImageView
-            android:id="@+id/mimage_delete"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:src="@drawable/common_nav_delete_n"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"/>
-        <TextView
-            android:id="@+id/mtext_finish_all"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="完成"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:visibility="gone"/>
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp">
+            <ImageView
+                android:id="@+id/mreturn"
+                android:layout_width="12dp"
+                android:layout_height="24dp"
+                android:src="@drawable/common_nav_btn_back_n"
+                android:layout_marginLeft="25dp"
+                android:layout_centerVertical="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的收藏"
+                android:textSize="20sp"
+                android:textColor="#666666"
+                android:layout_centerInParent="true" />
+            <ImageView
+                android:id="@+id/mimage_delete"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/common_nav_delete_n"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"/>
+            <TextView
+                android:id="@+id/mtext_finish_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="完成"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+    </LinearLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/msmart_refresh"
         android:layout_width="match_parent"

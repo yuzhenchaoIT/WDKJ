@@ -5,9 +5,10 @@
     android:id="@+id/activity_vip_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="20dp"
     tools:context=".view.pay.VipActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/aa"
         android:layout_width="match_parent"
         android:layout_height="80dp">
@@ -16,8 +17,6 @@
             android:id="@+id/activity_vip_main_back"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
             android:layout_marginLeft="12dp"
             android:src="@drawable/common_nav_btn_back_n" />
 
@@ -25,12 +24,13 @@
             android:id="@+id/tname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_marginRight="12dp"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
             android:text="开通会员"
             android:textColor="#000000"
             android:textSize="20sp" />
-    </RelativeLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"

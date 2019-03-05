@@ -55,6 +55,12 @@ public class AdvertWebActivity extends WDActivity {
     private void SettingsP() {
         WebSettings seting = mWebView.getSettings();
         seting.setJavaScriptEnabled(true);//设置webview支持javascript脚本
+        seting.setCacheMode(WebSettings.LOAD_NO_CACHE);//不使用缓存，只从网络获取数据.
+        seting.setDomStorageEnabled(true);
+        seting.setAllowFileAccessFromFileURLs(true);
+        //支持屏幕缩放
+        seting.setSupportZoom(true);
+        seting.setBuiltInZoomControls(true);
         // 覆盖WebView默认使用第三方或系统默认浏览器打开网页的行为，使网页用WebView打开
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
@@ -73,7 +79,7 @@ public class AdvertWebActivity extends WDActivity {
                 if (newProgress == 100) {
                     // 网页加载完成
                     mProgressBar.setVisibility(View.GONE);//加载完网页进度条消失
-                    doTheTaskPresenter.request(user.getUserId(),user.getSessionId(),1005);
+                    doTheTaskPresenter.request(user.getUserId(), user.getSessionId(), 1005);
                 } else {
                     // 加载中
                     mProgressBar.setVisibility(View.VISIBLE);//开始加载网页时显示进度条
@@ -83,12 +89,13 @@ public class AdvertWebActivity extends WDActivity {
         });
 
     }
+
     //实现做任务接口
     private class DoTheTaskCall implements DataCall<Result> {
         @Override
         public void success(Result data) {
-            if (data.getStatus().equals("0000")){
-                Toast.makeText(AdvertWebActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
+            if (data.getStatus().equals("0000")) {
+                Toast.makeText(AdvertWebActivity.this, "" + data.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -97,6 +104,7 @@ public class AdvertWebActivity extends WDActivity {
 
         }
     }
+
     @Override
     protected void destoryData() {
 

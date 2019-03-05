@@ -2,6 +2,7 @@ package com.wd.tech.adapter;
 
 
 import android.app.Activity;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.AllInfo;
+import com.wd.tech.view.InforDetailsActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -63,6 +65,14 @@ public class AllInfoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder
                 CheckBox checkBox = (CheckBox) v;
                 boolean checked = checkBox.isChecked();
                 list.get(i).setCheck(checked);
+            }
+        });
+        myHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, InforDetailsActivity.class);
+                intent.putExtra("homeListId",list.get(i).getId()+"");
+                activity.startActivity(intent);
             }
         });
     }

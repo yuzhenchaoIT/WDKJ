@@ -237,7 +237,11 @@ public class PerfectActivity extends WDActivity implements View.OnClickListener 
         super.onResume();
         queryUserPresenter.request(user.getUserId(),user.getSessionId());
     }
-
+    //点击按钮返回
+    @OnClick(R.id.mreturn)
+    public void mreturn(){
+        finish();
+    }
     @Override
     protected void destoryData() {
 
