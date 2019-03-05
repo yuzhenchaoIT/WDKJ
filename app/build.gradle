@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'tech'
             keyPassword '123456'
-            storeFile file('C:/Users/asus/Desktop/tech.keystore')
+            storeFile file('C:/Users/王子龙/Desktop/tech.keystore')
             storePassword '123456'
         }
     }
@@ -72,4 +72,5 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.1'
     //热搜词语展示
     implementation 'com.github.LRH1993:AutoFlowLayout:1.0.5'
+    implementation 'com.contrarywind:Android-PickerView:3.2.5'
 }
