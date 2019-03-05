@@ -93,7 +93,7 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
         findViewById(R.id.add_qx).setOnClickListener(this);
         RecyclerView bo_image_list = (RecyclerView) findViewById(R.id.bo_image_list);
         addCircilePresenter = new AddCircilePresenter(new AddData());
-        objects.add(R.drawable.common_nav_btn_add_n_hdpi);
+        objects.add(R.drawable.adds);
         bo_image_list.setLayoutManager(new GridLayoutManager(this,4));
         add_image_adapter = new AddImageAdapter(this, objects, new AddImageAdapter.Dakai() {
             @Override
