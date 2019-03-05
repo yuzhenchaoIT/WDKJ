@@ -73,4 +73,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.1'
     //热搜词语展示
     implementation 'com.github.LRH1993:AutoFlowLayout:1.0.5'
+    //点赞按钮
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+    //支付宝
+    implementation(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
 }

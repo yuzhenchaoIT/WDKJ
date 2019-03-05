@@ -80,26 +80,29 @@
                     android:id="@+id/item_home_list_img_pay"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="7dp"
                     android:layout_toRightOf="@id/item_home_list_time" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
 
-                    <ImageView
+                    <com.like.LikeButton
                         android:id="@+id/item_home_list_img_coll"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/common_icon_collect_n" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginTop="-7dp"
+                        app:icon_size="12dp"
+                        app:icon_type="heart"
+                        app:like_drawable="@drawable/common_icon_collect_s"
+                        app:liked="false"
+                        app:unlike_drawable="@drawable/common_icon_collect_n" />
 
                     <TextView
                         android:id="@+id/item_home_list_txt_coll"

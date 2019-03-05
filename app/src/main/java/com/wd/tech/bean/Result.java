@@ -17,6 +17,8 @@ public class Result<T> {
     private T result;
     private int groupId;
     private String orderId;
+    private int payType;
+
 
     /**
      * 微信支付
@@ -29,13 +31,20 @@ public class Result<T> {
     private String timeStamp;
     private String packageValue;
 
-
     public String getOrderId() {
         return orderId;
     }
 
     public void setOrderId(String orderId) {
         this.orderId = orderId;
+    }
+
+    public int getPayType() {
+        return payType;
+    }
+
+    public void setPayType(int payType) {
+        this.payType = payType;
     }
 
     public int getGroupId() {

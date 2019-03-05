@@ -21,7 +21,9 @@ allprojects {
         jcenter()
         //魅族banner
         maven { url 'https://jitpack.io' }
-
+        flatDir {
+            dirs 'libs'
+        }
 
 
 
