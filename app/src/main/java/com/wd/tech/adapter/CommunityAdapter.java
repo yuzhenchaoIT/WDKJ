@@ -259,7 +259,6 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = sdf.format(date);
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         Date d = null;
         try {
             d = df.parse(format);
