@@ -191,8 +191,8 @@ public class PointsActivity extends WDActivity {
                 mPayExchangePopWindowT.showAtLocation(PointsActivity.this.findViewById(R.id.activity_points_main), Gravity.CENTER_VERTICAL, 0, 0); //设置layout在PopupWindow中显示的位置
 //                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             } else {
-                mPayExchangePopWindowF = new PayExchangePopWindowF(PointsActivity.this, itemsOnClick2);
-                mPayExchangePopWindowF.showAtLocation(PointsActivity.this.findViewById(R.id.activity_points_main), Gravity.CENTER_VERTICAL, 0, 0);
+//                mPayExchangePopWindowF = new PayExchangePopWindowF(PointsActivity.this, itemsOnClick2);
+//                mPayExchangePopWindowF.showAtLocation(PointsActivity.this.findViewById(R.id.activity_points_main), Gravity.CENTER_VERTICAL, 0, 0);
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             }
         }

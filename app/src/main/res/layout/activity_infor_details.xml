@@ -220,8 +220,8 @@
 
             <ImageView
                 android:id="@+id/infor_details_back"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="12dp"
                 android:src="@drawable/common_nav_btn_back_n" />
@@ -235,7 +235,7 @@
                 android:layout_toRightOf="@id/infor_details_back"
                 android:background="@drawable/bg_comment"
                 android:hint="既然来了，就留下点什么吧"
-                android:padding="10dp"
+                android:padding="6dp"
                 android:textSize="10sp" />
 
             <LinearLayout
@@ -284,6 +284,7 @@
                         android:layout_width="16dp"
                         android:layout_height="16dp"
                         android:layout_marginTop="5dp"
+                        android:background="@drawable/sel_com"
                         android:src="@drawable/common_icon_prise_n" />
 
                     <TextView

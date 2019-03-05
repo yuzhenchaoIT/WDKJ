@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'tech'
             keyPassword '123456'
-            storeFile file('C:/Users/王子龙/Desktop/tech.keystore')
+            storeFile file('C:/Users/asus/Desktop/tech.keystore')
             storePassword '123456'
         }
     }
@@ -73,4 +73,8 @@ dependencies {
     //热搜词语展示
     implementation 'com.github.LRH1993:AutoFlowLayout:1.0.5'
     implementation 'com.contrarywind:Android-PickerView:3.2.5'
+    //点赞按钮
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+    //支付宝
+    implementation(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
 }

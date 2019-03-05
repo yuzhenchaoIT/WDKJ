@@ -841,10 +841,39 @@ public interface IRequest {
      */
     @POST("tool/verify/v1/pay")
     @FormUrlEncoded
-    Observable<Result> wxPay(@Header("userId") int userId,
-                             @Header("sessionId") String sessionId,
-                             @Field("orderId") String orderId,
-                             @Field("payType") int payType);
+    Observable<Result<String>> wxPay(@Header("userId") int userId,
+                                     @Header("sessionId") String sessionId,
+                                     @Field("orderId") String orderId,
+                                     @Field("payType") int payType);
+
+    /**
+     * 详情页面  点赞
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @return
+     */
+
+    @POST("information/verify/v1/addGreatRecord")
+    @FormUrlEncoded
+    Observable<Result> addGreatRecord(@Header("userId") int userId,
+                                      @Header("sessionId") String sessionId,
+                                      @Field("infoId") int infoId);
+
+    /**
+     * 详情页面  取消点赞
+     *
+     * @param userId
+     * @param sessionId
+     * @param infoId
+     * @return
+     */
+
+    @DELETE("information/verify/v1/cancelGreat")
+    Observable<Result> cancelGreat(@Header("userId") int userId,
+                                   @Header("sessionId") String sessionId,
+                                   @Query("infoId") int infoId);
 
 
 }
