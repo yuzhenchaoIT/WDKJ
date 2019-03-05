@@ -86,7 +86,7 @@ public class SpaceActivity extends WDActivity implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 more.setVisibility(View.GONE);
-                animator = ObjectAnimator.ofFloat(linearLayout, "translationX", 0f, -287f);
+                animator = ObjectAnimator.ofFloat(linearLayout, "translationX", 0f, -420f);
                 animator.setDuration(1000);
                 animator.setInterpolator(new LinearInterpolator());
                 animator.start();

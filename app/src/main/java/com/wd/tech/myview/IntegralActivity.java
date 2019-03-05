@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class IntegralActivity extends WDActivity {
     private IntegralPresenter integralPresenter;

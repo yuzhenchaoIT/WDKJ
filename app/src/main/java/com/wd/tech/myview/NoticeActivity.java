@@ -29,6 +29,7 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class NoticeActivity extends WDActivity {
     private NoticePresenter noticePresenter;
@@ -102,6 +103,11 @@ public class NoticeActivity extends WDActivity {
         public void fail(ApiException e) {
 
         }
+    }
+    //点击按钮返回
+    @OnClick(R.id.mreturn)
+    public void mreturn(){
+        finish();
     }
     @Override
     protected void destoryData() {

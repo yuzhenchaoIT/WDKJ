@@ -6,25 +6,31 @@
     android:layout_height="match_parent"
     tools:context=".myview.NoticeActivity"
     android:orientation="vertical">
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="85dp"
+        android:layout_height="80dp"
         android:background="#f2f2f2">
-        <ImageView
-            android:id="@+id/mreturn"
-            android:layout_width="12dp"
-            android:layout_height="24dp"
-            android:src="@drawable/common_nav_btn_back_n"
-            android:layout_marginLeft="25dp"
-            android:layout_centerVertical="true" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="我的通知"
-            android:textSize="20sp"
-            android:textColor="#666666"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp">
+            <ImageView
+                android:id="@+id/mreturn"
+                android:layout_width="12dp"
+                android:layout_height="24dp"
+                android:src="@drawable/common_nav_btn_back_n"
+                android:layout_marginLeft="25dp"
+                android:layout_centerVertical="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的通知"
+                android:textSize="20sp"
+                android:textColor="#666666"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+    </LinearLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/msmart_notice"
         android:layout_width="match_parent"
