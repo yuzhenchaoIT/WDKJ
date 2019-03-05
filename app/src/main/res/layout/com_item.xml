@@ -19,7 +19,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
                 fresco:roundWithOverlayColor="@android:color/white"
-                fresco:roundedCornerRadius="8dp" />
+                fresco:roundedCornerRadius="180dp" />
             <LinearLayout
                 android:id="@+id/com_item_a"
                 android:layout_width="wrap_content"
