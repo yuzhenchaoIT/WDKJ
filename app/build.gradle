@@ -19,6 +19,9 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
         multiDexEnabled true
+        ndk {
+            abiFilters  "armeabi-v7a"  // 指定要ndk需要兼容的架构(这样其他依赖包里mips,x86,armeabi,arm-v8之类的so会被过滤掉)
+        }
     }
     buildTypes {
         release {
@@ -32,6 +35,13 @@ android {
     }
     productFlavors {
     }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
 }
 greendao {
     schemaVersion 1  //版本
@@ -77,4 +87,10 @@ dependencies {
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
     //支付宝
     implementation(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
+    implementation files('libs/facedetection.jar')
+    implementation files('libs/ageestimation.jar')
+    implementation files('libs/facetracking.jar')
+    implementation files('libs/facerecognition.jar')
+    implementation files('libs/genderestimation.jar')
+    implementation 'com.guo.android_extend:android-extend:1.0.1'
 }

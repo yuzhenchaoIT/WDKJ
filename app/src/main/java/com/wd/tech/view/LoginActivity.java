@@ -1,12 +1,16 @@
 package com.wd.tech.view;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hyphenate.EMCallBack;
@@ -15,11 +19,13 @@ import com.wd.tech.R;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
+import com.wd.tech.core.WDApplication;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.DaoSession;
 import com.wd.tech.dao.UserDao;
+import com.wd.tech.face.DetecterActivity;
 import com.wd.tech.presenter.LoginPresenter;
 import com.wd.tech.util.RsaCoder;
 
@@ -32,6 +38,7 @@ public class LoginActivity extends WDActivity {
     private EditText mEditPhone,mEditPass;
     private LoginPresenter loginPresenter;
     private CheckBox mCheckEye;
+    private static final int REQUEST_CODE_OP = 7;
 
     @Override
     protected int getLayoutId() {
@@ -51,6 +58,26 @@ public class LoginActivity extends WDActivity {
         mEditPhone = (EditText) findViewById(R.id.medit_phone);
         mEditPass = (EditText) findViewById(R.id.medit_pass);
         mCheckEye = (CheckBox) findViewById(R.id.mcheck_eye);
+        ImageView mface_book = (ImageView) findViewById(R.id.mface_book);
+        mface_book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if( ((WDApplication)getApplicationContext()).mFaceDB.mRegister.isEmpty() ) {
+                    Toast.makeText(LoginActivity.this, "没有注册人脸，请先注册！", Toast.LENGTH_SHORT).show();
+                } else {
+                    new AlertDialog.Builder(LoginActivity.this)
+                            .setTitle("请选择相机")
+                            .setIcon(android.R.drawable.ic_dialog_info)
+                            .setItems(new String[]{"后置相机", "前置相机"}, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startDetector(which);
+                                }
+                            })
+                            .show();
+                }
+            }
+        });
         //点击显示和隐藏密码
         mCheckEye.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -150,5 +177,11 @@ public class LoginActivity extends WDActivity {
     @Override
     protected void destoryData() {
 
+    }
+
+    private void startDetector(int camera) {
+        Intent it = new Intent(LoginActivity.this, DetecterActivity.class);
+        it.putExtra("Camera", camera);
+        startActivityForResult(it, REQUEST_CODE_OP);
     }
 }
