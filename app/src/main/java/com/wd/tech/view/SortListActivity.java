@@ -117,7 +117,7 @@ public class SortListActivity extends WDActivity {
         @Override
         public void success(Result<List<HomeListBean>> data) {
             if (data.getStatus().equals("0000")) {
-                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 //添加列表并刷新
                 if (mPlateListP.getPage() == 1) {
                     mHomeListAdapter.clear();

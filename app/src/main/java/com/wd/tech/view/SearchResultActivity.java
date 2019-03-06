@@ -49,6 +49,7 @@ public class SearchResultActivity extends WDActivity {
     private FindByTitleAdapter mFindByTitleAda;
     //线性布局
     private LinearLayoutManager mManager = new LinearLayoutManager(getContext());
+    private String s;
 
     @Override
     protected int getLayoutId() {
@@ -59,8 +60,17 @@ public class SearchResultActivity extends WDActivity {
     protected void initView() {
 
         String mDataTxt = getIntent().getStringExtra("mDataTxt");
-        mSearchResultEditZi.setText(mDataTxt);
-        mByTitlePre.request(mDataTxt, 1, 50);
+
+        s = mSearchResultEditZi.getText().toString();
+
+
+        if (mDataTxt != null) {
+            mSearchResultEditZi.setText(mDataTxt);
+            mByTitlePre.request(mDataTxt, 1, 50);
+        } else {
+//            mByTitlePre.request(s, 1, 50);
+        }
+
         //取消按钮
         mSearchResultCancelTxt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,8 +89,11 @@ public class SearchResultActivity extends WDActivity {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    final String s = mSearchResultEditZi.getText().toString();
-                    mByTitlePre.request(s, 1, 50);
+                    if (s == null) {
+                        Toast.makeText(getContext(), "请输入您想要的内容", Toast.LENGTH_SHORT).show();
+                    } else {
+                        mByTitlePre.request(s, 1, 50);
+                    }
                     return true;
                 }
 
@@ -116,7 +129,6 @@ public class SearchResultActivity extends WDActivity {
         @Override
         public void fail(ApiException e) {
             Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
-
         }
     }
 

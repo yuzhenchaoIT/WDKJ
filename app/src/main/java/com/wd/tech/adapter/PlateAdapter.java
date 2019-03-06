@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.AllInfoPlateBean;
@@ -45,7 +47,7 @@ public class PlateAdapter extends RecyclerView.Adapter<PlateAdapter.MyViewHolder
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         final AllInfoPlateBean plateBean = mList.get(i);
-        myViewHolder.img.setImageURI(Uri.parse(plateBean.getPic()));
+        Glide.with(mContext).load(plateBean.getPic()).into(myViewHolder.img);
         myViewHolder.title.setText(plateBean.getName());
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,7 +71,7 @@ public class PlateAdapter extends RecyclerView.Adapter<PlateAdapter.MyViewHolder
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        private SimpleDraweeView img;
+        private ImageView img;
         private TextView title;
 
         public MyViewHolder(@NonNull View itemView) {
