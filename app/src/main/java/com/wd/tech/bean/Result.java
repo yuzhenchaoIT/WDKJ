@@ -18,7 +18,15 @@ public class Result<T> {
     private int groupId;
     private String orderId;
     private int payType;
+    String faceId;
 
+    public String getFaceId() {
+        return faceId;
+    }
+
+    public void setFaceId(String faceId) {
+        this.faceId = faceId;
+    }
 
     /**
      * 微信支付

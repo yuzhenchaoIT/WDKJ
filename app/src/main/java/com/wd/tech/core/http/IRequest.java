@@ -643,7 +643,7 @@ public interface IRequest {
      * @param taskId
      * @return
      */
-    @POST("usererify1/doTheTask")
+    @POST("user/verify/v1/doTheTask")
     @FormUrlEncoded
     Observable<Result> doTheTask(@Header("userId") int userId,
                                  @Header("sessionId") String sessionId,
@@ -874,6 +874,30 @@ public interface IRequest {
     Observable<Result> cancelGreat(@Header("userId") int userId,
                                    @Header("sessionId") String sessionId,
                                    @Query("infoId") int infoId);
+
+
+    /***
+     * 绑定faceId
+     * @param userId
+     * @param sessionId
+     * @param featureInfo
+     * @return
+     */
+    @PUT("user/verify/v1/bindingFaceId")
+    @FormUrlEncoded
+    Observable<Result> bindingFaceId(@Header("userId") int userId,
+                                      @Header("sessionId") String sessionId,
+                                      @Field("featureInfo")String featureInfo);
+
+
+    /**
+     * 刷脸登陆
+     * @param faceId
+     * @return
+     */
+    @POST("user/v1/faceLogin")
+    @FormUrlEncoded
+    Observable<Result<User>> faceLogin(@Field("faceId")String faceId);
 
 
 }
