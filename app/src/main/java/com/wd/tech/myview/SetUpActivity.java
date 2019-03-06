@@ -102,6 +102,8 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     //请求状态码
     private static int REQUEST_PERMISSION_CODE = 6;
     private PerfectPresenter perfectPresenter = new PerfectPresenter(new PerfectCall());
+    private TextView mtext_face_up;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_set_up;
@@ -138,7 +140,8 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
         mTextSexUp.setOnClickListener(this);
         //点击修改出生日期
         mTextDateUp.setOnClickListener(this);
-        TextView mtext_face_up = (TextView) findViewById(R.id.mtext_face_up);
+        //人脸识别
+        mtext_face_up = (TextView) findViewById(R.id.mtext_face_up);
         mtext_face_up.setOnClickListener(this);
     }
 
@@ -171,6 +174,12 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
                     mTextVipUp.setText("否");
                 }
                 mTextQianSet.setText(result.getSignature());
+                int whetherFaceId = result.getWhetherFaceId();
+                if (whetherFaceId == 1){
+                    mtext_face_up.setText("已绑定");
+                }else {
+                    mtext_face_up.setText("未绑定");
+                }
             }
         }
 
@@ -324,6 +333,12 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
 
                 break;
             case R.id.mtext_face_up:
+                //读写权限
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
+                    }
+                }
                 new AlertDialog.Builder(this)
                         .setTitle("请选择注册方式")
                         .setIcon(android.R.drawable.ic_dialog_info)
@@ -409,6 +424,7 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
                 }
             }
         }
+
     }
     //实现修改用户名接口
     private class NickNameCall implements DataCall<Result>{

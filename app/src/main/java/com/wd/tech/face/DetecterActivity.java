@@ -11,11 +11,13 @@ import android.graphics.YuvImage;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arcsoft.ageestimation.ASAE_FSDKAge;
 import com.arcsoft.ageestimation.ASAE_FSDKEngine;
@@ -49,7 +51,14 @@ import com.wd.tech.bean.User;
 import com.wd.tech.core.WDApplication;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
+import com.wd.tech.dao.DaoMaster;
+import com.wd.tech.dao.DaoSession;
+import com.wd.tech.dao.UserDao;
 import com.wd.tech.presenter.FaceLoginPresenter;
+import com.wd.tech.util.RsaCoder;
+import com.wd.tech.view.LoginActivity;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -180,7 +189,14 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 							FaceLoginPresenter faceLoginPresenter = new FaceLoginPresenter(new FaceLoginCall());
 							SharedPreferences share = WDApplication.getShare();
 							String string = share.getString("faceid", "");
-							faceLoginPresenter.request(string);
+							try {
+								String s = RsaCoder.encryptByPublicKey(string);
+								faceLoginPresenter.request(s);
+								finish();
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+
 						}
 					});
 
@@ -394,7 +410,18 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 	private class FaceLoginCall implements DataCall<Result<User>> {
 		@Override
 		public void success(Result<User> data) {
-
+			if (data.getStatus().equals("0000")){
+				//添加数据库
+				User result = data.getResult();
+				DaoSession daoSession = DaoMaster.newDevSession(DetecterActivity.this, UserDao.TABLENAME);
+				UserDao userDao = daoSession.getUserDao();
+				result.setStatu("1");
+				userDao.insertOrReplace(result);
+				//传值
+				Message message = new Message();
+				message.what = 9;
+				EventBus.getDefault().post(message);
+			}
 		}
 
 		@Override

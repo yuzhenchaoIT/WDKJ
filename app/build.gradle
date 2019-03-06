@@ -93,5 +93,5 @@ dependencies {
     implementation files('libs/facerecognition.jar')
     implementation files('libs/genderestimation.jar')
     implementation 'com.guo.android_extend:android-extend:1.0.1'
-
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }
