@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,10 +60,12 @@ public class FocusOnAdapter extends RecyclerView.Adapter<FocusOnAdapter.MyViewHo
                 shan.onshan(position);
             }
         });
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(activity, "111", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(activity, SpaceActivity.class);
+                intent.putExtra("id",mDatas.get(position).getFocusUid());
+                activity.startActivity(intent);
             }
         });
     }
@@ -91,7 +94,7 @@ public class FocusOnAdapter extends RecyclerView.Adapter<FocusOnAdapter.MyViewHo
         TextView qian;
         TextView shanchu;
         SideslipView sideslipView;
-
+        LinearLayout linearLayout;
         public MyViewHolder(View view) {
             super(view);
             head = view.findViewById(R.id.mimage_foc);
@@ -99,6 +102,7 @@ public class FocusOnAdapter extends RecyclerView.Adapter<FocusOnAdapter.MyViewHo
             qian = view.findViewById(R.id.mtextsig_foc);
             shanchu = view.findViewById(R.id.mtext_del_foc);
             sideslipView = view.findViewById(R.id.msides);
+            linearLayout = view.findViewById(R.id.mlinear_foc);
         }
     }
 
