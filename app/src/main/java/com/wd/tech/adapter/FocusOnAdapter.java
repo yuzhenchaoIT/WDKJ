@@ -9,12 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.wd.tech.R;
 import com.wd.tech.bean.FollowUser;
 import com.wd.tech.core.SideslipView;
+import com.wd.tech.view.SpaceActivity;
 
 
 import java.util.ArrayList;
@@ -54,6 +57,12 @@ public class FocusOnAdapter extends RecyclerView.Adapter<FocusOnAdapter.MyViewHo
             @Override
             public void onClick(View v) {
                 shan.onshan(position);
+            }
+        });
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(activity, "111", Toast.LENGTH_SHORT).show();
             }
         });
     }
