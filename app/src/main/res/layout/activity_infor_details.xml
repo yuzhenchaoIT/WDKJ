@@ -18,101 +18,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/infor_details_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="40dp"
-                android:layout_marginRight="12dp"
-                android:text="我是可口可乐"
-                android:textColor="#000"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/infor_details_time"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="12dp"
-                android:text="2019-01-01"
-                android:textColor="#999"
-                android:textSize="10sp" />
-
-            <TextView
-                android:id="@+id/infor_details_source"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="12dp"
-                android:text="南七道南七道南七道南七道"
-                android:textColor="#999"
-                android:textSize="12sp" />
-
             <LinearLayout
-                android:id="@+id/infor_details_ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="50dp"
-                android:orientation="vertical"
-                android:visibility="visible">
-
-                <TextView
-                    android:id="@+id/infor_details_content"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:text="可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐"
-                    android:textColor="#666"
-                    android:textSize="12sp" />
-
-                <com.example.library.AutoFlowLayout
-                    android:id="@+id/infor_details_afl"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"></com.example.library.AutoFlowLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="30dp"
-                    android:background="#fff"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginTop="10dp"
-                        android:text="推荐"
-                        android:textColor="#999"
-                        android:textSize="10sp" />
-
-
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/infor_details_recom_recy"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="12dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="12dp"
-                        android:layout_marginBottom="20dp"></android.support.v7.widget.RecyclerView>
-
-
-                </LinearLayout>
-
-
-            </LinearLayout>
-
-
-            <!--不能正常阅读，需要付费的页面-->
-
-            <LinearLayout
-                android:id="@+id/infor_details_ll_no_pay"
+                android:id="@+id/infor_details_ll_no_login"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
@@ -127,73 +34,202 @@
                     android:src="@drawable/no_pay_img" />
 
                 <TextView
-                    android:id="@+id/infor_details_go_pay"
                     android:layout_width="250dp"
                     android:layout_height="40dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="30dp"
                     android:layout_marginBottom="90dp"
-                    android:background="@drawable/bg_no_pay_txt"
                     android:gravity="center"
-                    android:text="尚未购买，付费再来阅读吧"
-                    android:textColor="#fff"
+                    android:text="您还没有登录哦"
+                    android:textColor="#666"
                     android:textSize="16sp" />
 
 
             </LinearLayout>
 
-            <!--评论列表展示-->
-
             <LinearLayout
+                android:id="@+id/infor_details_ll_data"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="-40dp"
-                android:layout_marginBottom="50dp"
-                android:background="#fff"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <TextView
+                    android:id="@+id/infor_details_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginRight="12dp"
+                    android:text="我是可口可乐"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/infor_details_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="10dp"
-                    android:text="评论"
+                    android:layout_marginRight="12dp"
+                    android:text="2019-01-01"
                     android:textColor="#999"
                     android:textSize="10sp" />
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/infor_details_comm_recy"
+                <TextView
+                    android:id="@+id/infor_details_source"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="12dp"
-                    android:layout_marginBottom="20dp"
-                    android:visibility="visible"></android.support.v7.widget.RecyclerView>
-
-                <!--没有评论时显示的评论页面-->
+                    android:text="南七道南七道南七道南七道"
+                    android:textColor="#999"
+                    android:textSize="12sp" />
 
                 <LinearLayout
-                    android:id="@+id/infor_details_ll_no_comment"
+                    android:id="@+id/infor_details_ll"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="50dp"
                     android:orientation="vertical"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
+                        android:id="@+id/infor_details_content"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="该内容暂时还没有评论~~~"
-                        android:textColor="#999"
-                        android:textSize="14sp" />
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"
+                        android:text="可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐可口可乐"
+                        android:textColor="#666"
+                        android:textSize="12sp" />
+
+                    <com.example.library.AutoFlowLayout
+                        android:id="@+id/infor_details_afl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginRight="12dp"></com.example.library.AutoFlowLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="30dp"
+                        android:background="#fff"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginTop="10dp"
+                            android:text="推荐"
+                            android:textColor="#999"
+                            android:textSize="10sp" />
+
+
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/infor_details_recom_recy"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="12dp"
+                            android:layout_marginTop="20dp"
+                            android:layout_marginRight="12dp"
+                            android:layout_marginBottom="20dp"></android.support.v7.widget.RecyclerView>
+
+
+                    </LinearLayout>
 
 
                 </LinearLayout>
 
+
+                <!--不能正常阅读，需要付费的页面-->
+
+                <LinearLayout
+                    android:id="@+id/infor_details_ll_no_pay"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="70dp"
+                        android:src="@drawable/no_pay_img" />
+
+                    <TextView
+                        android:id="@+id/infor_details_go_pay"
+                        android:layout_width="250dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="90dp"
+                        android:background="@drawable/bg_no_pay_txt"
+                        android:gravity="center"
+                        android:text="尚未购买，付费再来阅读吧"
+                        android:textColor="#fff"
+                        android:textSize="16sp" />
+
+
+                </LinearLayout>
+
+                <!--评论列表展示-->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="-40dp"
+                    android:layout_marginBottom="50dp"
+                    android:background="#fff"
+                    android:orientation="vertical">
+
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="10dp"
+                        android:text="评论"
+                        android:textColor="#999"
+                        android:textSize="10sp" />
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/infor_details_comm_recy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="12dp"
+                        android:layout_marginBottom="20dp"
+                        android:visibility="visible"></android.support.v7.widget.RecyclerView>
+
+                    <!--没有评论时显示的评论页面-->
+
+                    <LinearLayout
+                        android:id="@+id/infor_details_ll_no_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="12dp"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="该内容暂时还没有评论~~~"
+                            android:textColor="#999"
+                            android:textSize="14sp" />
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
             </LinearLayout>
 
 
@@ -215,7 +251,9 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
 
             <ImageView
@@ -348,8 +386,7 @@
         </RelativeLayout>
 
 
-    </LinearLayout>
-    <!--最底部相关事物-->
+    </LinearLayout><!--最底部相关事物-->
 
     <RelativeLayout
         android:id="@+id/rl_comment"

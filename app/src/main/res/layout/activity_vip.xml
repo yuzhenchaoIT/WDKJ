@@ -5,7 +5,6 @@
     android:id="@+id/activity_vip_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="20dp"
     tools:context=".view.pay.VipActivity">
 
     <LinearLayout
@@ -13,23 +12,37 @@
         android:layout_width="match_parent"
         android:layout_height="80dp">
 
-        <ImageView
-            android:id="@+id/activity_vip_main_back"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginLeft="12dp"
-            android:src="@drawable/common_nav_btn_back_n" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginTop="20dp">
 
-        <TextView
-            android:id="@+id/tname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="12dp"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:text="开通会员"
-            android:textColor="#000000"
-            android:textSize="20sp" />
+            <ImageView
+                android:id="@+id/activity_vip_main_back"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:src="@drawable/common_nav_btn_back_n" />
+
+            <TextView
+                android:id="@+id/tname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_marginRight="12dp"
+                android:text="开通会员"
+                android:textColor="#000000"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="12dp" />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <View

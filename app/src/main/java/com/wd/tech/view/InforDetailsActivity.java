@@ -118,15 +118,19 @@ public class InforDetailsActivity extends WDActivity {
     LinearLayout mInforDetailsBottom;
     @BindView(R.id.infor_details_go_pay)
     TextView mInforDetailsGoPay;
+    @BindView(R.id.infor_details_ll_no_login)
+    LinearLayout mInforDetailsLlNoLogin;
+    @BindView(R.id.infor_details_ll_data)
+    LinearLayout mInforDetailsLlData;
 
     private TextView mInforAfltZi;
-    //p层
+    //请求详情页面内容p层
     private InforDetailsPresenter mDetailsPresenter = new InforDetailsPresenter(new DetailsCall());
     //查看详情所有评论
     private DetailAllCommentPresenter mDetAllCommP = new DetailAllCommentPresenter(new DetailAllCommentCall());
     //详情 发布 评论
     private DetailAddCommentPresenter detailAddCommentPresenter = new DetailAddCommentPresenter(new DetailAddCommentCall());
-    //点赞
+    //详情 点赞
     private AddGreatPresenter mAddGreatP = new AddGreatPresenter(new AddGreatCall());
     private CancelGreatPresenter mCancelGreatP = new CancelGreatPresenter(new CancelGreatCall());
     //收藏 和 取消 收藏
@@ -166,7 +170,14 @@ public class InforDetailsActivity extends WDActivity {
 
         //获取条目id
         homeListId = Integer.parseInt(getIntent().getStringExtra("homeListId"));
-        mDetailsPresenter.request(18, "15320748258726", homeListId);
+
+        if (user != null) {
+            mDetailsPresenter.request(user.getUserId(), user.getSessionId(), homeListId);
+        } else {
+            mInforDetailsLlNoLogin.setVisibility(View.VISIBLE);
+            mInforDetailsLlData.setVisibility(View.GONE);
+            Toast.makeText(getBaseContext(), "请先登录", Toast.LENGTH_SHORT).show();
+        }
 
 
         //详情页面的“推荐”
@@ -182,7 +193,14 @@ public class InforDetailsActivity extends WDActivity {
         mIforDetailCommR.setLayoutManager(mManager2);
         mIforDetailCommR.setAdapter(mDetailAllCommentA);
 
-        mDetAllCommP.request(1010, "15320748258726", homeListId, 1, 20);
+        if (user != null) {
+            //详情  p层请求
+            mDetAllCommP.request(user.getUserId(), user.getSessionId(), homeListId, 1, 20);
+        } else {
+            mInforDetailsLlNoLogin.setVisibility(View.VISIBLE);
+            mInforDetailsLlData.setVisibility(View.GONE);
+        }
+
 
     }
 
@@ -218,9 +236,11 @@ public class InforDetailsActivity extends WDActivity {
                 if (isCollection == 1) {
                     //请求取消收藏的接口
                     mCancelP.request(user.getUserId(), user.getSessionId(), homeListId + "");
+                    mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_n);
                 } else if (isCollection == 2) {
                     //请求收藏的接口
                     mAddCollectP.request(user.getUserId(), user.getSessionId(), homeListId);
+                    mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_s);
                 }
                 break;
             //分享图片
@@ -263,9 +283,11 @@ public class InforDetailsActivity extends WDActivity {
                     Intent intent = new Intent(InforDetailsActivity.this, PointsActivity.class);
                     intent.putExtra("DataId", homeListId + "");
                     startActivity(intent);
+                    finish();
                     break;
                 case R.id.pay_way_go_vip:
                     startActivity(new Intent(InforDetailsActivity.this, VipActivity.class));
+                    finish();
                     break;
             }
         }
@@ -348,7 +370,6 @@ public class InforDetailsActivity extends WDActivity {
                 mInforDetailsCommentTxt.setText(mInforDetailsBean.getComment() + "");
                 mInforDetailsZanTxt.setText(mInforDetailsBean.getPraise() + "");
                 //当前用户是否过点赞(1为是，2为否)
-//                int isGreat = mInforDetailsBean.getWhetherGreat();
                 isCollection = mInforDetailsBean.getWhetherCollection();
                 //当前用户是否收藏 1=是，2=否
                 if (isCollection == 1) {
@@ -467,7 +488,9 @@ public class InforDetailsActivity extends WDActivity {
             if (data.getStatus().equals("0000")) {
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+//                mCancelP.request(user.getUserId(), user.getSessionId(), homeListId + "");
+//                mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_n);
             }
         }
 

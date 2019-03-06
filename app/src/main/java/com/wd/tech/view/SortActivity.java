@@ -63,7 +63,7 @@ public class SortActivity extends WDActivity {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
-                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 List<AllInfoPlateBean> beanList = (List<AllInfoPlateBean>) data.getResult();
                 mPlateAdapter.addItem(beanList);
                 mPlateAdapter.notifyDataSetChanged();

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="50dp"
+    android:layout_marginTop="40dp"
     android:orientation="vertical"
     tools:context=".view.SearchResultActivity">
 
@@ -29,7 +29,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:paddingLeft="5dp"
+                android:paddingLeft="6dp"
                 android:src="@drawable/common_nav_btn_search_n" />
 
             <EditText
@@ -41,6 +41,7 @@
                 android:background="@null"
                 android:hint="搜索文章"
                 android:imeOptions="actionSearch"
+                android:maxLines="1"
                 android:singleLine="true"
                 android:textColor="#666"
                 android:textSize="14sp" />
