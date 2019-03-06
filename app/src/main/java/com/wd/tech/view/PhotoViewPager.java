@@ -13,7 +13,6 @@ public class PhotoViewPager extends ViewPager {
     public PhotoViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
         @Override
         public boolean onInterceptTouchEvent(MotionEvent ev) {
             try {
