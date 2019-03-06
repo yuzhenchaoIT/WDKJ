@@ -333,12 +333,7 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
 
                 break;
             case R.id.mtext_face_up:
-                //读写权限
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
-                    }
-                }
+
                 new AlertDialog.Builder(this)
                         .setTitle("请选择注册方式")
                         .setIcon(android.R.drawable.ic_dialog_info)

@@ -100,6 +100,7 @@ public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
                 userDao.insertOrReplace(result);
                 finish();
             }else {
+                Toast.makeText(WXEntryActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
