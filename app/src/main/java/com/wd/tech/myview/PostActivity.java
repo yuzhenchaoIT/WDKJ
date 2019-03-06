@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PostActivity extends WDActivity implements PostAdapter.Shan,View.OnClickListener {
     private MyPostPresenter myPostPresenter;
@@ -165,6 +166,11 @@ public class PostActivity extends WDActivity implements PostAdapter.Shan,View.On
         public void fail(ApiException e) {
 
         }
+    }
+    //点击按钮返回
+    @OnClick(R.id.mreturn)
+    public void mreturn(){
+        finish();
     }
     @Override
     protected void destoryData() {

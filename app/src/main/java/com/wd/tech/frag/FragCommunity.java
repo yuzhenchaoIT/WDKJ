@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.drawee.view.SimpleDraweeView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.wd.tech.R;
 import com.wd.tech.adapter.CommunityAdapter;
@@ -80,7 +81,12 @@ public class FragCommunity extends WDFragment  {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),AddCircleActivity.class));
+                if (user!=null){
+                    startActivity(new Intent(getActivity(),AddCircleActivity.class));
+                }else {
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         if (user!=null){
@@ -127,8 +133,13 @@ public class FragCommunity extends WDFragment  {
 //                    recycler.refreshComplete();
 //                    recycler.loadMoreComplete();
 //                }
-                communityAdapter.clearlist();
-                communitPresenter.request(user.getUserId(),user.getSessionId(),true);
+                if (user!=null){
+                    communityAdapter.clearlist();
+                    communitPresenter.request(user.getUserId(),user.getSessionId(),true);
+                }else {
+                    communitPresenter.request(1010,"15320748258726",true);
+                }
+
             }
 
             @Override
@@ -137,7 +148,12 @@ public class FragCommunity extends WDFragment  {
 //                    recycler.refreshComplete();
 //                    recycler.loadMoreComplete();
 //                }
-                communitPresenter.request(user.getUserId(),user.getSessionId(),false);
+                if (user!=null){
+                    communitPresenter.request(user.getUserId(),user.getSessionId(),false);
+                }else {
+                    communitPresenter.request(1010,"15320748258726",false);
+                }
+
             }
         });
         recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -208,6 +224,19 @@ public class FragCommunity extends WDFragment  {
         @Override
         public void fail(ApiException e) {
 
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+           communitPresenter = new CommunitPresenter(new ComData());
+         user = WDActivity.getUser(getActivity());
+        if (user !=null){
+            communityAdapter.clearlist();
+            communitPresenter.request(this.user.getUserId(), this.user.getSessionId(),true);
+        }else {
+            communitPresenter.request(1010,"15320748258726",true);
         }
     }
 }

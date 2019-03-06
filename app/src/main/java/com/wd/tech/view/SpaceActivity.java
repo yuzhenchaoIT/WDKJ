@@ -78,7 +78,15 @@ public class SpaceActivity extends WDActivity implements View.OnClickListener {
             finish();
         }
         spaceAdapter = new SpaceAdapter(SpaceActivity.this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this){
+
+                @Override
+                public boolean canScrollVertically() {
+                // 直接禁止垂直滑动
+                return false;
+            }
+
+        };
         listView.setLayoutManager(layoutManager);
         listView.setAdapter(spaceAdapter);
         final ImageView more = (ImageView) findViewById(R.id.as_more);
@@ -86,7 +94,8 @@ public class SpaceActivity extends WDActivity implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 more.setVisibility(View.GONE);
-                animator = ObjectAnimator.ofFloat(linearLayout, "translationX", 0f, -287f);
+                int width = linearLayout.getMeasuredWidth();
+                animator = ObjectAnimator.ofFloat(linearLayout, "translationX", 0f, -width);
                 animator.setDuration(1000);
                 animator.setInterpolator(new LinearInterpolator());
                 animator.start();

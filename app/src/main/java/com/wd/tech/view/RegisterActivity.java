@@ -84,7 +84,6 @@ public class RegisterActivity extends WDActivity {
     }
     //实现注册的接口
     class RegisterCall implements DataCall<Result>{
-
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")){
@@ -95,7 +94,6 @@ public class RegisterActivity extends WDActivity {
                             EMClient.getInstance().createAccount(phone, passss);
                             runOnUiThread(new Runnable() {
                                 public void run() {
-
                                     Toast.makeText(getApplicationContext(), getResources().getString(R.string.Registered_successfully), Toast.LENGTH_SHORT).show();
                                     finish();
                                 }
@@ -127,6 +125,8 @@ public class RegisterActivity extends WDActivity {
                 Toast.makeText(RegisterActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
                 //跳转登录页
                 finish();
+            }else {
+                Toast.makeText(RegisterActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
         @Override

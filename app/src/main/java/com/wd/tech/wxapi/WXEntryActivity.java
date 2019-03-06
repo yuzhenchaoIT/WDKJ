@@ -99,6 +99,8 @@ public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
                 result.setStatu("1");
                 userDao.insertOrReplace(result);
                 finish();
+            }else {
+                finish();
             }
         }
 

@@ -10,7 +10,10 @@ import android.widget.TextView;
 
 import com.wd.tech.R;
 import com.wd.tech.bean.NoticeList;
+import com.wd.tech.util.DateUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,9 +42,17 @@ public class NoticeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         MyHolder myHolder = (MyHolder) holder;
         long createTime = list.get(i).getCreateTime();
         Date date = new Date(createTime);
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String s = format.format(date);
-        myHolder.textView1.setText(s);
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date1 = null;
+        try {
+            date1 = dateFormat.parse(s);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String s1 = DateUtils.fromToday(date1);
+        myHolder.textView1.setText(s1);
         myHolder.textView2.setText(list.get(i).getContent());
     }
 

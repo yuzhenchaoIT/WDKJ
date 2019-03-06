@@ -2,7 +2,7 @@
     android:shape="rectangle">
     <!-- rectangle表示为矩形 -->
 
-   <solid android:color="#fff"/>
+   <solid android:color="#FFFFF0"/>
 
     <corners android:radius="360dp"/>
 </shape>
