@@ -37,8 +37,10 @@ import com.wd.tech.presenter.AddCommentPresenter;
 import com.wd.tech.presenter.CommentListPresenter;
 import com.wd.tech.presenter.CommunitPresenter;
 import com.wd.tech.presenter.DoTheTaskPresenter;
+import com.wd.tech.util.ListDataSave;
 import com.wd.tech.view.AddCircleActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.sql.CommonDataSource;
@@ -62,6 +64,7 @@ public class FragCommunity extends WDFragment  {
     private CommunitPresenter communitPresenter;
     private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
     private User user;
+    private ListDataSave listDataSave;
 
     @Override
     public String getPageName() {
@@ -75,7 +78,6 @@ public class FragCommunity extends WDFragment  {
 
     @Override
     protected void initView() {
-
         user = WDActivity.getUser(getActivity());
 
         imageView.setOnClickListener(new View.OnClickListener() {
@@ -169,6 +171,9 @@ public class FragCommunity extends WDFragment  {
                 }
             }
         });
+        //数据保存
+        listDataSave = new ListDataSave(getActivity(),"Circile");
+
     }
 
     class ComData implements DataCall<Result<List<CommunityListBean>>>{
@@ -179,13 +184,21 @@ public class FragCommunity extends WDFragment  {
              communityAdapter.addList(data.getResult());
              communityAdapter.notifyDataSetChanged();
            //  Toast.makeText(getActivity(), data.getResult().get(1).getCommunityCommentVoList().toString()+"1231", Toast.LENGTH_SHORT).show();
+             List<CommunityListBean> list = data.getResult();
+             listDataSave.setDataList("list",list);
+
          }
          @Override
          public void fail(ApiException e) {
              recycler.refreshComplete();
              recycler.loadMoreComplete();
              Toast.makeText(getContext(), e + "失败", Toast.LENGTH_SHORT).show();
-
+             int size = communityAdapter.getSize();
+             if(size==0){
+                 List<CommunityListBean> list = listDataSave.getDataList("list");
+                 communityAdapter.addList(list);
+                 communityAdapter.notifyDataSetChanged();
+             }
          }
      }
 
@@ -205,6 +218,7 @@ public class FragCommunity extends WDFragment  {
             editText.setText("");
             communityAdapter.clearlist();
             communitPresenter.request(user.getUserId(),user.getSessionId(),true);
+
         }
 
         @Override
@@ -238,5 +252,10 @@ public class FragCommunity extends WDFragment  {
         }else {
             communitPresenter.request(1010,"15320748258726",true);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+      //  super.onSaveInstanceState(outState);
     }
 }
