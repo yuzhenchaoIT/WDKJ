@@ -81,7 +81,6 @@ public class HomeActivity extends AppCompatActivity {
     private int userId;
     private User bean;
     private ImageView vip;
-    private User user;
     private int monlick;
     private int mcurrent;
     @Override
@@ -228,7 +227,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        user = WDActivity.getUser(this);
+        User user = WDActivity.getUser(this);
         if (user != null) {
             mRelative.setVisibility(View.GONE);
             mLinearShow.setVisibility(View.VISIBLE);
@@ -263,10 +262,13 @@ public class HomeActivity extends AppCompatActivity {
     @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
     public void shou(Message message) {
         if (message.what == 9) {
-            mRelative.setVisibility(View.GONE);
-            mLinearShow.setVisibility(View.VISIBLE);
-            queryUserPresenter = new QueryUserPresenter(new QueryUserCall());
-            queryUserPresenter.request(user.getUserId(), user.getSessionId());
+            User user = WDActivity.getUser(this);
+            if (user!=null) {
+                mRelative.setVisibility(View.GONE);
+                mLinearShow.setVisibility(View.VISIBLE);
+                queryUserPresenter = new QueryUserPresenter(new QueryUserCall());
+                queryUserPresenter.request(user.getUserId(), user.getSessionId());
+            }
         } else {
             mRelative.setVisibility(View.VISIBLE);
             mLinearShow.setVisibility(View.GONE);
