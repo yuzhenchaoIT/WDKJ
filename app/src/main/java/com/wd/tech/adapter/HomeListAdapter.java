@@ -104,8 +104,10 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             final int whetherGreat = homeListBean.getWhetherCollection();
             if (whetherGreat == 1) {
                 ((MyViewHolder) viewHolder).img_collect.setLiked(true);
-            } else {
+                ((MyViewHolder) viewHolder).img_collect.setLikeDrawableRes(R.drawable.common_icon_collect_s);
+            } else if (whetherGreat == 2) {
                 ((MyViewHolder) viewHolder).img_collect.setLiked(false);
+                ((MyViewHolder) viewHolder).img_collect.setLikeDrawableRes(R.drawable.common_icon_collect_n);
             }
             //分享值
             ((MyViewHolder) viewHolder).share.setText(homeListBean.getShare() + "");
@@ -113,7 +115,6 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
                 @Override
                 public void onClick(View view) {
                     onItemClickListener.onItemClick(homeListBean.getTitle(), homeListBean.getSummary());
-                    Toast.makeText(mContext, "点击了分享" + homeListBean.getId(), Toast.LENGTH_SHORT).show();
                 }
             });
             //点击资讯条目进入详情页面

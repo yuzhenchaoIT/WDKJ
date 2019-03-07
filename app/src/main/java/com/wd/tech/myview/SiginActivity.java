@@ -1,8 +1,5 @@
 package com.wd.tech.myview;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,9 +11,7 @@ import com.wd.tech.core.SignCalendar;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
-import com.wd.tech.presenter.BasePresenter;
 import com.wd.tech.presenter.DoTheTaskPresenter;
-import com.wd.tech.presenter.FindConSignPresenter;
 import com.wd.tech.presenter.FindUserSignPresenter;
 import com.wd.tech.presenter.FindUserSignRecPresenter;
 import com.wd.tech.presenter.UserSignPresenter;

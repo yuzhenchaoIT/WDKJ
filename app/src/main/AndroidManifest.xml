@@ -60,15 +60,15 @@
         <activity android:name=".view.SortListActivity" />
         <activity android:name=".myview.PerfectActivity" />
         <activity android:name=".myview.SignatureActivity" />
-        <activity android:name=".view.InforDetailsActivity" />
+        <activity
+            android:name=".view.InforDetailsActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".view.FindUserActivity" />
         <activity android:name=".view.AddListActivity" />
         <activity android:name=".view.FindGroupActivity" />
         <activity android:name=".view.AddGroupActivity" />
-        <activity android:name="com.wd.tech.face.Register1Activity">
-        </activity>
-        <activity android:name="com.wd.tech.face.DetecterActivity">
-        </activity>
+        <activity android:name="com.wd.tech.face.Register1Activity"></activity>
+        <activity android:name="com.wd.tech.face.DetecterActivity"></activity>
         <activity android:name=".view.MyGroupActivity" />
         <activity android:name=".view.WXLoginActivity" />
         <activity

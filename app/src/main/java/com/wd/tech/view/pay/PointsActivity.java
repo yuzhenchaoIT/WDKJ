@@ -2,7 +2,6 @@ package com.wd.tech.view.pay;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import com.wd.tech.core.PayExchangePopWindowT;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
-import com.wd.tech.myview.PostActivity;
 import com.wd.tech.myview.TaskActivity;
 import com.wd.tech.presenter.InforDetailsPresenter;
 import com.wd.tech.presenter.InforMation.PayByIntegralPresenter;

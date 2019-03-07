@@ -1,17 +1,12 @@
 package com.wd.tech.myview;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -24,12 +19,8 @@ import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
-import com.wd.tech.dao.DaoMaster;
-import com.wd.tech.dao.DaoSession;
-import com.wd.tech.dao.UserDao;
 import com.wd.tech.presenter.AllInfoPresenter;
 import com.wd.tech.presenter.CancelPresenter;
-import com.wd.tech.view.LoginActivity;
 
 import java.util.ArrayList;
 import java.util.List;
