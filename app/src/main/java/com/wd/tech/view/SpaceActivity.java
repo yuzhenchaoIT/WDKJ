@@ -40,9 +40,9 @@ public class SpaceActivity extends WDActivity implements View.OnClickListener {
     private TextView hyText;
     private TextView gzText;
     private CommunityUserVoBean communityUserVo;
-    private User user;
     private LinearLayout linearLayout;
     private ObjectAnimator animator;
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_space;
@@ -53,28 +53,23 @@ public class SpaceActivity extends WDActivity implements View.OnClickListener {
         id = getIntent().getIntExtra("id", 0);
         listView = (RecyclerView) findViewById(R.id.space_list);
         headPic = (SimpleDraweeView) findViewById(R.id.head_pic);
-        headName =(TextView) findViewById(R.id.head_name);
+        headName = (TextView) findViewById(R.id.head_name);
         headGq = (TextView) findViewById(R.id.head_gq);
         bgTop = (SimpleDraweeView) findViewById(R.id.head_top);
         hyText = (TextView) findViewById(R.id.as_haoyou);
-        hyText .setOnClickListener(this);
-        gzText = (TextView)findViewById(R.id.as_gz);
-        gzText   .setOnClickListener(this);
+        hyText.setOnClickListener(this);
+        gzText = (TextView) findViewById(R.id.as_gz);
+        gzText.setOnClickListener(this);
         linearLayout = (LinearLayout) findViewById(R.id.as_lin);
 
-        user = WDActivity.getUser(this);
-        if(user!=null){
-            UserPostPresenter userPostPresenter = new UserPostPresenter(new PostData());
-            userPostPresenter.request(user.getUserId(),user.getSessionId(),id);
-        }else {
-            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
-            finish();
-        }
+        User user = WDActivity.getUser(this);
+        UserPostPresenter userPostPresenter = new UserPostPresenter(new PostData());
+        userPostPresenter.request(user.getUserId(), user.getSessionId(), id);
         spaceAdapter = new SpaceAdapter(SpaceActivity.this);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this){
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this) {
 
-                @Override
-                public boolean canScrollVertically() {
+            @Override
+            public boolean canScrollVertically() {
                 // 直接禁止垂直滑动
                 return false;
             }
@@ -102,26 +97,28 @@ public class SpaceActivity extends WDActivity implements View.OnClickListener {
     protected void destoryData() {
 
     }
+
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.as_gz:
-                if (gzText.getText().equals("已关注")){
+                User user = WDActivity.getUser(this);
+                if (gzText.getText().equals("已关注")) {
                     gzText.setText("+关注");
                     CancelFollowPresenter cancelFollowPresenter = new CancelFollowPresenter(new canfollow());
-                    cancelFollowPresenter.request(user.getUserId(),user.getSessionId(),communityUserVo.getUserId());
-                }else {
+                    cancelFollowPresenter.request(user.getUserId(), user.getSessionId(), communityUserVo.getUserId());
+                } else {
                     gzText.setText("已关注");
                     AddFollowPresenter addFollowPresenter = new AddFollowPresenter(new addFollow());
-                    addFollowPresenter.request(user.getUserId(),user.getSessionId(),communityUserVo.getUserId());
+                    addFollowPresenter.request(user.getUserId(), user.getSessionId(), communityUserVo.getUserId());
                 }
                 break;
             case R.id.as_haoyou:
-                Intent intent = new Intent(this,FindUserActivity.class);
-                intent.putExtra("name",communityUserVo.getNickName());
-                intent.putExtra("headPic",communityUserVo.getHeadPic());
-                intent.putExtra("qian",communityUserVo.getSignature());
-                intent.putExtra("userids",communityUserVo.getUserId());
+                Intent intent = new Intent(this, FindUserActivity.class);
+                intent.putExtra("name", communityUserVo.getNickName());
+                intent.putExtra("headPic", communityUserVo.getHeadPic());
+                intent.putExtra("qian", communityUserVo.getSignature());
+                intent.putExtra("userids", communityUserVo.getUserId());
                 startActivity(intent);
                 break;
         }
@@ -133,10 +130,10 @@ public class SpaceActivity extends WDActivity implements View.OnClickListener {
 
         @Override
         public void success(Result<List<UserPost>> data) {
-            if (data.getStatus().equals("9999")){
+            if (data.getStatus().equals("9999")) {
                 Toast.makeText(SpaceActivity.this, "请先登录", Toast.LENGTH_SHORT).show();
                 finish();
-            }else if(data.getStatus().equals("0000")){
+            } else if (data.getStatus().equals("0000")) {
                 List<UserPost> result = data.getResult();
                 communityUserVo = result.get(0).getCommunityUserVo();
                 headPic.setImageURI(Uri.parse(communityUserVo.getHeadPic()));
@@ -146,28 +143,29 @@ public class SpaceActivity extends WDActivity implements View.OnClickListener {
                 spaceAdapter.addList(data.getResult().get(0).getCommunityUserPostVoList());
                 spaceAdapter.notifyDataSetChanged();
 
-                if (communityUserVo.getWhetherFollow()==1){
+                if (communityUserVo.getWhetherFollow() == 1) {
                     gzText.setText("已关注");
-                }else {
+                } else {
                     gzText.setText("+关注");
                 }
-                if (communityUserVo.getWhetherMyFriend()==1){
+                if (communityUserVo.getWhetherMyFriend() == 1) {
                     hyText.setText("已添加");
-                }else {
+                } else {
                     hyText.setText("+好友");
                 }
             }
         }
+
         @Override
         public void fail(ApiException e) {
-           // Toast.makeText(SpaceActivity.this, e+"", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(SpaceActivity.this, e+"", Toast.LENGTH_SHORT).show();
         }
     }
 
     private class addFollow implements DataCall<Result> {
         @Override
         public void success(Result data) {
-            Toast.makeText(SpaceActivity.this, data.getMessage()+"", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SpaceActivity.this, data.getMessage() + "", Toast.LENGTH_SHORT).show();
         }
 
         @Override
@@ -179,7 +177,7 @@ public class SpaceActivity extends WDActivity implements View.OnClickListener {
     private class canfollow implements DataCall<Result> {
         @Override
         public void success(Result data) {
-            Toast.makeText(SpaceActivity.this, data.getMessage()+"", Toast.LENGTH_SHORT).show();
+            Toast.makeText(SpaceActivity.this, data.getMessage() + "", Toast.LENGTH_SHORT).show();
         }
 
         @Override

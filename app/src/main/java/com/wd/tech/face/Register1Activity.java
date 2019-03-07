@@ -44,6 +44,7 @@ import com.wd.tech.core.WDApplication;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.presenter.BindFaceidPresenter;
+import com.wd.tech.util.RsaCoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -402,10 +403,19 @@ public class Register1Activity extends Activity implements SurfaceHolder.Callbac
 		public void success(Result<String> data) {
 			if(data.getStatus().equals("0000")){
 				String result = data.getFaceId();
-				SharedPreferences share = WDApplication.getShare();
-				SharedPreferences.Editor edit = share.edit();
-				edit.putString("faceid",result);
-				edit.commit();
+				try {
+					String s = RsaCoder.decryptByPublicKey(result);
+					SharedPreferences share = WDApplication.getShare();
+					SharedPreferences.Editor edit = share.edit();
+					edit.putString("faceid",s);
+					edit.commit();
+					finish();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
+			}else {
+				Toast.makeText(Register1Activity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
 			}
 
 		}

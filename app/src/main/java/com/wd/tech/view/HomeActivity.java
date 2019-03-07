@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
@@ -50,6 +51,10 @@ import com.wd.tech.myview.TaskActivity;
 import com.wd.tech.presenter.QueryUserPresenter;
 import com.wd.tech.util.StringUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.HashMap;
 
 import butterknife.ButterKnife;
@@ -69,25 +74,27 @@ public class HomeActivity extends AppCompatActivity {
     private LinearLayout mLinearShow;
     private QueryUserPresenter queryUserPresenter;
     private SimpleDraweeView mSimple;
-    private TextView mTextName,mTextQian;
+    private TextView mTextName, mTextQian;
     private String sessionId;
     private String userName;
     private String pwd;
     private int userId;
     private User bean;
     private ImageView vip;
-
+    private int monlick;
+    private int mcurrent;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
        /* //透明状态栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);*/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        WDPage.fullScreen(this,false);
+        /*setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);*/
+        WDPage.fullScreen(this, false);
         setContentView(R.layout.activity_home);
         //绑定
         ButterKnife.bind(this);
+        EventBus.getDefault().register(this);
         //初始化控件
         Initialize();
         bean = WDActivity.getUser(this);
@@ -110,17 +117,18 @@ public class HomeActivity extends AppCompatActivity {
         transaction.hide(frag_Community);
         transaction.commit();
         //默认选中第一个
+        mcurrent = R.id.mrb1;
         mradio.check(mradio.getChildAt(0).getId());
         mdraw.setScrimColor(Color.TRANSPARENT);//去除阴影
-        mlinear.measure(0,0);
-        final float width=mlinear.getMeasuredWidth()*0.2f;//获取布局宽度，并获得左移大小
+        mlinear.measure(0, 0);
+        final float width = mlinear.getMeasuredWidth() * 0.2f;//获取布局宽度，并获得左移大小
         mlinear.setTranslationX(-width);                 //底布局左移
         //点击侧滑
         mdraw.addDrawerListener(new DrawerLayout.DrawerListener() {
             @Override
             public void onDrawerSlide(@NonNull View view, float v) {
-                mlinear.setTranslationX(-width+width*v);               //底布局跟着移动
-                mlinearhome.setTranslationX(view.getMeasuredWidth()*v);   //主界面布局移动，移动长度等于抽屉的移动长度
+                mlinear.setTranslationX(-width + width * v);               //底布局跟着移动
+                mlinearhome.setTranslationX(view.getMeasuredWidth() * v);   //主界面布局移动，移动长度等于抽屉的移动长度
 
 
             }
@@ -140,64 +148,77 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-        mRelative.setVisibility(View.VISIBLE);
-        mLinearShow.setVisibility(View.GONE);
     }
+
     //点击切换页面
-    @OnClick({R.id.mrb1,R.id.mrb2,R.id.mrb3})
-    public void onView(View view){
+    @OnClick({R.id.mrb1, R.id.mrb2, R.id.mrb3})
+    public void onView(View view) {
         FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.mrb1:
                 transaction1.show(frag_InForMation);
                 transaction1.hide(frag_Message);
                 transaction1.hide(frag_Community);
+                mcurrent = R.id.mrb1;
                 break;
             case R.id.mrb2:
-                transaction1.show(frag_Message);
-                transaction1.hide(frag_InForMation);
-                transaction1.hide(frag_Community);
+                User user = WDActivity.getUser(this);
+                if (user != null) {
+                    transaction1.show(frag_Message);
+                    transaction1.hide(frag_InForMation);
+                    transaction1.hide(frag_Community);
+                    mcurrent = R.id.mrb2;
+                }else {
+                    monlick = R.id.mrb2;
+                    Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                }
                 break;
             case R.id.mrb3:
                 transaction1.show(frag_Community);
                 transaction1.hide(frag_InForMation);
                 transaction1.hide(frag_Message);
+                mcurrent = R.id.mrb3;
                 break;
 
         }
         transaction1.commit();
     }
+
     //初始化控件方法
     private void Initialize() {
         mradio = findViewById(R.id.mradio);
         mlinearhome = findViewById(R.id.mlinear_home);
         mlinear = findViewById(R.id.mlinear);
         mdraw = findViewById(R.id.mdraw);
-        mRelative =  findViewById(R.id.mrelative);
-        mLinearShow =  findViewById(R.id.mlinear_show);
+        mRelative = findViewById(R.id.mrelative);
+        mLinearShow = findViewById(R.id.mlinear_show);
         mSimple = findViewById(R.id.msimple);
         mTextName = findViewById(R.id.mtext_name);
         mTextQian = findViewById(R.id.mtext_qian);
         vip = findViewById(R.id.vip);
 
     }
+
     //点击头像跳转
     @OnClick(R.id.msimple)
-    public void msim(){
+    public void msim() {
         //跳转
         Intent intent = new Intent(HomeActivity.this, PerfectActivity.class);
         startActivity(intent);
     }
+
     //点击跳转签到
     @OnClick(R.id.mlinear_qiandao)
-    public void qiandao(){
+    public void qiandao() {
         //跳转
         Intent intent = new Intent(HomeActivity.this, SiginActivity.class);
         startActivity(intent);
     }
+
     //点击跳转登录页
     @OnClick(R.id.mlinear_jump)
-    public void mlinearJump(){
+    public void mlinearJump() {
         //跳转
         Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
         startActivity(intent);
@@ -207,30 +228,67 @@ public class HomeActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         User user = WDActivity.getUser(this);
-        if (user!=null){
+        if (user != null) {
             mRelative.setVisibility(View.GONE);
             mLinearShow.setVisibility(View.VISIBLE);
             queryUserPresenter = new QueryUserPresenter(new QueryUserCall());
-            queryUserPresenter.request(user.getUserId(),user.getSessionId());
-        }else {
+            queryUserPresenter.request(user.getUserId(), user.getSessionId());
+            if (monlick == R.id.mrb2){
+                mradio.check(monlick);
+                mcurrent = R.id.mrb2;
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.show(frag_Message);
+                fragmentTransaction.hide(frag_InForMation);
+                fragmentTransaction.hide(frag_Community);
+                fragmentTransaction.commit();
+                monlick = 0;
+            }
+        } else {
+            if (monlick == R.id.mrb2){
+                mradio.check(mcurrent);
+            }
+            monlick = 0;
+            mRelative.setVisibility(View.VISIBLE);
+            mLinearShow.setVisibility(View.GONE);
+            mradio.check(mradio.getChildAt(0).getId());
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            transaction.show(frag_InForMation);
+            transaction.hide(frag_Message);
+            transaction.hide(frag_Community);
+            transaction.commit();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true)
+    public void shou(Message message) {
+        if (message.what == 9) {
+            User user = WDActivity.getUser(this);
+            if (user!=null) {
+                mRelative.setVisibility(View.GONE);
+                mLinearShow.setVisibility(View.VISIBLE);
+                queryUserPresenter = new QueryUserPresenter(new QueryUserCall());
+                queryUserPresenter.request(user.getUserId(), user.getSessionId());
+            }
+        } else {
             mRelative.setVisibility(View.VISIBLE);
             mLinearShow.setVisibility(View.GONE);
         }
     }
+
     //实现查询用户信息接口
-    class QueryUserCall implements DataCall<Result<QueryUser>>{
+    class QueryUserCall implements DataCall<Result<QueryUser>> {
 
         @Override
         public void success(Result<QueryUser> data) {
-            if (data.getStatus().equals("0000")){
+            if (data.getStatus().equals("0000")) {
                 QueryUser result = data.getResult();
                 mSimple.setImageURI(result.getHeadPic());
                 mTextName.setText(result.getNickName());
                 mTextQian.setText(result.getSignature());
                 int whetherVip = result.getWhetherVip();
-                if (whetherVip==1){
+                if (whetherVip == 1) {
                     vip.setVisibility(View.VISIBLE);
-                }else {
+                } else {
                     vip.setVisibility(View.GONE);
                 }
             }
@@ -241,10 +299,11 @@ public class HomeActivity extends AppCompatActivity {
 
         }
     }
+
     //点击跳转页面
-    @OnClick({R.id.mlinear_sc,R.id.mlinear_gz,R.id.mlinear_tz,R.id.mlinear_no,R.id.mlinear_jf,R.id.mlinear_rw,R.id.mlinear_sz})
-    public void tiaozhuan(View view){
-        switch (view.getId()){
+    @OnClick({R.id.mlinear_sc, R.id.mlinear_gz, R.id.mlinear_tz, R.id.mlinear_no, R.id.mlinear_jf, R.id.mlinear_rw, R.id.mlinear_sz})
+    public void tiaozhuan(View view) {
+        switch (view.getId()) {
             case R.id.mlinear_sc:
                 //跳转
                 Intent intent1 = new Intent(HomeActivity.this, CollectionActivity.class);

@@ -3,6 +3,7 @@ package com.wd.tech.view;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Message;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -28,6 +29,10 @@ import com.wd.tech.dao.UserDao;
 import com.wd.tech.face.DetecterActivity;
 import com.wd.tech.presenter.LoginPresenter;
 import com.wd.tech.util.RsaCoder;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -72,6 +77,7 @@ public class LoginActivity extends WDActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     startDetector(which);
+                                    finish();
                                 }
                             })
                             .show();
