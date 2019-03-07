@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'tech'
             keyPassword '123456'
-            storeFile file('D:/tech.keystore')
+            storeFile file('C:/Users/王子龙/Desktop/tech.keystore')
             storePassword '123456'
         }
     }
@@ -96,5 +96,5 @@ dependencies {
     implementation files('libs/facerecognition.jar')
     implementation files('libs/genderestimation.jar')
     implementation 'com.guo.android_extend:android-extend:1.0.1'
-
+    implementation 'org.greenrobot:eventbus:3.1.1'
 }

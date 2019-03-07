@@ -249,15 +249,18 @@ public class HomeActivity extends AppCompatActivity {
             if (monlick == R.id.mrb2){
                 mradio.check(mcurrent);
             }
+            if (mcurrent == R.id.mrb2){
+                mcurrent = R.id.mrb1;
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.show(frag_InForMation);
+                fragmentTransaction.hide(frag_Message);
+                fragmentTransaction.hide(frag_Community);
+                fragmentTransaction.commit();
+                mradio.check(mcurrent);
+            }
             monlick = 0;
             mRelative.setVisibility(View.VISIBLE);
             mLinearShow.setVisibility(View.GONE);
-            mradio.check(mradio.getChildAt(0).getId());
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.show(frag_InForMation);
-            transaction.hide(frag_Message);
-            transaction.hide(frag_Community);
-            transaction.commit();
         }
     }
 
