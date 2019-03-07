@@ -17,7 +17,6 @@ import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.presenter.AddFriendPersenter;
-import com.wd.tech.presenter.PhoneUserPersenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

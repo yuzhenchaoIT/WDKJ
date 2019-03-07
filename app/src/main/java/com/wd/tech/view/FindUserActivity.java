@@ -1,17 +1,13 @@
 package com.wd.tech.view;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
@@ -19,10 +15,6 @@ import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.presenter.AddFriendPersenter;
 
-
-
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

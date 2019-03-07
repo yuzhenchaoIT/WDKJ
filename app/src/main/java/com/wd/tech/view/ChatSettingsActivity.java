@@ -2,9 +2,7 @@ package com.wd.tech.view;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +26,6 @@ import com.wd.tech.util.UIUtils;
 
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ChatSettingsActivity extends WDActivity {

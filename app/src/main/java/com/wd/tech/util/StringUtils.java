@@ -13,7 +13,9 @@ import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.DaoSession;
 import com.wd.tech.dao.UserDao;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -22,7 +24,9 @@ import java.util.regex.Pattern;
  */
 public class StringUtils {
     public final static String UTF_8 = "UTF-8";
-
+    private static final String SEP1 = "#";
+    private static final String SEP2 = "|";
+    private static final String SEP3 = "=";
     /**
      * 判断字符串是否有值，如果为null或者是空字符串或者只有空格或者为"null"字符串，则返回true，否则则返回false
      */
@@ -150,4 +154,5 @@ public class StringUtils {
     private static boolean isDownloadsDocument(Uri uri) {
         return "com.android.providers.downloads.documents".equals(uri.getAuthority());
     }
+
 }

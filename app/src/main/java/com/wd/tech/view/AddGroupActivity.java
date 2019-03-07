@@ -1,7 +1,6 @@
 package com.wd.tech.view;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -17,7 +16,6 @@ import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
-import com.wd.tech.presenter.AddGroupPersenter;
 import com.wd.tech.presenter.FindGroupPersenter;
 
 import butterknife.BindView;

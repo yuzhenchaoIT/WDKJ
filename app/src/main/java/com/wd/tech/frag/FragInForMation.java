@@ -84,7 +84,7 @@ public class FragInForMation extends Fragment {
     @BindView(R.id.home_banner)
     MZBannerView mHomeBanner;
     //p层
-    private RecommendPresenter mRecommendPresenter = new RecommendPresenter(new HomeListCall());
+    private RecommendPresenter mRecommendPresenter;
     private BannerPresenter mBanPresenter = new BannerPresenter(new BannerCall());
     //收藏 和 取消 收藏
     private AddCollectPresenter mAddCollectP = new AddCollectPresenter(new AddCollectCall());
@@ -109,7 +109,7 @@ public class FragInForMation extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.frag_01, container, false);
-
+        mRecommendPresenter = new RecommendPresenter(new HomeListCall());
         unbinder = ButterKnife.bind(this, view);
         mRefreshLayout = view.findViewById(R.id.refreshLayout);
 
@@ -121,7 +121,11 @@ public class FragInForMation extends Fragment {
             public void onRefresh(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishRefresh(2000);
-                mRecommendPresenter.request(true, 18, "15320748258726", 0);
+                if (user != null) {
+                    mRecommendPresenter.request(false, user.getUserId(), user.getSessionId(), 0);
+                } else {
+                    mRecommendPresenter.request(false, 1010, "15320748258726", 0);
+                }
             }
         });
 
@@ -130,7 +134,11 @@ public class FragInForMation extends Fragment {
             public void onLoadmore(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishLoadmore(2000);
-                mRecommendPresenter.request(false, 18, "15320748258726", 0);
+                if (user != null) {
+                    mRecommendPresenter.request(false, user.getUserId(), user.getSessionId(), 0);
+                } else {
+                    mRecommendPresenter.request(false, 1010, "15320748258726", 0);
+                }
             }
         });
 
@@ -140,7 +148,11 @@ public class FragInForMation extends Fragment {
 
         //布局管理器
         mHomeXrecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecommendPresenter.request(true, 18, "15320748258726", 0);
+        if (user != null) {
+            mRecommendPresenter.request(true, user.getUserId(), user.getSessionId(), 0);
+        } else {
+            mRecommendPresenter.request(true, 1010, "15320748258726", 0);
+        }
         //banner图请求数据
         mBanPresenter.request();
 
@@ -185,7 +197,11 @@ public class FragInForMation extends Fragment {
         friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                wechatShare(1);
+                if (user != null) {
+                    wechatShare(1);
+                } else {
+                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -246,13 +262,22 @@ public class FragInForMation extends Fragment {
     public void onPause() {
         super.onPause();
         mHomeBanner.pause();//暂停轮播
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mHomeBanner.start();//开始轮播
-
+        user = WDActivity.getUser(getActivity());
+        mRecommendPresenter = new RecommendPresenter(new HomeListCall());
+        if (this.user != null) {
+            mHomeListAdapter.clear();
+            mRecommendPresenter.request(false, this.user.getUserId(), this.user.getSessionId(), 0);
+        } else {
+            mHomeListAdapter.clear();
+            mRecommendPresenter.request(false, 1010, "15320748258726", 0);
+        }
     }
 
     @Override
@@ -401,6 +426,7 @@ public class FragInForMation extends Fragment {
         mAddCollectP.unBind();
         mCancelP.unBind();
     }
+
 
 
 }

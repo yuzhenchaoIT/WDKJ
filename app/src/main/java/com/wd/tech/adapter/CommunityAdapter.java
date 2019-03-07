@@ -62,6 +62,9 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
     public void clearlist(){
         mlist.clear();
     }
+    public int getSize(){
+       return mlist.size();
+    }
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
