@@ -8,22 +8,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.RequiresApi;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 
 
-import com.wd.tech.R;
 import com.wd.tech.bean.User;
 import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.DaoSession;
@@ -34,7 +26,6 @@ import java.util.List;
 import butterknife.ButterKnife;
 import me.imid.swipebacklayout.lib.SwipeBackLayout;
 import me.imid.swipebacklayout.lib.app.SwipeBackActivity;
-import me.jessyan.autosize.internal.CustomAdapt;
 
 public abstract class WDActivity extends SwipeBackActivity {
 

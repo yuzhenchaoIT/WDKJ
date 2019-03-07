@@ -2,7 +2,6 @@ package com.wd.tech.myview;
 
 import android.Manifest;
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -20,7 +19,6 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -28,9 +26,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,8 +52,6 @@ import com.wd.tech.presenter.ModifyHeadPicPresenter;
 import com.wd.tech.presenter.ModifyNickNamePresenter;
 import com.wd.tech.presenter.PerfectPresenter;
 import com.wd.tech.presenter.QueryUserPresenter;
-import com.wd.tech.view.HomeActivity;
-import com.wd.tech.view.LoginActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -66,9 +60,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -333,12 +325,7 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
 
                 break;
             case R.id.mtext_face_up:
-                //读写权限
-                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this, PERMISSIONS_STORAGE, REQUEST_PERMISSION_CODE);
-                    }
-                }
+
                 new AlertDialog.Builder(this)
                         .setTitle("请选择注册方式")
                         .setIcon(android.R.drawable.ic_dialog_info)

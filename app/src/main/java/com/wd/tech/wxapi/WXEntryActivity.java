@@ -21,7 +21,6 @@ import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.DaoSession;
 import com.wd.tech.dao.UserDao;
 import com.wd.tech.presenter.WXPresenter;
-import com.wd.tech.view.LoginActivity;
 
 public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
 
@@ -100,6 +99,7 @@ public class WXEntryActivity extends WDActivity implements IWXAPIEventHandler {
                 userDao.insertOrReplace(result);
                 finish();
             }else {
+                Toast.makeText(WXEntryActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
                 finish();
             }
         }

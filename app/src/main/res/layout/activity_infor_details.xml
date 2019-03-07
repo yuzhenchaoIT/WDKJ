@@ -246,14 +246,14 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="#fff"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="horizontal">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="true"
-            android:focusableInTouchMode="true">
+            android:layout_height="match_parent">
 
 
             <ImageView
@@ -264,7 +264,7 @@
                 android:layout_marginLeft="12dp"
                 android:src="@drawable/common_nav_btn_back_n" />
 
-            <EditText
+            <TextView
                 android:id="@+id/infor_details_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -386,7 +386,10 @@
         </RelativeLayout>
 
 
-    </LinearLayout><!--最底部相关事物-->
+    </LinearLayout>
+
+
+    <!--最底部相关事物-->
 
     <RelativeLayout
         android:id="@+id/rl_comment"
@@ -394,6 +397,8 @@
         android:layout_height="50dp"
         android:layout_alignParentBottom="true"
         android:background="#fff"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:visibility="gone">
 
         <View

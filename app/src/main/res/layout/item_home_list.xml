@@ -100,9 +100,7 @@
                         android:layout_marginTop="-7dp"
                         app:icon_size="12dp"
                         app:icon_type="heart"
-                        app:like_drawable="@drawable/common_icon_collect_s"
-                        app:liked="false"
-                        app:unlike_drawable="@drawable/common_icon_collect_n" />
+                        app:liked="false" />
 
                     <TextView
                         android:id="@+id/item_home_list_txt_coll"

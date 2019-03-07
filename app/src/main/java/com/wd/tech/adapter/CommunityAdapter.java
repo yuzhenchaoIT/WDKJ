@@ -173,10 +173,16 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
         myHodler.avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,SpaceActivity.class);
-                int userId = mlist.get(i).getUserId();
-                intent.putExtra("id",userId);
-                context.startActivity(intent);
+                User user = WDActivity.getUser(context);
+                if (user!=null) {
+                    Intent intent = new Intent(context, SpaceActivity.class);
+                    int userId = mlist.get(i).getUserId();
+                    intent.putExtra("id", userId);
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         });
     }

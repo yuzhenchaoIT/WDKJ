@@ -1,8 +1,5 @@
 package com.wd.tech.view;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;

@@ -63,7 +63,6 @@ public class DetailAllCommentAdapter extends RecyclerView.Adapter<DetailAllComme
 
     public void clear() {
         mList.clear();
-        notifyDataSetChanged();
     }
 
     //内部类
