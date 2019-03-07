@@ -182,6 +182,8 @@ public class HomeActivity extends AppCompatActivity {
                 break;
 
         }
+
+
         transaction1.commit();
     }
 
