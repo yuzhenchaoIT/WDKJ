@@ -154,6 +154,7 @@ public class FragInForMation extends Fragment {
                     //请求收藏的接口
                     mAddCollectP.request(user.getUserId(), user.getSessionId(), uid);
                 } else {
+
                     Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
                 }
 

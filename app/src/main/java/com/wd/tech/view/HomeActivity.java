@@ -89,7 +89,7 @@ public class HomeActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
        /* //透明状态栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);*/
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        /*setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);*/
         WDPage.fullScreen(this, false);
         setContentView(R.layout.activity_home);
         //绑定
