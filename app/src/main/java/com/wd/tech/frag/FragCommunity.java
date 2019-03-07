@@ -3,21 +3,14 @@ package com.wd.tech.frag;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.wd.tech.R;
 import com.wd.tech.adapter.CommunityAdapter;
@@ -39,16 +32,9 @@ import com.wd.tech.presenter.CommunitPresenter;
 import com.wd.tech.presenter.DoTheTaskPresenter;
 import com.wd.tech.util.ListDataSave;
 import com.wd.tech.view.AddCircleActivity;
-
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.sql.CommonDataSource;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.http.Field;
-
 public class FragCommunity extends WDFragment  {
     @BindView(R.id.frag03_xie)
     ImageView imageView;
