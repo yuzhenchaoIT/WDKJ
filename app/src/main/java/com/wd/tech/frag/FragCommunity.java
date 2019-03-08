@@ -94,14 +94,12 @@ public class FragCommunity extends WDFragment  {
             @Override
             public void OnclickPl(View view,final int s) {
                 linearLayout.setVisibility(View.VISIBLE);
-                DaoSession daoSession = DaoMaster.newDevSession(getActivity(), UserDao.TABLENAME);
-                UserDao userDao = daoSession.getUserDao();
-                final List<User> list = userDao.queryBuilder().where(UserDao.Properties.Statu.eq("1")).build().list();
-                if (list.size()>0) {
+
+                if (user!=null) {
                     textView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            user = list.get(0);
+
                             String trim = editText.getText().toString().trim();
                             AddCommentPresenter addCommentPresenter = new AddCommentPresenter(new AddData());
                             addCommentPresenter.request(user.getUserId(), user.getSessionId(),s,trim);
@@ -125,6 +123,7 @@ public class FragCommunity extends WDFragment  {
                     communityAdapter.clearlist();
                     communitPresenter.request(user.getUserId(),user.getSessionId(),true);
                 }else {
+                    communityAdapter.clearlist();
                     communitPresenter.request(1010,"15320748258726",true);
                 }
 
@@ -236,6 +235,7 @@ public class FragCommunity extends WDFragment  {
             communityAdapter.clearlist();
             communitPresenter.request(this.user.getUserId(), this.user.getSessionId(),true);
         }else {
+            communityAdapter.clearlist();
             communitPresenter.request(1010,"15320748258726",true);
         }
     }
