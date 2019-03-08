@@ -83,6 +83,8 @@ public class HomeActivity extends AppCompatActivity {
     private ImageView vip;
     private int monlick;
     private int mcurrent;
+    private FragmentTransaction fragmentTransaction;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -153,20 +155,20 @@ public class HomeActivity extends AppCompatActivity {
     //点击切换页面
     @OnClick({R.id.mrb1, R.id.mrb2, R.id.mrb3})
     public void onView(View view) {
-        FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction = getSupportFragmentManager().beginTransaction();
         switch (view.getId()) {
             case R.id.mrb1:
-                transaction1.show(frag_InForMation);
-                transaction1.hide(frag_Message);
-                transaction1.hide(frag_Community);
+                fragmentTransaction.show(frag_InForMation);
+                fragmentTransaction.hide(frag_Message);
+                fragmentTransaction.hide(frag_Community);
                 mcurrent = R.id.mrb1;
                 break;
             case R.id.mrb2:
                 User user = WDActivity.getUser(this);
                 if (user != null) {
-                    transaction1.show(frag_Message);
-                    transaction1.hide(frag_InForMation);
-                    transaction1.hide(frag_Community);
+                    fragmentTransaction.show(frag_Message);
+                    fragmentTransaction.hide(frag_InForMation);
+                    fragmentTransaction.hide(frag_Community);
                     mcurrent = R.id.mrb2;
                 }else {
                     monlick = R.id.mrb2;
@@ -175,16 +177,16 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 break;
             case R.id.mrb3:
-                transaction1.show(frag_Community);
-                transaction1.hide(frag_InForMation);
-                transaction1.hide(frag_Message);
+                fragmentTransaction.show(frag_Community);
+                fragmentTransaction.hide(frag_InForMation);
+                fragmentTransaction.hide(frag_Message);
                 mcurrent = R.id.mrb3;
                 break;
 
         }
 
 
-        transaction1.commit();
+        fragmentTransaction.commit();
     }
 
     //初始化控件方法
@@ -238,7 +240,7 @@ public class HomeActivity extends AppCompatActivity {
             if (monlick == R.id.mrb2){
                 mradio.check(monlick);
                 mcurrent = R.id.mrb2;
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.show(frag_Message);
                 fragmentTransaction.hide(frag_InForMation);
                 fragmentTransaction.hide(frag_Community);
@@ -249,15 +251,18 @@ public class HomeActivity extends AppCompatActivity {
             if (monlick == R.id.mrb2){
                 mradio.check(mcurrent);
             }
+            if (mcurrent == R.id.mrb2){
+                mcurrent = R.id.mrb1;
+                fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.show(frag_InForMation);
+                fragmentTransaction.hide(frag_Message);
+                fragmentTransaction.hide(frag_Community);
+                fragmentTransaction.commit();
+                mradio.check(mcurrent);
+            }
             monlick = 0;
             mRelative.setVisibility(View.VISIBLE);
             mLinearShow.setVisibility(View.GONE);
-            mradio.check(mradio.getChildAt(0).getId());
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            transaction.show(frag_InForMation);
-            transaction.hide(frag_Message);
-            transaction.hide(frag_Community);
-            transaction.commit();
         }
     }
 
