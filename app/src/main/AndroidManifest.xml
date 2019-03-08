@@ -56,7 +56,6 @@
         <activity android:name=".myview.SetUpActivity" />
         <activity android:name=".view.AddFriendsActivity" />
         <activity android:name=".view.FlockActivity" />
-
         <activity android:name=".view.SortListActivity" />
         <activity android:name=".myview.PerfectActivity" />
         <activity android:name=".myview.SignatureActivity" />
@@ -110,15 +109,15 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-
-        <activity android:name=".view.ChatSettingsActivity" />
-        <activity android:name=".view.CheckGroupActivity" />
+        <activity android:name=".view.ChatSettingsActivity"/>
+        <activity android:name=".view.CheckGroupActivity"/>
 
         <activity
             android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true"></activity>
-        <activity android:name=".view.CommentActivity"></activity>
-
+            android:exported="true" />
+        <activity android:name=".view.CommentActivity" />
+        <activity android:name=".view.GroupActivity"></activity>
+        <activity android:name=".view.GroupDetailsSettingsActivity"/>
     </application>
 
 </manifest>

@@ -200,8 +200,8 @@ public class AddFriendsActivity extends WDActivity {
 
         @Override
         public void fail(ApiException e) {
-            findQRelative.setVisibility(View.GONE);
-            findNot.setVisibility(View.VISIBLE);
+//            findQRelative.setVisibility(View.GONE);
+//            findNot.setVisibility(View.VISIBLE);
         }
     }
 }
