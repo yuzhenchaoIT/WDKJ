@@ -2,11 +2,8 @@ package com.wd.tech.myview;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -118,7 +115,11 @@ public class SignatureActivity extends WDActivity {
 
         }
     }
-
+    //点击按钮返回
+    @OnClick(R.id.mreturn)
+    public void mreturn(){
+        finish();
+    }
     @Override
     protected void destoryData() {
 

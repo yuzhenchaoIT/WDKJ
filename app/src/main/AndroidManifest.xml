@@ -29,7 +29,6 @@
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -41,7 +40,7 @@
             android:name="design_height_in_dp"
             android:value="640" />
 
-        <activity android:name=".view.HomeActivity" />
+        <activity android:name=".view.HomeActivity"></activity>
         <activity android:name=".view.SortActivity" />
         <activity android:name=".view.DetailActivity" />
         <activity android:name=".view.SearchActivity" />
@@ -60,11 +59,15 @@
         <activity android:name=".view.SortListActivity" />
         <activity android:name=".myview.PerfectActivity" />
         <activity android:name=".myview.SignatureActivity" />
-        <activity android:name=".view.InforDetailsActivity" />
+        <activity
+            android:name=".view.InforDetailsActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity android:name=".view.FindUserActivity" />
         <activity android:name=".view.AddListActivity" />
         <activity android:name=".view.FindGroupActivity" />
         <activity android:name=".view.AddGroupActivity" />
+        <activity android:name="com.wd.tech.face.Register1Activity"></activity>
+        <activity android:name="com.wd.tech.face.DetecterActivity"></activity>
         <activity android:name=".view.MyGroupActivity" />
         <activity android:name=".view.WXLoginActivity" />
         <activity
@@ -81,8 +84,8 @@
         <activity android:name=".view.MyFriendnewsActivity" />
         <activity android:name=".view.AdvertWebActivity" />
         <activity android:name=".view.pay.PointsActivity" />
-        <activity android:name=".view.pay.VipActivity" />
-        <activity android:name=".view.ChatActivity" />
+        <activity android:name=".view.pay.VipActivity"></activity>
+        <activity android:name=".view.ChatActivity"></activity>
 
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -106,9 +109,9 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+        <activity android:name=".view.ChatSettingsActivity"/>
+        <activity android:name=".view.CheckGroupActivity"/>
 
-        <activity android:name=".view.ChatSettingsActivity" />
-        <activity android:name=".view.CheckGroupActivity" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true" />

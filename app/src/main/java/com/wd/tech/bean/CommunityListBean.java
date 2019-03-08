@@ -2,7 +2,7 @@ package com.wd.tech.bean;
 
 import java.util.List;
 
-public class CommunityListBean<T> {
+public class CommunityListBean {
     /**
      * comment : 0
      * communityCommentVoList : []

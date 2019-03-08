@@ -2,7 +2,6 @@ package com.wd.tech.view.pay;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,7 +19,6 @@ import com.wd.tech.core.PayExchangePopWindowT;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
-import com.wd.tech.myview.PostActivity;
 import com.wd.tech.myview.TaskActivity;
 import com.wd.tech.presenter.InforDetailsPresenter;
 import com.wd.tech.presenter.InforMation.PayByIntegralPresenter;
@@ -95,7 +93,7 @@ public class PointsActivity extends WDActivity {
 
         mDataId = Integer.parseInt(getIntent().getStringExtra("DataId"));
         //获取当前条目的数据
-        mDetailsPresenter.request(18, "15320748258726", mDataId);
+        mDetailsPresenter.request(user.getUserId(), user.getSessionId(), mDataId);
         //积分请求接口
         mIntegralPresenter.request(user.getUserId(), user.getSessionId());
 
@@ -118,13 +116,6 @@ public class PointsActivity extends WDActivity {
             case R.id.points_once_exchange:
                 //积分请求
                 mPayByIntegralPresenter.request(user.getUserId(), user.getSessionId(), mDataId, mIntegralCost);
-//                int mNeedJf = Integer.parseInt(mPointsNeedJf + "");
-//                int mMyJf = Integer.parseInt(mPointsMyJf + "");
-//                //兑换积分不足 调用弹出框
-//                if (mNeedJf > mMyJf) {
-//                    mPayExchangePopWindowF = new PayExchangePopWindowF(PointsActivity.this, itemsOnClick2);
-//                    mPayExchangePopWindowF.showAtLocation(PointsActivity.this.findViewById(R.id.activity_points_main), Gravity.CENTER_VERTICAL, 0, 0);
-//                }
                 break;
         }
     }
@@ -189,10 +180,16 @@ public class PointsActivity extends WDActivity {
                 mPayExchangePopWindowT = new PayExchangePopWindowT(PointsActivity.this, itemsOnClick);
                 //显示窗口
                 mPayExchangePopWindowT.showAtLocation(PointsActivity.this.findViewById(R.id.activity_points_main), Gravity.CENTER_VERTICAL, 0, 0); //设置layout在PopupWindow中显示的位置
-//                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             } else {
-//                mPayExchangePopWindowF = new PayExchangePopWindowF(PointsActivity.this, itemsOnClick2);
-//                mPayExchangePopWindowF.showAtLocation(PointsActivity.this.findViewById(R.id.activity_points_main), Gravity.CENTER_VERTICAL, 0, 0);
+//                int mNeedJf = Integer.parseInt(mPointsNeedJf + "");
+//                int mMyJf = Integer.parseInt(mPointsMyJf + "");
+//                //兑换积分不足 调用弹出框
+//                if (mNeedJf > mMyJf) {
+//                    mPayExchangePopWindowF = new PayExchangePopWindowF(PointsActivity.this, itemsOnClick2);
+//                    mPayExchangePopWindowF.showAtLocation(PointsActivity.this.findViewById(R.id.activity_points_main), Gravity.CENTER_VERTICAL, 0, 0);
+//                }
+                mPayExchangePopWindowF = new PayExchangePopWindowF(PointsActivity.this, itemsOnClick2);
+                mPayExchangePopWindowF.showAtLocation(PointsActivity.this.findViewById(R.id.activity_points_main), Gravity.CENTER_VERTICAL, 0, 0);
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             }
         }

@@ -3,11 +3,10 @@ package com.wd.tech.view;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -18,15 +17,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.library.AutoFlowLayout;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wd.tech.R;
 import com.wd.tech.adapter.DetailAllCommentAdapter;
 import com.wd.tech.adapter.DetailRecommendAdapter;
@@ -36,7 +40,6 @@ import com.wd.tech.bean.User;
 import com.wd.tech.bean.details.FindAllCommentListBean;
 import com.wd.tech.bean.details.InforDetailsBean;
 import com.wd.tech.bean.details.InformationListBean;
-import com.wd.tech.core.InputTextMsgDialog;
 import com.wd.tech.core.SelectPayPopupWindow;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
@@ -60,6 +63,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.wd.tech.core.WDApplication.getContext;
+
 /**
  * 详情页面
  *
@@ -79,7 +84,7 @@ public class InforDetailsActivity extends WDActivity {
     @BindView(R.id.infor_details_back)
     ImageView mInforDetailsBack;
     @BindView(R.id.infor_details_comment)
-    EditText mInforDetailsComment;
+    TextView mInforDetailsComment;
     @BindView(R.id.infor_details_comment_img)
     ImageView mInforDetailsCommentImg;
     @BindView(R.id.infor_details_comment_txt)
@@ -118,15 +123,19 @@ public class InforDetailsActivity extends WDActivity {
     LinearLayout mInforDetailsBottom;
     @BindView(R.id.infor_details_go_pay)
     TextView mInforDetailsGoPay;
+    @BindView(R.id.infor_details_ll_no_login)
+    LinearLayout mInforDetailsLlNoLogin;
+    @BindView(R.id.infor_details_ll_data)
+    LinearLayout mInforDetailsLlData;
 
     private TextView mInforAfltZi;
-    //p层
+    //请求详情页面内容p层
     private InforDetailsPresenter mDetailsPresenter = new InforDetailsPresenter(new DetailsCall());
     //查看详情所有评论
-    private DetailAllCommentPresenter mDetAllCommP = new DetailAllCommentPresenter(new DetailAllCommentCall());
+    private DetailAllCommentPresenter mDetAllCommP;
     //详情 发布 评论
     private DetailAddCommentPresenter detailAddCommentPresenter = new DetailAddCommentPresenter(new DetailAddCommentCall());
-    //点赞
+    //详情 点赞
     private AddGreatPresenter mAddGreatP = new AddGreatPresenter(new AddGreatCall());
     private CancelGreatPresenter mCancelGreatP = new CancelGreatPresenter(new CancelGreatCall());
     //收藏 和 取消 收藏
@@ -145,6 +154,8 @@ public class InforDetailsActivity extends WDActivity {
     private String text;
     private SelectPayPopupWindow menuWindow;
     private int isCollection;
+    private PopupWindow popupWindow;
+    private ImageView friends;
 
 
     @Override
@@ -158,6 +169,7 @@ public class InforDetailsActivity extends WDActivity {
 
         user = WDActivity.getUser(this);
 
+        mDetAllCommP = new DetailAllCommentPresenter(new DetailAllCommentCall());
 
         ImageLoader imageLoader = ImageLoader.getInstance();//ImageLoader需要实例化
         imageLoader.init(ImageLoaderConfiguration.createDefault(this));
@@ -166,7 +178,14 @@ public class InforDetailsActivity extends WDActivity {
 
         //获取条目id
         homeListId = Integer.parseInt(getIntent().getStringExtra("homeListId"));
-        mDetailsPresenter.request(18, "15320748258726", homeListId);
+
+        if (user != null) {
+            mDetailsPresenter.request(user.getUserId(), user.getSessionId(), homeListId);
+        } else {
+            mInforDetailsLlNoLogin.setVisibility(View.VISIBLE);
+            mInforDetailsLlData.setVisibility(View.GONE);
+            Toast.makeText(getBaseContext(), "请先登录", Toast.LENGTH_SHORT).show();
+        }
 
 
         //详情页面的“推荐”
@@ -182,10 +201,61 @@ public class InforDetailsActivity extends WDActivity {
         mIforDetailCommR.setLayoutManager(mManager2);
         mIforDetailCommR.setAdapter(mDetailAllCommentA);
 
-        mDetAllCommP.request(1010, "15320748258726", homeListId, 1, 20);
+        if (user != null) {
+            //详情  p层请求
+            mDetAllCommP.request(user.getUserId(), user.getSessionId(), homeListId, 1, 20);
+        } else {
+            mInforDetailsLlNoLogin.setVisibility(View.VISIBLE);
+            mInforDetailsLlData.setVisibility(View.GONE);
+        }
+
+        View contentView = View.inflate(getContext(), R.layout.share_layout, null);
+        popupWindow = new PopupWindow(contentView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        //通过popupwindow的视图对象去找到里面的控件
+        friends = contentView.findViewById(R.id.friends);
+        //点击按钮,,弹出popupwindow
+        friends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (user != null) {
+                    wechatShare(1);
+                } else {
+                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
     }
 
+    /**
+     * 微信分享 （这里仅提供一个分享网页的示例，其它请参看官网示例代码）
+     *
+     * @param flag(0:分享到微信好友，1：分享到微信朋友圈)
+     */
+    private void wechatShare(int flag) {
+        IWXAPI api = WXAPIFactory.createWXAPI(getContext(), "wx4c96b6b8da494224", false);
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = "www.hooxiao.com";
+        WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title = mInforDetailsBean.getTitle();
+        msg.description = mInforDetailsBean.getSummary();
+        //这里替换一张自己工程里的图片资源
+        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.icon);
+        msg.setThumbImage(thumb);
+
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = String.valueOf(System.currentTimeMillis());
+        req.message = msg;
+        req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
+        api.sendReq(req);
+
+    }
 
     @OnClick({R.id.infor_details_back, R.id.infor_details_comment,
             R.id.infor_details_comment_img, R.id.infor_details_zan_img,
@@ -210,21 +280,39 @@ public class InforDetailsActivity extends WDActivity {
                 break;
             //点赞图片
             case R.id.infor_details_zan_img:
-                mInforDetailsZanImg.setImageResource(R.drawable.common_icon_praise_s);
-                mAddGreatP.request(user.getUserId(), user.getSessionId(), homeListId);
+                if (user != null) {
+                    mInforDetailsZanImg.setImageResource(R.drawable.common_icon_praise_s);
+                    mAddGreatP.request(user.getUserId(), user.getSessionId(), homeListId);
+                } else {
+                    Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
             //收藏图片
             case R.id.infor_details_coll_img:
                 if (isCollection == 1) {
                     //请求取消收藏的接口
-                    mCancelP.request(user.getUserId(), user.getSessionId(), homeListId + "");
+                    if (user != null) {
+                        mCancelP.request(user.getUserId(), user.getSessionId(), homeListId + "");
+                        mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_n);
+                    } else {
+                        Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                    }
+
                 } else if (isCollection == 2) {
                     //请求收藏的接口
-                    mAddCollectP.request(user.getUserId(), user.getSessionId(), homeListId);
+                    if (user != null) {
+                        mAddCollectP.request(user.getUserId(), user.getSessionId(), homeListId);
+                        mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_s);
+                    } else {
+                        Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                    }
+
                 }
                 break;
             //分享图片
             case R.id.infor_details_share_img:
+                popupWindow.showAtLocation(InforDetailsActivity.this.findViewById(R.id.activity_infor_details_main), Gravity.BOTTOM, 0, 0);
                 break;
             case R.id.hide_down:
                 // 隐藏评论框
@@ -238,10 +326,14 @@ public class InforDetailsActivity extends WDActivity {
                 if (mCommentContent.getText().toString().equals("")) {
                     Toast.makeText(getApplicationContext(), "评论不能为空！", Toast.LENGTH_SHORT).show();
                 } else {
-                    text = mCommentContent.getText().toString().trim();
-                    detailAddCommentPresenter.request(user.getUserId(), user.getSessionId(), text, homeListId);
-                    // 发送完，清空输入框
-                    mCommentContent.setText("");
+                    if (user != null) {
+                        text = mCommentContent.getText().toString().trim();
+                        detailAddCommentPresenter.request(user.getUserId(), user.getSessionId(), text, homeListId);
+                        // 发送完，清空输入框
+                        mCommentContent.setText("");
+                    } else {
+                        Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 break;
             case R.id.infor_details_go_pay:
@@ -263,9 +355,11 @@ public class InforDetailsActivity extends WDActivity {
                     Intent intent = new Intent(InforDetailsActivity.this, PointsActivity.class);
                     intent.putExtra("DataId", homeListId + "");
                     startActivity(intent);
+//                    finish();
                     break;
                 case R.id.pay_way_go_vip:
                     startActivity(new Intent(InforDetailsActivity.this, VipActivity.class));
+//                    finish();
                     break;
             }
         }
@@ -348,7 +442,6 @@ public class InforDetailsActivity extends WDActivity {
                 mInforDetailsCommentTxt.setText(mInforDetailsBean.getComment() + "");
                 mInforDetailsZanTxt.setText(mInforDetailsBean.getPraise() + "");
                 //当前用户是否过点赞(1为是，2为否)
-//                int isGreat = mInforDetailsBean.getWhetherGreat();
                 isCollection = mInforDetailsBean.getWhetherCollection();
                 //当前用户是否收藏 1=是，2=否
                 if (isCollection == 1) {
@@ -407,7 +500,16 @@ public class InforDetailsActivity extends WDActivity {
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+                //详情  p层请求
+                mDetAllCommP.request(user.getUserId(), user.getSessionId(), homeListId, 1, 20);
+                mDetailAllCommentA.clear();
                 mDetailAllCommentA.notifyDataSetChanged();
+                // 隐藏评论框
+                mInforDetailsBottom.setVisibility(View.VISIBLE);
+                mRlComment.setVisibility(View.GONE);
+                // 隐藏输入法，然后暂存当前输入框的内容，方便下次使用
+                InputMethodManager im = (InputMethodManager) getApplicationContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+                im.hideSoftInputFromWindow(mCommentContent.getWindowToken(), 0);
             } else {
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             }
@@ -467,7 +569,9 @@ public class InforDetailsActivity extends WDActivity {
             if (data.getStatus().equals("0000")) {
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+//                mCancelP.request(user.getUserId(), user.getSessionId(), homeListId + "");
+//                mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_n);
             }
         }
 

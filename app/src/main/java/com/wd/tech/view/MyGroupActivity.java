@@ -8,7 +8,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,14 +15,11 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.hyphenate.easeui.EaseConstant;
 import com.wd.tech.R;
 import com.wd.tech.bean.FindUserJoinGroup;
-import com.wd.tech.bean.FriendInfoList;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
-import com.wd.tech.presenter.FindGroupPersenter;
-import com.wd.tech.presenter.GroupListPersenter;
 import com.wd.tech.presenter.UserJoinedGroupPersenter;
 
 import java.util.List;

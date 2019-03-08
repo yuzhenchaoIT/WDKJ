@@ -1,8 +1,6 @@
 package com.wd.tech.myview;
 
 import android.app.Dialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -11,7 +9,6 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -32,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class PostActivity extends WDActivity implements PostAdapter.Shan,View.OnClickListener {
     private MyPostPresenter myPostPresenter;
@@ -165,6 +163,11 @@ public class PostActivity extends WDActivity implements PostAdapter.Shan,View.On
         public void fail(ApiException e) {
 
         }
+    }
+    //点击按钮返回
+    @OnClick(R.id.mreturn)
+    public void mreturn(){
+        finish();
     }
     @Override
     protected void destoryData() {

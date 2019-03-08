@@ -74,7 +74,7 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.MyView
     //重写onCreateViewHolder方法，返回一个自定义的ViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.add_image_item,parent,false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.add_image_item,parent,false);
         MyViewHolder holder=new MyViewHolder(view);
         return holder;
     }

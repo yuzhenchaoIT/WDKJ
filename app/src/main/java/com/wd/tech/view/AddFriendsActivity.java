@@ -1,10 +1,6 @@
 package com.wd.tech.view;
 
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.text.Editable;
 import android.util.Log;
 import android.view.View;
@@ -17,20 +13,13 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.FindGroupByid;
 import com.wd.tech.bean.FindUserByPhone;
-import com.wd.tech.bean.FriendInfoList;
-import com.wd.tech.bean.InitFriendlist;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
-import com.wd.tech.frag.FragOneContact;
 import com.wd.tech.presenter.AddGroupPersenter;
-import com.wd.tech.presenter.GroupListPersenter;
 import com.wd.tech.presenter.PhoneUserPersenter;
-
-import java.io.InputStreamReader;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

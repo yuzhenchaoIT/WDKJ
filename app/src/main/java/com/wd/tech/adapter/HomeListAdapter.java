@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.like.LikeButton;
@@ -103,11 +104,19 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             final int whetherGreat = homeListBean.getWhetherCollection();
             if (whetherGreat == 1) {
                 ((MyViewHolder) viewHolder).img_collect.setLiked(true);
-            } else {
+                ((MyViewHolder) viewHolder).img_collect.setLikeDrawableRes(R.drawable.common_icon_collect_s);
+            } else if (whetherGreat == 2) {
                 ((MyViewHolder) viewHolder).img_collect.setLiked(false);
+                ((MyViewHolder) viewHolder).img_collect.setLikeDrawableRes(R.drawable.common_icon_collect_n);
             }
             //分享值
             ((MyViewHolder) viewHolder).share.setText(homeListBean.getShare() + "");
+            ((MyViewHolder) viewHolder).img_share.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    onItemClickListener.onItemClick(homeListBean.getTitle(), homeListBean.getSummary());
+                }
+            });
             //点击资讯条目进入详情页面
             ((MyViewHolder) viewHolder).itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -147,7 +156,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     //内部类
     class MyViewHolder extends RecyclerView.ViewHolder {
         private SimpleDraweeView img;
-        private ImageView pay;
+        private ImageView pay, img_share;
         private TextView title, summary, source, time, collect, share;
         private LikeButton img_collect;
 
@@ -161,6 +170,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
             pay = itemView.findViewById(R.id.item_home_list_img_pay);
             img_collect = itemView.findViewById(R.id.item_home_list_img_coll);
             collect = itemView.findViewById(R.id.item_home_list_txt_coll);
+            img_share = itemView.findViewById(R.id.item_home_list_img_share);
             share = itemView.findViewById(R.id.item_home_list_txt_share);
 
             img_collect.setOnLikeListener(new OnLikeListener() {
@@ -217,7 +227,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
 
     //定义接口
     public interface OnItemClickListener {
-        void onItemClick(int itemId, int isCollect);
+        void onItemClick(String title, String summary);
     }
 
     //方法名

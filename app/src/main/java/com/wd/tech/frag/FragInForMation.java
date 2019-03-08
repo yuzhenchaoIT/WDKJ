@@ -2,6 +2,9 @@ package com.wd.tech.frag;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.UserManager;
@@ -10,10 +13,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +29,11 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.wd.tech.R;
 import com.wd.tech.adapter.HomeListAdapter;
 import com.wd.tech.bean.BannerBean;
@@ -47,12 +58,15 @@ import com.zhouwei.mzbanner.holder.MZViewHolder;
 
 import org.greenrobot.greendao.Property;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+
+import static vi.com.gdi.bgl.android.java.EnvDrawText.bmp;
 
 /**
  * 资讯页面
@@ -70,7 +84,7 @@ public class FragInForMation extends Fragment {
     @BindView(R.id.home_banner)
     MZBannerView mHomeBanner;
     //p层
-    private RecommendPresenter mRecommendPresenter = new RecommendPresenter(new HomeListCall());
+    private RecommendPresenter mRecommendPresenter;
     private BannerPresenter mBanPresenter = new BannerPresenter(new BannerCall());
     //收藏 和 取消 收藏
     private AddCollectPresenter mAddCollectP = new AddCollectPresenter(new AddCollectCall());
@@ -85,13 +99,17 @@ public class FragInForMation extends Fragment {
     private int itemId1;
     private User user;
     private int uid1;
+    private PopupWindow popupWindow;
+    private ImageView friends;
+    private String title1;
+    private String summary1;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.frag_01, container, false);
-
+        final View view = inflater.inflate(R.layout.frag_01, container, false);
+        mRecommendPresenter = new RecommendPresenter(new HomeListCall());
         unbinder = ButterKnife.bind(this, view);
         mRefreshLayout = view.findViewById(R.id.refreshLayout);
 
@@ -103,7 +121,11 @@ public class FragInForMation extends Fragment {
             public void onRefresh(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishRefresh(2000);
-                mRecommendPresenter.request(true, 18, "15320748258726", 0);
+                if (user != null) {
+                    mRecommendPresenter.request(false, user.getUserId(), user.getSessionId(), 0);
+                } else {
+                    mRecommendPresenter.request(false, 1010, "15320748258726", 0);
+                }
             }
         });
 
@@ -112,7 +134,11 @@ public class FragInForMation extends Fragment {
             public void onLoadmore(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishLoadmore(2000);
-                mRecommendPresenter.request(false, 18, "15320748258726", 0);
+                if (user != null) {
+                    mRecommendPresenter.request(false, user.getUserId(), user.getSessionId(), 0);
+                } else {
+                    mRecommendPresenter.request(false, 1010, "15320748258726", 0);
+                }
             }
         });
 
@@ -122,7 +148,11 @@ public class FragInForMation extends Fragment {
 
         //布局管理器
         mHomeXrecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecommendPresenter.request(true, 18, "15320748258726", 0);
+        if (user != null) {
+            mRecommendPresenter.request(true, user.getUserId(), user.getSessionId(), 0);
+        } else {
+            mRecommendPresenter.request(true, 1010, "15320748258726", 0);
+        }
         //banner图请求数据
         mBanPresenter.request();
 
@@ -132,17 +162,59 @@ public class FragInForMation extends Fragment {
             @Override
             public void onPriceSuccessLitener(int uid) {
                 uid1 = uid;
-                //请求收藏的接口
-                mAddCollectP.request(user.getUserId(), user.getSessionId(), uid);
+                if (user != null) {
+                    //请求收藏的接口
+                    mAddCollectP.request(user.getUserId(), user.getSessionId(), uid);
+                } else {
+
+                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
             public void onPriceFiureLitener(int uid) {
-                //请求取消收藏的接口
-                mCancelP.request(user.getUserId(), user.getSessionId(), uid + "");
+                if (user != null) {
+                    //请求取消收藏的接口
+                    mCancelP.request(user.getUserId(), user.getSessionId(), uid + "");
+                } else {
+                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
+
+        View contentView = View.inflate(getContext(), R.layout.share_layout, null);
+        popupWindow = new PopupWindow(contentView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+        popupWindow.setTouchable(true);
+        popupWindow.setFocusable(true);
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
+        //通过popupwindow的视图对象去找到里面的控件
+        friends = contentView.findViewById(R.id.friends);
+        //点击按钮,,弹出popupwindow
+        friends.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (user != null) {
+                    wechatShare(1);
+                } else {
+                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+
+        //实现分享
+        mHomeListAdapter.setOnItemClickListener(new HomeListAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(String title, String summary) {
+                title1 = title;
+                summary1 = summary;
+                popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+            }
+        });
 
         return view;
     }
@@ -160,19 +232,51 @@ public class FragInForMation extends Fragment {
         }
     }
 
+    /**
+     * 微信分享 （这里仅提供一个分享网页的示例，其它请参看官网示例代码）
+     *
+     * @param flag(0:分享到微信好友，1：分享到微信朋友圈)
+     */
+    private void wechatShare(int flag) {
+        IWXAPI api = WXAPIFactory.createWXAPI(getContext(), "wx4c96b6b8da494224", false);
+        WXWebpageObject webpage = new WXWebpageObject();
+        webpage.webpageUrl = "www.hooxiao.com";
+        WXMediaMessage msg = new WXMediaMessage(webpage);
+        msg.title = title1;
+        msg.description = summary1;
+        //这里替换一张自己工程里的图片资源
+        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.icon);
+        msg.setThumbImage(thumb);
+
+
+        SendMessageToWX.Req req = new SendMessageToWX.Req();
+        req.transaction = String.valueOf(System.currentTimeMillis());
+        req.message = msg;
+        req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
+        api.sendReq(req);
+
+    }
+
 
     @Override
     public void onPause() {
         super.onPause();
         mHomeBanner.pause();//暂停轮播
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         mHomeBanner.start();//开始轮播
-        if (user == null) {
-            Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+        user = WDActivity.getUser(getActivity());
+        mRecommendPresenter = new RecommendPresenter(new HomeListCall());
+        if (this.user != null) {
+            mHomeListAdapter.clear();
+            mRecommendPresenter.request(false, this.user.getUserId(), this.user.getSessionId(), 0);
+        } else {
+            mHomeListAdapter.clear();
+            mRecommendPresenter.request(false, 1010, "15320748258726", 0);
         }
     }
 
@@ -257,7 +361,6 @@ public class FragInForMation extends Fragment {
         @Override
         public void success(Result<List<HomeListBean>> data) {
             if (data.getStatus().equals("0000")) {
-                Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 //添加列表并刷新
                 if (mRecommendPresenter.getPage() == 1) {
                     mHomeListAdapter.clear();
@@ -323,6 +426,7 @@ public class FragInForMation extends Fragment {
         mAddCollectP.unBind();
         mCancelP.unBind();
     }
+
 
 
 }

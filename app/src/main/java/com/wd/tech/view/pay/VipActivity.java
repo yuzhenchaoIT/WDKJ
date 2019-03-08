@@ -195,7 +195,7 @@ public class VipActivity extends WDActivity {
         public void success(Result<List<VipGoodsBean>> data) {
             if (data.getStatus().equals("0000")) {
                 mBeanList = data.getResult();
-                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             }
@@ -218,14 +218,14 @@ public class VipActivity extends WDActivity {
             if (data.getStatus().equals("0000")) {
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 if (mChoseWx.isChecked()) {
-                    Toast.makeText(getBaseContext(), "选择了微信支付", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getBaseContext(), "选择了微信支付", Toast.LENGTH_SHORT).show();
                     //下单成功  拿到 getOrderId 去微信支付
                     mWxPayPresenter.request(user.getUserId(), user.getSessionId(), data.getOrderId(), 1);
                 } else if (mChoseZfb.isChecked()) {
-                    Toast.makeText(getBaseContext(), "选择了支付宝支付", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(getBaseContext(), "选择了支付宝支付", Toast.LENGTH_SHORT).show();
                     mWxPayPresenter.request(user.getUserId(), user.getSessionId(), data.getOrderId(), 2);
                 } else {
-                    Toast.makeText(getBaseContext(), "至少选择一种支付方式", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "请任意选择一种支付方式", Toast.LENGTH_SHORT).show();
                 }
 
             } else {

@@ -2,19 +2,16 @@ package com.wd.tech.view;
 
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.library.AutoFlowLayout;
 import com.wd.tech.R;
 import com.wd.tech.core.WDActivity;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**

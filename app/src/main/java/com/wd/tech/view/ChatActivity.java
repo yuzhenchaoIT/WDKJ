@@ -2,13 +2,10 @@ package com.wd.tech.view;
 
 import android.content.Intent;
 
-import android.os.Bundle;
-
 import android.view.View;
 import android.widget.TextView;
 
 import com.hyphenate.chat.EMConversation;
-import com.hyphenate.easeui.domain.EaseUser;
 import com.wd.tech.R;
 
 import com.hyphenate.easeui.ui.EaseChatFragment;

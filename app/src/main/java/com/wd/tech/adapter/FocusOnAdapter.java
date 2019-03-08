@@ -8,13 +8,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CircleCrop;
 import com.bumptech.glide.request.RequestOptions;
 import com.wd.tech.R;
 import com.wd.tech.bean.FollowUser;
 import com.wd.tech.core.SideslipView;
+import com.wd.tech.view.SpaceActivity;
 
 
 import java.util.ArrayList;
@@ -56,6 +60,14 @@ public class FocusOnAdapter extends RecyclerView.Adapter<FocusOnAdapter.MyViewHo
                 shan.onshan(position);
             }
         });
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, SpaceActivity.class);
+                intent.putExtra("id",mDatas.get(position).getFocusUid());
+                activity.startActivity(intent);
+            }
+        });
     }
 
     //重写onCreateViewHolder方法，返回一个自定义的ViewHolder
@@ -82,7 +94,7 @@ public class FocusOnAdapter extends RecyclerView.Adapter<FocusOnAdapter.MyViewHo
         TextView qian;
         TextView shanchu;
         SideslipView sideslipView;
-
+        LinearLayout linearLayout;
         public MyViewHolder(View view) {
             super(view);
             head = view.findViewById(R.id.mimage_foc);
@@ -90,6 +102,7 @@ public class FocusOnAdapter extends RecyclerView.Adapter<FocusOnAdapter.MyViewHo
             qian = view.findViewById(R.id.mtextsig_foc);
             shanchu = view.findViewById(R.id.mtext_del_foc);
             sideslipView = view.findViewById(R.id.msides);
+            linearLayout = view.findViewById(R.id.mlinear_foc);
         }
     }
 

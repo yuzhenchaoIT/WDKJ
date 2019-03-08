@@ -3,20 +3,14 @@ package com.wd.tech.frag;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.wd.tech.R;
 import com.wd.tech.adapter.CommunityAdapter;
@@ -36,16 +30,11 @@ import com.wd.tech.presenter.AddCommentPresenter;
 import com.wd.tech.presenter.CommentListPresenter;
 import com.wd.tech.presenter.CommunitPresenter;
 import com.wd.tech.presenter.DoTheTaskPresenter;
+import com.wd.tech.util.ListDataSave;
 import com.wd.tech.view.AddCircleActivity;
-
 import java.util.List;
-
-import javax.sql.CommonDataSource;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import retrofit2.http.Field;
-
 public class FragCommunity extends WDFragment  {
     @BindView(R.id.frag03_xie)
     ImageView imageView;
@@ -61,6 +50,7 @@ public class FragCommunity extends WDFragment  {
     private CommunitPresenter communitPresenter;
     private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
     private User user;
+    private ListDataSave listDataSave;
 
     @Override
     public String getPageName() {
@@ -74,13 +64,17 @@ public class FragCommunity extends WDFragment  {
 
     @Override
     protected void initView() {
-
         user = WDActivity.getUser(getActivity());
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getActivity(),AddCircleActivity.class));
+                if (user!=null){
+                    startActivity(new Intent(getActivity(),AddCircleActivity.class));
+                }else {
+                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
         if (user!=null){
@@ -127,8 +121,13 @@ public class FragCommunity extends WDFragment  {
 //                    recycler.refreshComplete();
 //                    recycler.loadMoreComplete();
 //                }
-                communityAdapter.clearlist();
-                communitPresenter.request(user.getUserId(),user.getSessionId(),true);
+                if (user!=null){
+                    communityAdapter.clearlist();
+                    communitPresenter.request(user.getUserId(),user.getSessionId(),true);
+                }else {
+                    communitPresenter.request(1010,"15320748258726",true);
+                }
+
             }
 
             @Override
@@ -137,7 +136,12 @@ public class FragCommunity extends WDFragment  {
 //                    recycler.refreshComplete();
 //                    recycler.loadMoreComplete();
 //                }
-                communitPresenter.request(user.getUserId(),user.getSessionId(),false);
+                if (user!=null){
+                    communitPresenter.request(user.getUserId(),user.getSessionId(),false);
+                }else {
+                    communitPresenter.request(1010,"15320748258726",false);
+                }
+
             }
         });
         recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -153,6 +157,9 @@ public class FragCommunity extends WDFragment  {
                 }
             }
         });
+        //数据保存
+        listDataSave = new ListDataSave(getActivity(),"Circile");
+
     }
 
     class ComData implements DataCall<Result<List<CommunityListBean>>>{
@@ -163,13 +170,21 @@ public class FragCommunity extends WDFragment  {
              communityAdapter.addList(data.getResult());
              communityAdapter.notifyDataSetChanged();
            //  Toast.makeText(getActivity(), data.getResult().get(1).getCommunityCommentVoList().toString()+"1231", Toast.LENGTH_SHORT).show();
+             List<CommunityListBean> list = data.getResult();
+             listDataSave.setDataList("list",list);
+
          }
          @Override
          public void fail(ApiException e) {
              recycler.refreshComplete();
              recycler.loadMoreComplete();
              Toast.makeText(getContext(), e + "失败", Toast.LENGTH_SHORT).show();
-
+             int size = communityAdapter.getSize();
+             if(size==0){
+                 List<CommunityListBean> list = listDataSave.getDataList("list");
+                 communityAdapter.addList(list);
+                 communityAdapter.notifyDataSetChanged();
+             }
          }
      }
 
@@ -189,6 +204,7 @@ public class FragCommunity extends WDFragment  {
             editText.setText("");
             communityAdapter.clearlist();
             communitPresenter.request(user.getUserId(),user.getSessionId(),true);
+
         }
 
         @Override
@@ -209,5 +225,23 @@ public class FragCommunity extends WDFragment  {
         public void fail(ApiException e) {
 
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+           communitPresenter = new CommunitPresenter(new ComData());
+         user = WDActivity.getUser(getActivity());
+        if (user !=null){
+            communityAdapter.clearlist();
+            communitPresenter.request(this.user.getUserId(), this.user.getSessionId(),true);
+        }else {
+            communitPresenter.request(1010,"15320748258726",true);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+      //  super.onSaveInstanceState(outState);
     }
 }

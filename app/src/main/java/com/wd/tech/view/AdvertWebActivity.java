@@ -1,8 +1,6 @@
 package com.wd.tech.view;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -17,7 +15,6 @@ import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
-import com.wd.tech.myview.PerfectActivity;
 import com.wd.tech.presenter.DoTheTaskPresenter;
 
 /**

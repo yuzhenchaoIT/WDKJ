@@ -62,6 +62,9 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
     public void clearlist(){
         mlist.clear();
     }
+    public int getSize(){
+       return mlist.size();
+    }
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -170,10 +173,16 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
         myHodler.avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context,SpaceActivity.class);
-                int userId = mlist.get(i).getUserId();
-                intent.putExtra("id",userId);
-                context.startActivity(intent);
+                User user = WDActivity.getUser(context);
+                if (user!=null) {
+                    Intent intent = new Intent(context, SpaceActivity.class);
+                    int userId = mlist.get(i).getUserId();
+                    intent.putExtra("id", userId);
+                    context.startActivity(intent);
+                }else {
+                    Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         });
     }
@@ -259,7 +268,6 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String format = sdf.format(date);
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
         Date d = null;
         try {
             d = df.parse(format);
