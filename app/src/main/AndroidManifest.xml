@@ -29,9 +29,11 @@
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="design_width_in_dp"
             android:value="360" />
@@ -39,7 +41,7 @@
             android:name="design_height_in_dp"
             android:value="640" />
 
-        <activity android:name=".view.HomeActivity"></activity>
+        <activity android:name=".view.HomeActivity" />
         <activity android:name=".view.SortActivity" />
         <activity android:name=".view.DetailActivity" />
         <activity android:name=".view.SearchActivity" />
@@ -55,7 +57,6 @@
         <activity android:name=".myview.SetUpActivity" />
         <activity android:name=".view.AddFriendsActivity" />
         <activity android:name=".view.FlockActivity" />
-
         <activity android:name=".view.SortListActivity" />
         <activity android:name=".myview.PerfectActivity" />
         <activity android:name=".myview.SignatureActivity" />
@@ -80,8 +81,8 @@
         <activity android:name=".view.MyFriendnewsActivity" />
         <activity android:name=".view.AdvertWebActivity" />
         <activity android:name=".view.pay.PointsActivity" />
-        <activity android:name=".view.pay.VipActivity"></activity>
-        <activity android:name=".view.ChatActivity"></activity>
+        <activity android:name=".view.pay.VipActivity" />
+        <activity android:name=".view.ChatActivity" />
 
         <meta-data
             android:name="EASEMOB_APPKEY"
@@ -105,14 +106,15 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <activity android:name=".view.ChatSettingsActivity"/>
-        <activity android:name=".view.CheckGroupActivity"/>
 
+        <activity android:name=".view.ChatSettingsActivity" />
+        <activity android:name=".view.CheckGroupActivity" />
         <activity
             android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true"></activity>
-        <activity android:name=".view.CommentActivity"></activity>
-
+            android:exported="true" />
+        <activity android:name=".view.CommentActivity" />
+        <activity android:name=".view.GroupActivity"></activity>
+        <activity android:name=".view.GroupDetailsSettingsActivity"/>
     </application>
 
 </manifest>

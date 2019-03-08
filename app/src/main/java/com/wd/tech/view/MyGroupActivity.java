@@ -1,8 +1,10 @@
 package com.wd.tech.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -11,6 +13,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.hyphenate.easeui.EaseConstant;
 import com.wd.tech.R;
 import com.wd.tech.bean.FindUserJoinGroup;
 import com.wd.tech.bean.FriendInfoList;
@@ -62,7 +65,16 @@ public class MyGroupActivity extends WDActivity {
             userJoinedGroupPersenter.request(userId,sessionId);
 
         }
-
+        listGroup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                FindUserJoinGroup friendInfoList = Mygroup.get(position);
+                Intent intent=new Intent(MyGroupActivity.this,GroupActivity.class);
+                intent.putExtra(EaseConstant.EXTRA_USER_ID,friendInfoList.getHxGroupId());
+                intent.putExtra(EaseConstant.EXTRA_CHAT_TYPE, EaseConstant.CHATTYPE_GROUP);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -125,7 +137,7 @@ public class MyGroupActivity extends WDActivity {
                 holder = (MyHolder) convertView.getTag();
             }
             FindUserJoinGroup friendInfoList = Mygroup.get(position);
-
+            friendInfoList.getHxGroupId();
             holder.groupImage.setImageURI(friendInfoList.getGroupImage());
             holder.groupName.setText(friendInfoList.getGroupName());
             return convertView;
