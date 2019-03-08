@@ -351,13 +351,13 @@ public class InforDetailsActivity extends WDActivity {
         public void onClick(View v) {
             menuWindow.dismiss();
             switch (v.getId()) {
-                case R.id.pay_way_go_exchage:
+                case R.id.r:
                     Intent intent = new Intent(InforDetailsActivity.this, PointsActivity.class);
                     intent.putExtra("DataId", homeListId + "");
                     startActivity(intent);
 //                    finish();
                     break;
-                case R.id.pay_way_go_vip:
+                case R.id.t:
                     startActivity(new Intent(InforDetailsActivity.this, VipActivity.class));
 //                    finish();
                     break;

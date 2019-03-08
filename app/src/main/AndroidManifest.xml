@@ -75,7 +75,7 @@
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme" />
+            android:theme="@android:style/Theme.Translucent" />
         <activity
             android:name=".view.SearchResultActivity"
             android:windowSoftInputMode="adjustPan" />
