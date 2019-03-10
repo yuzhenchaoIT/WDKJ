@@ -8,17 +8,17 @@ import android.view.ViewGroup;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class PostAdapter2 extends RecyclerView.Adapter<PostAdapter2.MyViewHolder>  {
-    private List<String> mDatas;
+    private List<String> mDatas = new ArrayList<>();
     private Context mContext;
     private LayoutInflater inflater;
 
-    public PostAdapter2(Context context, List<String> datas){
+    public PostAdapter2(Context context){
         this.mContext=context;
-        this.mDatas=datas;
         inflater=LayoutInflater.from(mContext);
     }
 
@@ -40,6 +40,16 @@ public class PostAdapter2 extends RecyclerView.Adapter<PostAdapter2.MyViewHolder
         View view = inflater.inflate(R.layout.mypost_item2,parent,false);
         MyViewHolder holder=new MyViewHolder(view);
         return holder;
+    }
+
+    public void clear() {
+        mDatas.clear();
+    }
+
+    public void addAll(List<String> strings) {
+        if (mDatas!=null){
+            mDatas.addAll(strings);
+        }
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder { //承载Item视图的子布局
