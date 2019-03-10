@@ -24,7 +24,7 @@ public class SearchActivity extends WDActivity {
 
 
     @BindView(R.id.search_edit_zi)
-    EditText mSearchEditZi;
+    TextView mSearchEditZi;
     @BindView(R.id.search_cancel_txt)
     TextView mSearchCancelTxt;
     @BindView(R.id.afl_cotent)

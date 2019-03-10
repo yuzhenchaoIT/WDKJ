@@ -59,9 +59,12 @@ public class SearchResultActivity extends WDActivity {
     @Override
     protected void initView() {
 
-        String mDataTxt = getIntent().getStringExtra("mDataTxt");
 
-        s = mSearchResultEditZi.getText().toString();
+        mSearchResultRecy.setLayoutManager(mManager);
+        mFindByTitleAda = new FindByTitleAdapter(this);
+        mSearchResultRecy.setAdapter(mFindByTitleAda);
+
+        String mDataTxt = getIntent().getStringExtra("mDataTxt");
 
 
         if (mDataTxt != null) {
@@ -79,27 +82,30 @@ public class SearchResultActivity extends WDActivity {
             }
         });
 
-        mSearchResultRecy.setLayoutManager(mManager);
-        mFindByTitleAda = new FindByTitleAdapter(this);
-        mSearchResultRecy.setAdapter(mFindByTitleAda);
-
         //开启android软键盘搜索功能
         mSearchResultEditZi.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    if (s == null) {
-                        Toast.makeText(getContext(), "请输入您想要的内容", Toast.LENGTH_SHORT).show();
-                    } else {
-                        mByTitlePre.request(s, 1, 50);
-                    }
+
+                    s = mSearchResultEditZi.getText().toString();
+
+                    mByTitlePre.request(s, 1, 50);
+
+
+//                    if (s != null) {
+//
+//                    } else {
+//                        Toast.makeText(getContext(), "请输入您想要的内容", Toast.LENGTH_SHORT).show();
+//                    }
                     return true;
                 }
 
                 return false;
             }
         });
+
 
     }
 
@@ -109,17 +115,15 @@ public class SearchResultActivity extends WDActivity {
         @Override
         public void success(Result<List<FindTitleBean>> data) {
             if (data.getStatus().equals("0000")) {
-
+                //判断是否有数据
                 if (data.getResult().size() == 0) {
                     mSearchResultRecyNo.setVisibility(View.VISIBLE);
                     mSearchResultRecy.setVisibility(View.GONE);
                 } else {
-                    mSearchResultRecyNo.setVisibility(View.GONE);
                     mFindByTitleAda.clearData();
                     mFindByTitleAda.addList(data.getResult());
                     mFindByTitleAda.notifyDataSetChanged();
                 }
-                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             }
