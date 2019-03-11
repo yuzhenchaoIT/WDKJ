@@ -39,7 +39,8 @@
                 android:drawableTop="@drawable/sel_but1"
                 android:gravity="center"
                 android:paddingTop="5dp"
-                android:text="资讯" />
+                android:text="资讯"
+                android:textColor="#ddd"/>
 
             <RadioButton
                 android:id="@+id/mrb2"
@@ -50,6 +51,7 @@
                 android:drawableTop="@drawable/sel_but2"
                 android:gravity="center"
                 android:paddingTop="10dp"
+                android:textColor="#ddd"
                 android:text="消息" />
             <RadioButton
                 android:id="@+id/mrb3"
@@ -60,7 +62,8 @@
                 android:drawableTop="@drawable/sel_but3"
                 android:gravity="center"
                 android:paddingTop="10dp"
-                android:text="社区" />
+                android:text="社区"
+                android:textColor="#ddd"/>
         </RadioGroup>
     </LinearLayout>
 

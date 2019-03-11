@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Process;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 import com.wd.tech.R;
@@ -63,6 +65,16 @@ public class MainActivity extends WDActivity {
                 this.requestPermissions(mRequestPermission.toArray(new String[mRequestPermission.size()]), PERMISSION_REQ);
                 return ;
             }
+        }
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.RECORD_AUDIO)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{
+                    android.Manifest.permission.RECORD_AUDIO,android.Manifest.permission.CAMERA,
+                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE},1);
+        }
+        if (!ActivityCompat.shouldShowRequestPermissionRationale(this,android.Manifest.permission.CAMERA)){
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.CAMERA},0);
         }
         startActiviy();
 

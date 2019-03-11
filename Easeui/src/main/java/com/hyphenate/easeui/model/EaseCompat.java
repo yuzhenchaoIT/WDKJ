@@ -56,7 +56,8 @@ public class EaseCompat {
 
     public static Uri getUriForFile(Context context, File file) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return FileProvider.getUriForFile(context, context.getPackageName() + ".fileProvider", file);
+            return Uri.fromFile(new File(Environment.getExternalStorageDirectory(), "temp_head_image.jpg"));
+
         } else {
             return Uri.fromFile(file);
         }

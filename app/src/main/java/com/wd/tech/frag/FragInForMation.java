@@ -44,7 +44,9 @@ import com.wd.tech.core.http.DataCall;
 import com.wd.tech.presenter.AddCollectPresenter;
 import com.wd.tech.presenter.BannerPresenter;
 import com.wd.tech.presenter.CancelPresenter;
+import com.wd.tech.presenter.DoTheTaskPresenter;
 import com.wd.tech.presenter.RecommendPresenter;
+import com.wd.tech.view.AddCircleActivity;
 import com.wd.tech.view.AdvertWebActivity;
 import com.wd.tech.view.InforDetailsActivity;
 import com.wd.tech.view.SearchActivity;
@@ -97,7 +99,7 @@ public class FragInForMation extends Fragment {
     private TextView wxShareCancel;
     private String title1;
     private String summary1;
-
+    private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
 
     @Nullable
     @Override
@@ -261,9 +263,22 @@ public class FragInForMation extends Fragment {
         req.message = msg;
         req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
         api.sendReq(req);
-
+        doTheTaskPresenter.request(user.getUserId(),user.getSessionId(),1004);
     }
+    //实现做任务接口
+    private class DoTheTaskCall implements DataCall<Result>{
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
 
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
 
     @Override
     public void onPause() {

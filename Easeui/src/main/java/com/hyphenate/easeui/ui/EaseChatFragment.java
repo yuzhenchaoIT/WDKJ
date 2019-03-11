@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.MediaStore;
@@ -1004,9 +1005,9 @@ public class EaseChatFragment extends EaseBaseFragment implements EMMessageListe
             return;
         }
 
-        cameraFile = new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser()
-                + System.currentTimeMillis() + ".jpg");
-        //noinspection ResultOfMethodCallIgnored
+        cameraFile = new File(Environment.getExternalStorageDirectory(), "temp_head_image.jpg");
+        // new File(PathUtil.getInstance().getImagePath(), EMClient.getInstance().getCurrentUser() + System.currentTimeMillis() + "temp_head_image.jpg");
+        //inspection ResultOfMethodCallIgnored
         cameraFile.getParentFile().mkdirs();
         startActivityForResult(
                 new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, EaseCompat.getUriForFile(getContext(), cameraFile)),
