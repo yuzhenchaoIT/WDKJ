@@ -202,6 +202,7 @@
                     android:textColor="#ff5757"
                     android:layout_centerInParent="true"/>
                 <Button
+                    android:id="@+id/mbutton_qfx"
                     android:layout_width="51dp"
                     android:layout_height="28dp"
                     android:layout_alignParentRight="true"

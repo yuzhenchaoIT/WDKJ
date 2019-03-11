@@ -24,7 +24,7 @@ public class TaskActivity extends WDActivity implements View.OnClickListener {
     private TaskPresenter taskPresenter;
     private User user;
     private Button mButtonyqd, mButtonyqc,mButtonyws,
-            mButtonypj,mButtonyck;
+            mButtonypj,mButtonyck,mButtonqfx;
 
     @Override
     protected int getLayoutId() {
@@ -46,6 +46,7 @@ public class TaskActivity extends WDActivity implements View.OnClickListener {
         mButtonyws = (Button) findViewById(R.id.mbutton_yws);
         mButtonypj = (Button) findViewById(R.id.mbutton_ypj);
         mButtonyck = (Button) findViewById(R.id.mbutton_yck);
+        mButtonqfx = (Button) findViewById(R.id.mbutton_qfx);
         //查询数据库
         user = WDActivity.getUser(this);
         //设置数据
@@ -82,6 +83,11 @@ public class TaskActivity extends WDActivity implements View.OnClickListener {
                 startActivity(intent4);
                 finish();
                 break;
+            case R.id.mbutton_qfx:
+                Intent intent5 = new Intent(TaskActivity.this, HomeActivity.class);
+                startActivity(intent5);
+                finish();
+                break;
         }
     }
 
@@ -104,6 +110,8 @@ public class TaskActivity extends WDActivity implements View.OnClickListener {
                         mButtonypj.setVisibility(View.VISIBLE);
                     }else if (result.get(i).getTaskId()==1005&&status==1){
                         mButtonyck.setVisibility(View.VISIBLE);
+                    }else if (result.get(i).getTaskId()==1004&&status==1){
+                        mButtonqfx.setVisibility(View.VISIBLE);
                     }
                 }
             }
