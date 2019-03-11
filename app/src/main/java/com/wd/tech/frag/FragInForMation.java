@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.UserManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,7 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -43,30 +41,24 @@ import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
-import com.wd.tech.dao.UserDao;
 import com.wd.tech.presenter.AddCollectPresenter;
-import com.wd.tech.presenter.AllInfoPresenter;
 import com.wd.tech.presenter.BannerPresenter;
 import com.wd.tech.presenter.CancelPresenter;
 import com.wd.tech.presenter.RecommendPresenter;
 import com.wd.tech.view.AdvertWebActivity;
+import com.wd.tech.view.InforDetailsActivity;
 import com.wd.tech.view.SearchActivity;
 import com.wd.tech.view.SortActivity;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
-import org.greenrobot.greendao.Property;
-
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-
-import static vi.com.gdi.bgl.android.java.EnvDrawText.bmp;
 
 /**
  * 资讯页面
@@ -115,6 +107,7 @@ public class FragInForMation extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         mRefreshLayout = view.findViewById(R.id.refreshLayout);
 
+
         //获取用户信息
         user = WDActivity.getUser(getContext());
 
@@ -125,9 +118,9 @@ public class FragInForMation extends Fragment {
 
                 refreshlayout.finishRefresh(2000);
                 if (user != null) {
-                    mRecommendPresenter.request(false, user.getUserId(), user.getSessionId(), 0);
+                    mRecommendPresenter.request(true, user.getUserId(), user.getSessionId(), 0);
                 } else {
-                    mRecommendPresenter.request(false, 1010, "15320748258726", 0);
+                    mRecommendPresenter.request(true, 1010, "15320748258726", 0);
                 }
             }
         });
@@ -351,9 +344,17 @@ public class FragInForMation extends Fragment {
             mImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), AdvertWebActivity.class);
-                    intent.putExtra("AdvertUrl", jumpUrl + "");
-                    startActivity(intent);
+                    //网址需判断  原生  还是 webview
+                    if (jumpUrl.contains("wd://information")) {
+                        Intent intent = new Intent(getContext(), InforDetailsActivity.class);
+                        intent.putExtra("homeListId", 1 + "");
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(getContext(), AdvertWebActivity.class);
+                        intent.putExtra("AdvertUrl", jumpUrl + "");
+                        startActivity(intent);
+                    }
+
                 }
             });
             return view;
@@ -442,6 +443,9 @@ public class FragInForMation extends Fragment {
         mBanPresenter.unBind();
         mAddCollectP.unBind();
         mCancelP.unBind();
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+        }
     }
 
 

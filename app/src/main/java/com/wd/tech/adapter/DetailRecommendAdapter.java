@@ -55,6 +55,7 @@ public class DetailRecommendAdapter extends RecyclerView.Adapter<DetailRecommend
                 Intent intent = new Intent(mContext, InforDetailsActivity.class);
                 intent.putExtra("homeListId", listBean.getId() + "");
                 mContext.startActivity(intent);
+
             }
         });
     }
