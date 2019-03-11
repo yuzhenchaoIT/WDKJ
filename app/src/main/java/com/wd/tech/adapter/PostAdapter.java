@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.wd.tech.R;
 import com.wd.tech.bean.MyPost;
 import com.wd.tech.core.FolderTextView;
+import com.wd.tech.util.StringUtils;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -22,6 +24,8 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     private Activity activity;
     private LayoutInflater inflater;
     private Shan shan;
+
+
     public PostAdapter(Activity activity) {
         this.activity = activity;
         inflater = LayoutInflater.from(activity);
@@ -44,15 +48,26 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         myHolder.folderTextView.setTailColor(0xff20affa);
         myHolder.textView3.setText(list.get(i).getPraise()+"");
         myHolder.textView4.setText(list.get(i).getComment()+"");
-        myHolder.recyclerView.setLayoutManager(new GridLayoutManager(activity,3));
-        String file = list.get(i).getFile();
-        if (file.equals("")){
+        if(StringUtils.isEmpty(list.get(i).getFile())){
             myHolder.recyclerView.setVisibility(View.GONE);
-        }else {
+        } else {
             myHolder.recyclerView.setVisibility(View.VISIBLE);
+            String[] images = list.get(i).getFile().split(",");
+//            int imageCount = (int) (Math.random() * 9) + 1;
+            int imageCount = images.length;
+            int colNum;//列数
+            if (imageCount == 1) {
+                colNum = 1;
+            } else if (imageCount == 2 || imageCount == 4) {
+                colNum = 2;
+            } else {
+                colNum = 3;
+            }
+            myHolder.adapter2.clear();
+            myHolder.adapter2.addAll(Arrays.asList(images));
+            myHolder.gridLayoutManager.setSpanCount(colNum);
+            myHolder.adapter2.notifyDataSetChanged();
         }
-        String[] split = file.split(",");
-        myHolder.recyclerView.setAdapter(new PostAdapter2(activity,Arrays.asList(split)));
         long publishTime = list.get(i).getPublishTime();
         Date date = new Date(publishTime);
         SimpleDateFormat format = new SimpleDateFormat("MM-dd  HH:mm:ss");
@@ -88,10 +103,16 @@ public class PostAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         TextView textView2;
         TextView textView3;
         TextView textView4;
+        PostAdapter2 adapter2;
+        GridLayoutManager gridLayoutManager;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             folderTextView = itemView.findViewById(R.id.mfolder_post);
             recyclerView = itemView.findViewById(R.id.mrecycler_post);
+            gridLayoutManager = new GridLayoutManager(activity,3);
+            adapter2 = new PostAdapter2(activity);
+            recyclerView.setLayoutManager(gridLayoutManager);
+            recyclerView.setAdapter(adapter2);
             textView1 = itemView.findViewById(R.id.mdate_post);
             textView2 = itemView.findViewById(R.id.mdelete_post);
             textView3 = itemView.findViewById(R.id.mzanshu_post);

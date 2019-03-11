@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Display;
 import android.view.Gravity;
@@ -32,6 +33,7 @@ import com.wd.tech.R;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
+import com.wd.tech.core.DrawLayoutEdge;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.WDPage;
 import com.wd.tech.core.exception.ApiException;
@@ -131,8 +133,6 @@ public class HomeActivity extends AppCompatActivity {
             public void onDrawerSlide(@NonNull View view, float v) {
                 mlinear.setTranslationX(-width + width * v);               //底布局跟着移动
                 mlinearhome.setTranslationX(view.getMeasuredWidth() * v);   //主界面布局移动，移动长度等于抽屉的移动长度
-
-
             }
 
             @Override
@@ -142,7 +142,7 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onDrawerClosed(@NonNull View view) {
-
+                mdraw.closeDrawers();
             }
 
             @Override
@@ -150,6 +150,7 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+        DrawLayoutEdge.setLeftEdgeSize(this,mdraw,0.5f);
     }
 
     //点击切换页面
@@ -263,6 +264,15 @@ public class HomeActivity extends AppCompatActivity {
             monlick = 0;
             mRelative.setVisibility(View.VISIBLE);
             mLinearShow.setVisibility(View.GONE);
+        }
+        int jump = getIntent().getIntExtra("jump", 0);
+        if (jump == 2){
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.show(frag_Community);
+            fragmentTransaction.hide(frag_InForMation);
+            fragmentTransaction.hide(frag_Message);
+            mradio.check(mradio.getChildAt(2).getId());
+            fragmentTransaction.commit();
         }
     }
 
