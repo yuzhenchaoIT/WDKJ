@@ -10,6 +10,7 @@ import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wd.tech.R;
@@ -22,7 +23,7 @@ import com.wd.tech.R;
  */
 public class SelectPayPopupWindow extends PopupWindow {
 
-    private TextView mExchage, mVip;
+    private RelativeLayout mExchage, mVip;
     private View mMenuView;
 
     public SelectPayPopupWindow(Activity context, View.OnClickListener itemsOnClick) {
@@ -30,8 +31,8 @@ public class SelectPayPopupWindow extends PopupWindow {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         mMenuView = inflater.inflate(R.layout.pay_way_pop_layout, null);
-        mExchage = (TextView) mMenuView.findViewById(R.id.pay_way_go_exchage);
-        mVip = (TextView) mMenuView.findViewById(R.id.pay_way_go_vip);
+        mExchage = (RelativeLayout) mMenuView.findViewById(R.id.r);
+        mVip = (RelativeLayout) mMenuView.findViewById(R.id.t);
 
         //设置按钮监听
         mExchage.setOnClickListener(itemsOnClick);

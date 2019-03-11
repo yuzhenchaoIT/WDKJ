@@ -129,7 +129,7 @@ public class InforDetailsActivity extends WDActivity {
     LinearLayout mInforDetailsLlData;
 
     private TextView mInforAfltZi;
-    //请求详情页面内容p层
+    //请求详情页面内容
     private InforDetailsPresenter mDetailsPresenter = new InforDetailsPresenter(new DetailsCall());
     //查看详情所有评论
     private DetailAllCommentPresenter mDetAllCommP;
@@ -141,6 +141,7 @@ public class InforDetailsActivity extends WDActivity {
     //收藏 和 取消 收藏
     private AddCollectPresenter mAddCollectP = new AddCollectPresenter(new AddCollectCall2());
     private CancelPresenter mCancelP = new CancelPresenter(new CancelCollectCall2());
+    //加载富文本的图片
     private URLImageParser mImageGetter;
     private InforDetailsBean mInforDetailsBean;
     //线性
@@ -155,7 +156,8 @@ public class InforDetailsActivity extends WDActivity {
     private SelectPayPopupWindow menuWindow;
     private int isCollection;
     private PopupWindow popupWindow;
-    private ImageView friends;
+    private ImageView friends, sigleFriend;
+    private TextView wxShareCancel;
 
 
     @Override
@@ -202,7 +204,7 @@ public class InforDetailsActivity extends WDActivity {
         mIforDetailCommR.setAdapter(mDetailAllCommentA);
 
         if (user != null) {
-            //详情  p层请求
+            //详情 所有评论查看 p层请求
             mDetAllCommP.request(user.getUserId(), user.getSessionId(), homeListId, 1, 20);
         } else {
             mInforDetailsLlNoLogin.setVisibility(View.VISIBLE);
@@ -217,19 +219,29 @@ public class InforDetailsActivity extends WDActivity {
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         //通过popupwindow的视图对象去找到里面的控件
         friends = contentView.findViewById(R.id.friends);
+        sigleFriend = contentView.findViewById(R.id.sigle_friends);
+        wxShareCancel = contentView.findViewById(R.id.wx_share_cancel);
         //点击按钮,,弹出popupwindow
         friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (user != null) {
-                    wechatShare(1);
-                } else {
-                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
-                }
+                wechatShare(1);
             }
         });
-
-
+        //好友分享
+        sigleFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                wechatShare(0);
+            }
+        });
+        //取消 按钮
+        wxShareCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
     }
 
     /**
@@ -345,19 +357,19 @@ public class InforDetailsActivity extends WDActivity {
         }
     }
 
-    //为弹出窗口实现监听类
+    //vip   积分 为弹出窗口实现监听类
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
 
         public void onClick(View v) {
             menuWindow.dismiss();
             switch (v.getId()) {
-                case R.id.pay_way_go_exchage:
+                case R.id.r:
                     Intent intent = new Intent(InforDetailsActivity.this, PointsActivity.class);
                     intent.putExtra("DataId", homeListId + "");
                     startActivity(intent);
 //                    finish();
                     break;
-                case R.id.pay_way_go_vip:
+                case R.id.t:
                     startActivity(new Intent(InforDetailsActivity.this, VipActivity.class));
 //                    finish();
                     break;
@@ -599,10 +611,18 @@ public class InforDetailsActivity extends WDActivity {
         }
     }
 
+    /**
+     * 内存释放
+     */
     @Override
     protected void destoryData() {
         mDetailsPresenter.unBind();
         mDetAllCommP.unBind();
+        detailAddCommentPresenter.unBind();
+        mAddCollectP.unBind();
+        mCancelP.unBind();
+        mAddGreatP.unBind();
+        mCancelGreatP.unBind();
     }
 
 }

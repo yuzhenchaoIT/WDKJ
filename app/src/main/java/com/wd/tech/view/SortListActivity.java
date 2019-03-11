@@ -70,9 +70,10 @@ public class SortListActivity extends WDActivity {
     private CancelPresenter mCancelP = new CancelPresenter(new CancelCollectCalls());
     private int uid1;
     private PopupWindow popupWindow;
-    private ImageView friends;
     private String title1;
     private String summary1;
+    private ImageView friends, sigleFriend;
+    private TextView wxShareCancel;
 
 
     @Override
@@ -137,17 +138,31 @@ public class SortListActivity extends WDActivity {
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         //通过popupwindow的视图对象去找到里面的控件
         friends = contentView.findViewById(R.id.friends);
+        sigleFriend = contentView.findViewById(R.id.sigle_friends);
+        wxShareCancel = contentView.findViewById(R.id.wx_share_cancel);
         //点击按钮,,弹出popupwindow
         friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (user != null) {
-                    wechatShare(1);
-                } else {
-                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
-                }
+
+                wechatShare(1);
             }
         });
+        //好友分享
+        sigleFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                wechatShare(0);
+            }
+        });
+        //取消 按钮
+        wxShareCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+
 
         //实现收藏
         mHomeListAdapter.setCommPriceListener(new HomeListAdapter.CommPriceListener() {
