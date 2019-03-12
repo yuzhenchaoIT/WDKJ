@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#fff">
@@ -9,7 +10,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp">
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -30,7 +30,7 @@
                     android:id="@+id/nickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="小白牛"
+                    android:text=""
                     android:textSize="14sp"
                     android:layout_toRightOf="@+id/com_item_image"
                     android:layout_marginLeft="10dp" />
@@ -38,7 +38,7 @@
                     android:id="@+id/com_item_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="2018-09-09 10:11"
+                    android:text=""
                     android:textSize="10sp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="10dp"
@@ -49,13 +49,12 @@
                 android:id="@+id/com_item_gq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我的撒打开撒谎"
+                android:text=""
                 android:textSize="10sp"
                 android:textColor="#999"
                 android:layout_below="@id/com_item_a"
                 android:layout_marginLeft="60dp"
                 android:layout_marginTop="14dp"/>
-
         </RelativeLayout>
         <TextView
             android:id="@+id/com_item_text"
@@ -65,7 +64,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="3"
-            android:text="aaa"
+            android:text=""
             android:textColor="#666"
             android:textSize="12sp"/>
         <android.support.v7.widget.RecyclerView
@@ -78,6 +77,7 @@
             android:layout_marginBottom="24dp">
         </android.support.v7.widget.RecyclerView>
         <RelativeLayout
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -95,7 +95,6 @@
                     android:padding="5dp"
                     android:src="@drawable/common_icon_comment"
                     android:layout_marginRight="2dp"/>
-
                 <TextView
                     android:id="@+id/circle_com_sum"
                     android:layout_width="wrap_content"

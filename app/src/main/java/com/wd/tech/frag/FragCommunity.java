@@ -143,6 +143,7 @@ public class FragCommunity extends WDFragment  {
 
             }
         });
+
         recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {

@@ -11,14 +11,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
-import com.wd.tech.bean.CommentList;
 import com.wd.tech.bean.CommunityListBean;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
@@ -27,13 +24,10 @@ import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.presenter.AddGreatPresenter;
 import com.wd.tech.presenter.CancelGreatPresenter;
-import com.wd.tech.presenter.CommentListPresenter;
 import com.wd.tech.util.DateUtils;
 import com.wd.tech.util.StringUtils;
 import com.wd.tech.view.CommentActivity;
-import com.wd.tech.view.MyGridView;
 import com.wd.tech.view.SpaceActivity;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,11 +42,9 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
 
     private List<CommunityListBean> mlist = new ArrayList<>();
     private Onclick onclick;
-
     public void  OnclickPl(Onclick onclick) {
         this.onclick = onclick;
     }
-
     public CommunityAdapter(Context context) {
         this.context = context;
     }
@@ -92,7 +84,6 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
             @Override
             public void onClick(View view) {
                 User user = WDActivity.getUser(context);
-
                 if (mlist.get(i).getWhetherGreat()==1){
                     if (user!=null) {
                         CancelGreatPresenter cancelGreatPresenter = new CancelGreatPresenter(new CancelData());
@@ -120,7 +111,6 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
             }
         });
 
-
         myHodler.imageAdapter1.clear();
         myHodler.imageAdapter1.addAll(mlist.get(i).getCommunityCommentVoList());
         myHodler.imageAdapter1.notifyDataSetChanged();
@@ -140,7 +130,6 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
                 context.startActivity(intent);
             }
         });
-
 
         if(StringUtils.isEmpty(mlist.get(i).getFile())){
             myHodler.gridView.setVisibility(View.GONE);
@@ -167,7 +156,13 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
         myHodler.iamgepl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onclick.OnclickPl(view,mlist.get(i).getId());
+                User user = WDActivity.getUser(context);
+                if (user!=null) {
+                    onclick.OnclickPl(view, mlist.get(i).getId());
+                }else {
+                    Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+                    return;
+                }
             }
         });
         myHodler.avatar.setOnClickListener(new View.OnClickListener() {
@@ -202,12 +197,12 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
         TextView gq;
         TextView plsum;
         ImageAdapter imageAdapter;
-          GridLayoutManager gridLayoutManager;
-         RecyclerView plrecy;
+        GridLayoutManager gridLayoutManager;
+        RecyclerView plrecy;
         LinearLayoutManager layoutManager;
         PlImageAdapter imageAdapter1;
-          ImageView iamgepl;
-          TextView textView;
+        ImageView iamgepl;
+        TextView textView;
         public MyHodler(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.add_zan);
@@ -223,13 +218,11 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
             imageAdapter = new ImageAdapter();
             gridView.setLayoutManager(gridLayoutManager);
             gridView.setAdapter(imageAdapter);
-
             plrecy = itemView.findViewById(R.id.com_plrecy);
             imageAdapter1 = new PlImageAdapter();
             layoutManager = new LinearLayoutManager(context);
             plrecy.setLayoutManager(layoutManager);
             plrecy.setAdapter(imageAdapter1);
-
             textView = itemView.findViewById(R.id.com_ts);
             iamgepl = itemView.findViewById(R.id.com_item_pl);
         }
@@ -277,4 +270,5 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
         String s = DateUtils.fromToday(d);
         return s;
     }
+
 }
