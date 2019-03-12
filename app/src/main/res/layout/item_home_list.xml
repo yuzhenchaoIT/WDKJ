@@ -88,8 +88,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp">
 
 
                     <com.like.LikeButton
@@ -97,8 +97,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginTop="-7dp"
-                        app:icon_size="12dp"
+                        android:layout_marginTop="-9dp"
+                        app:icon_size="14dp"
                         app:icon_type="heart"
                         app:liked="false" />
 
@@ -113,8 +113,8 @@
 
                     <ImageView
                         android:id="@+id/item_home_list_img_share"
-                        android:layout_width="12dp"
-                        android:layout_height="12dp"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:src="@drawable/common_icon_share_n" />

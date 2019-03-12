@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -160,12 +161,16 @@ public class InforDetailsActivity extends WDActivity {
 
     @Override
     protected int getLayoutId() {
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         return R.layout.activity_infor_details;
     }
 
     @Override
     protected void initView() {
         ButterKnife.bind(this);
+
 
         user = WDActivity.getUser(this);
 
@@ -338,6 +343,8 @@ public class InforDetailsActivity extends WDActivity {
                     if (user != null) {
                         text = mCommentContent.getText().toString().trim();
                         detailAddCommentPresenter.request(user.getUserId(), user.getSessionId(), text, homeListId);
+                        mDetAllCommP.request(user.getUserId(), user.getSessionId(), homeListId, 1, 20);
+                        mDetailAllCommentA.notifyDataSetChanged();
                         // 发送完，清空输入框
                         mCommentContent.setText("");
                     } else {
@@ -501,6 +508,8 @@ public class InforDetailsActivity extends WDActivity {
                 if (beanList.size() == 0) {
                     mInforDetailsLlNoComment.setVisibility(View.VISIBLE);
                     mIforDetailCommR.setVisibility(View.GONE);
+                    mDetailAllCommentA.notifyDataSetChanged();
+
                 } else {
                     mDetailAllCommentA.addItem(beanList);
                     mDetailAllCommentA.notifyDataSetChanged();
@@ -525,7 +534,7 @@ public class InforDetailsActivity extends WDActivity {
             if (data.getStatus().equals("0000")) {
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 //详情  p层请求
-                mDetAllCommP.request(user.getUserId(), user.getSessionId(), homeListId, 1, 20);
+                mDetAllCommP.request(user.getUserId(), user.getSessionId(), homeListId, 1, 10);
                 mDetailAllCommentA.clear();
                 mDetailAllCommentA.notifyDataSetChanged();
                 // 隐藏评论框

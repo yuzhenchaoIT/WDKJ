@@ -40,7 +40,8 @@
             android:name="design_height_in_dp"
             android:value="640" />
 
-        <activity android:name=".view.HomeActivity"
+        <activity
+            android:name=".view.HomeActivity"
             android:launchMode="singleTop"></activity>
         <activity android:name=".view.SortActivity" />
         <activity android:name=".view.DetailActivity" />
@@ -58,12 +59,11 @@
         <activity android:name=".view.AddFriendsActivity" />
         <activity android:name=".view.FlockActivity" />
         <activity android:name=".view.SortListActivity" />
-        <activity android:name=".myview.PerfectActivity"
-            />
+        <activity android:name=".myview.PerfectActivity" />
         <activity android:name=".myview.SignatureActivity" />
         <activity
             android:name=".view.InforDetailsActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".view.FindUserActivity" />
         <activity android:name=".view.AddListActivity" />
         <activity android:name=".view.FindGroupActivity" />
@@ -111,15 +111,14 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <activity android:name=".view.ChatSettingsActivity"/>
-        <activity android:name=".view.CheckGroupActivity"/>
 
-        <activity
-            android:name=".wxapi.WXPayEntryActivity"
-            android:exported="true" />
+        <activity android:name=".view.ChatSettingsActivity" />
+        <activity android:name=".view.CheckGroupActivity" />
+
+        <activity android:name=".wxapi.WXPayEntryActivity" />
         <activity android:name=".view.CommentActivity" />
         <activity android:name=".view.GroupActivity"></activity>
-        <activity android:name=".view.GroupDetailsSettingsActivity"/>
+        <activity android:name=".view.GroupDetailsSettingsActivity" />
     </application>
 
 </manifest>

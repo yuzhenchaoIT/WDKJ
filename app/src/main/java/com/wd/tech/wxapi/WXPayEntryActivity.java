@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -59,34 +60,21 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public void onResp(BaseResp resp) {
         String result = "";
         if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
-//            switch (resp.errCode) {
-//                case BaseResp.ErrCode.ERR_OK:
-//                    //支付成功后的逻辑
-//                    result = "微信支付成功";
-//                    break;
-//                case BaseResp.ErrCode.ERR_COMM:
-//                    result = "微信支付失败";
-//                    break;
-//                case BaseResp.ErrCode.ERR_USER_CANCEL:
-//                    result = "微信支付取消";
-//                    break;
-//            }
-//            mTxtPayResult.setText(result);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.app_tip);
-            builder.setMessage(getString(R.string.pay_result_callback_msg, String.valueOf(resp.errCode)));
-            builder.show();
+            switch (resp.errCode) {
+                case BaseResp.ErrCode.ERR_OK:
+                    //支付成功后的逻辑
+                    result = "微信支付成功";
+                    break;
+                case BaseResp.ErrCode.ERR_COMM:
+                    result = "微信支付失败";
+                    break;
+                case BaseResp.ErrCode.ERR_USER_CANCEL:
+                    result = "微信支付取消";
+                    break;
+            }
+            Toast.makeText(this, result + "", Toast.LENGTH_SHORT).show();
         }
     }
 
 
-    @OnClick(R.id.wx_pay_restart)
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.wx_pay_restart:
-                startActivity(new Intent(WXPayEntryActivity.this, VipActivity.class));
-                finish();
-                break;
-        }
-    }
 }

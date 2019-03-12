@@ -97,12 +97,10 @@ public class VipActivity extends WDActivity {
                         if (TextUtils.equals(resultStatus, "8000")) {
                             Toast.makeText(VipActivity.this, "支付结果确认中",
                                     Toast.LENGTH_SHORT).show();
-
                         } else {
                             // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
                             Toast.makeText(VipActivity.this, "支付失败",
                                     Toast.LENGTH_SHORT).show();
-
                         }
                     }
                     break;
@@ -162,21 +160,33 @@ public class VipActivity extends WDActivity {
                 break;
             case R.id.activity_vip_main_once_vip:
                 if (mYear.isChecked()) {
-                    String md5 = MD5(user.getUserId() + "" + mBeanList.get(3).getCommodityId() + "tech");
-                    mBuyVipPresenter.request(user.getUserId(), user.getSessionId(), mBeanList.get(3).getCommodityId(), md5);
-//                    Log.i("xzm--------------", user.getUserId() + "-----" + mBeanList.get(3).getCommodityId());
+                    if (user != null) {
+                        String md5 = MD5(user.getUserId() + "" + mBeanList.get(3).getCommodityId() + "tech");
+                        mBuyVipPresenter.request(user.getUserId(), user.getSessionId(), mBeanList.get(3).getCommodityId(), md5);
+                    } else {
+                        Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                    }
                 } else if (mQuarter.isChecked()) {
-                    String md5 = MD5(user.getUserId() + "" + mBeanList.get(2).getCommodityId() + "tech");
-                    mBuyVipPresenter.request(user.getUserId(), user.getSessionId(), mBeanList.get(2).getCommodityId(), md5);
-//                    Log.i("xzm--------------", user.getUserId() + "-----" + mBeanList.get(2).getCommodityId());
+                    if (user != null) {
+                        String md5 = MD5(user.getUserId() + "" + mBeanList.get(2).getCommodityId() + "tech");
+                        mBuyVipPresenter.request(user.getUserId(), user.getSessionId(), mBeanList.get(2).getCommodityId(), md5);
+                    } else {
+                        Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                    }
                 } else if (mMonth.isChecked()) {
-                    String md5 = MD5(user.getUserId() + "" + mBeanList.get(1).getCommodityId() + "tech");
-                    mBuyVipPresenter.request(user.getUserId(), user.getSessionId(), mBeanList.get(1).getCommodityId(), md5);
-//                    Log.i("xzm--------------", user.getUserId() + "-----" + mBeanList.get(1).getCommodityId());
+                    if (user != null) {
+                        String md5 = MD5(user.getUserId() + "" + mBeanList.get(1).getCommodityId() + "tech");
+                        mBuyVipPresenter.request(user.getUserId(), user.getSessionId(), mBeanList.get(1).getCommodityId(), md5);
+                    } else {
+                        Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                    }
                 } else if (mWeek.isChecked()) {
-                    String md5 = MD5(user.getUserId() + "" + mBeanList.get(0).getCommodityId() + "tech");
-                    mBuyVipPresenter.request(user.getUserId(), user.getSessionId(), mBeanList.get(0).getCommodityId(), md5);
-//                    Log.i("xzm--------------", user.getUserId() + "-----" + mBeanList.get(0).getCommodityId());
+                    if (user != null) {
+                        String md5 = MD5(user.getUserId() + "" + mBeanList.get(0).getCommodityId() + "tech");
+                        mBuyVipPresenter.request(user.getUserId(), user.getSessionId(), mBeanList.get(0).getCommodityId(), md5);
+                    } else {
+                        Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     Toast.makeText(getBaseContext(), "至少选择一种vip", Toast.LENGTH_SHORT).show();
                 }
@@ -186,7 +196,7 @@ public class VipActivity extends WDActivity {
 
     @Override
     protected void destoryData() {
-
+        mBuyVipPresenter.unBind();
     }
 
     class VipGoodsCall implements DataCall<Result<List<VipGoodsBean>>> {
@@ -267,7 +277,6 @@ public class VipActivity extends WDActivity {
 
                     payInfo = data.getResult();
 
-                    Log.i("xzm123", data.getResult() + "");
 
                     Runnable payRunnable = new Runnable() {
 
