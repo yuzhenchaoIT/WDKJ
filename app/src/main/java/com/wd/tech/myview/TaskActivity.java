@@ -11,8 +11,10 @@ import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
+import com.wd.tech.frag.FragCommunity;
 import com.wd.tech.presenter.TaskPresenter;
 import com.wd.tech.view.AddCircleActivity;
+import com.wd.tech.view.HomeActivity;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class TaskActivity extends WDActivity implements View.OnClickListener {
     private TaskPresenter taskPresenter;
     private User user;
     private Button mButtonyqd, mButtonyqc,mButtonyws,
-            mButtonypj,mButtonyck;
+            mButtonypj,mButtonyck,mButtonqfx;
 
     @Override
     protected int getLayoutId() {
@@ -44,6 +46,7 @@ public class TaskActivity extends WDActivity implements View.OnClickListener {
         mButtonyws = (Button) findViewById(R.id.mbutton_yws);
         mButtonypj = (Button) findViewById(R.id.mbutton_ypj);
         mButtonyck = (Button) findViewById(R.id.mbutton_yck);
+        mButtonqfx = (Button) findViewById(R.id.mbutton_qfx);
         //查询数据库
         user = WDActivity.getUser(this);
         //设置数据
@@ -57,14 +60,33 @@ public class TaskActivity extends WDActivity implements View.OnClickListener {
             case R.id.mbutton_qqd:
                 Intent intent = new Intent(TaskActivity.this, SiginActivity.class);
                 startActivity(intent);
+                finish();
                 break;
             case R.id.mbutton_qft:
                 Intent intent1 = new Intent(TaskActivity.this, AddCircleActivity.class);
                 startActivity(intent1);
+                finish();
                 break;
             case R.id.mbutton_qws:
                 Intent intent2 = new Intent(TaskActivity.this, PerfectActivity.class);
                 startActivity(intent2);
+                finish();
+                break;
+            case R.id.mbutton_qpj:
+                Intent intent3 = new Intent(TaskActivity.this, HomeActivity.class);
+                intent3.putExtra("jump",2);
+                startActivity(intent3);
+                finish();
+                break;
+            case R.id.mbutton_qck:
+                Intent intent4 = new Intent(TaskActivity.this, HomeActivity.class);
+                startActivity(intent4);
+                finish();
+                break;
+            case R.id.mbutton_qfx:
+                Intent intent5 = new Intent(TaskActivity.this, HomeActivity.class);
+                startActivity(intent5);
+                finish();
                 break;
         }
     }
@@ -88,6 +110,8 @@ public class TaskActivity extends WDActivity implements View.OnClickListener {
                         mButtonypj.setVisibility(View.VISIBLE);
                     }else if (result.get(i).getTaskId()==1005&&status==1){
                         mButtonyck.setVisibility(View.VISIBLE);
+                    }else if (result.get(i).getTaskId()==1004&&status==1){
+                        mButtonqfx.setVisibility(View.VISIBLE);
                     }
                 }
             }

@@ -14,6 +14,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
 import com.wd.tech.bean.AllInfoPlateBean;
 import com.wd.tech.bean.details.InformationListBean;
+import com.wd.tech.view.InforDetailsActivity;
 import com.wd.tech.view.SortListActivity;
 
 import java.util.ArrayList;
@@ -45,9 +46,18 @@ public class DetailRecommendAdapter extends RecyclerView.Adapter<DetailRecommend
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
-        InformationListBean listBean = mList.get(i);
+        final InformationListBean listBean = mList.get(i);
         myViewHolder.img.setImageURI(Uri.parse(listBean.getThumbnail()));
         myViewHolder.title.setText(listBean.getTitle());
+        myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(mContext, InforDetailsActivity.class);
+                intent.putExtra("homeListId", listBean.getId() + "");
+                mContext.startActivity(intent);
+
+            }
+        });
     }
 
     @Override

@@ -12,26 +12,21 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.hyphenate.EMCallBack;
-import com.hyphenate.chat.EMClient;
-import com.nostra13.universalimageloader.utils.L;
 import com.wd.tech.R;
 import com.wd.tech.bean.QueryUser;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
+import com.wd.tech.core.DrawLayoutEdge;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.WDPage;
 import com.wd.tech.core.exception.ApiException;
@@ -84,6 +79,7 @@ public class HomeActivity extends AppCompatActivity {
     private int monlick;
     private int mcurrent;
     private FragmentTransaction fragmentTransaction;
+    private RadioButton mrb1,mrb2,mrb3;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -117,6 +113,9 @@ public class HomeActivity extends AppCompatActivity {
         transaction.show(frag_InForMation);
         transaction.hide(frag_Message);
         transaction.hide(frag_Community);
+        mrb1.setTextColor(Color.BLACK);
+        mrb2.setTextColor(Color.GRAY);
+        mrb3.setTextColor(Color.GRAY);
         transaction.commit();
         //默认选中第一个
         mcurrent = R.id.mrb1;
@@ -131,8 +130,6 @@ public class HomeActivity extends AppCompatActivity {
             public void onDrawerSlide(@NonNull View view, float v) {
                 mlinear.setTranslationX(-width + width * v);               //底布局跟着移动
                 mlinearhome.setTranslationX(view.getMeasuredWidth() * v);   //主界面布局移动，移动长度等于抽屉的移动长度
-
-
             }
 
             @Override
@@ -142,7 +139,7 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onDrawerClosed(@NonNull View view) {
-
+                mdraw.closeDrawers();
             }
 
             @Override
@@ -150,6 +147,7 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+        DrawLayoutEdge.setLeftEdgeSize(this,mdraw,0.5f);
     }
 
     //点击切换页面
@@ -161,6 +159,9 @@ public class HomeActivity extends AppCompatActivity {
                 fragmentTransaction.show(frag_InForMation);
                 fragmentTransaction.hide(frag_Message);
                 fragmentTransaction.hide(frag_Community);
+                mrb1.setTextColor(Color.BLACK);
+                mrb2.setTextColor(Color.GRAY);
+                mrb3.setTextColor(Color.GRAY);
                 mcurrent = R.id.mrb1;
                 break;
             case R.id.mrb2:
@@ -169,6 +170,9 @@ public class HomeActivity extends AppCompatActivity {
                     fragmentTransaction.show(frag_Message);
                     fragmentTransaction.hide(frag_InForMation);
                     fragmentTransaction.hide(frag_Community);
+                    mrb2.setTextColor(Color.BLACK);
+                    mrb1.setTextColor(Color.GRAY);
+                    mrb3.setTextColor(Color.GRAY);
                     mcurrent = R.id.mrb2;
                 }else {
                     monlick = R.id.mrb2;
@@ -180,6 +184,9 @@ public class HomeActivity extends AppCompatActivity {
                 fragmentTransaction.show(frag_Community);
                 fragmentTransaction.hide(frag_InForMation);
                 fragmentTransaction.hide(frag_Message);
+                mrb3.setTextColor(Color.BLACK);
+                mrb2.setTextColor(Color.GRAY);
+                mrb1.setTextColor(Color.GRAY);
                 mcurrent = R.id.mrb3;
                 break;
 
@@ -201,7 +208,9 @@ public class HomeActivity extends AppCompatActivity {
         mTextName = findViewById(R.id.mtext_name);
         mTextQian = findViewById(R.id.mtext_qian);
         vip = findViewById(R.id.vip);
-
+        mrb1 = findViewById(R.id.mrb1);
+        mrb2 = findViewById(R.id.mrb2);
+        mrb3 = findViewById(R.id.mrb3);
     }
 
     //点击头像跳转
@@ -244,6 +253,9 @@ public class HomeActivity extends AppCompatActivity {
                 fragmentTransaction.show(frag_Message);
                 fragmentTransaction.hide(frag_InForMation);
                 fragmentTransaction.hide(frag_Community);
+                mrb2.setTextColor(Color.BLACK);
+                mrb1.setTextColor(Color.GRAY);
+                mrb3.setTextColor(Color.GRAY);
                 fragmentTransaction.commit();
                 monlick = 0;
             }
@@ -257,12 +269,24 @@ public class HomeActivity extends AppCompatActivity {
                 fragmentTransaction.show(frag_InForMation);
                 fragmentTransaction.hide(frag_Message);
                 fragmentTransaction.hide(frag_Community);
+                mrb1.setTextColor(Color.BLACK);
+                mrb2.setTextColor(Color.GRAY);
+                mrb3.setTextColor(Color.GRAY);
                 fragmentTransaction.commit();
                 mradio.check(mcurrent);
             }
             monlick = 0;
             mRelative.setVisibility(View.VISIBLE);
             mLinearShow.setVisibility(View.GONE);
+        }
+        int jump = getIntent().getIntExtra("jump", 0);
+        if (jump == 2){
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.show(frag_Community);
+            fragmentTransaction.hide(frag_InForMation);
+            fragmentTransaction.hide(frag_Message);
+            mradio.check(mradio.getChildAt(2).getId());
+            fragmentTransaction.commit();
         }
     }
 
@@ -303,6 +327,7 @@ public class HomeActivity extends AppCompatActivity {
 
         @Override
         public void fail(ApiException e) {
+            User user = WDActivity.getUser(HomeActivity.this);
 
         }
     }

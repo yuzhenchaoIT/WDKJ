@@ -123,13 +123,11 @@ public class InforDetailsActivity extends WDActivity {
     LinearLayout mInforDetailsBottom;
     @BindView(R.id.infor_details_go_pay)
     TextView mInforDetailsGoPay;
-    @BindView(R.id.infor_details_ll_no_login)
-    LinearLayout mInforDetailsLlNoLogin;
     @BindView(R.id.infor_details_ll_data)
     LinearLayout mInforDetailsLlData;
 
     private TextView mInforAfltZi;
-    //请求详情页面内容p层
+    //请求详情页面内容
     private InforDetailsPresenter mDetailsPresenter = new InforDetailsPresenter(new DetailsCall());
     //查看详情所有评论
     private DetailAllCommentPresenter mDetAllCommP;
@@ -141,6 +139,7 @@ public class InforDetailsActivity extends WDActivity {
     //收藏 和 取消 收藏
     private AddCollectPresenter mAddCollectP = new AddCollectPresenter(new AddCollectCall2());
     private CancelPresenter mCancelP = new CancelPresenter(new CancelCollectCall2());
+    //加载富文本的图片
     private URLImageParser mImageGetter;
     private InforDetailsBean mInforDetailsBean;
     //线性
@@ -155,7 +154,8 @@ public class InforDetailsActivity extends WDActivity {
     private SelectPayPopupWindow menuWindow;
     private int isCollection;
     private PopupWindow popupWindow;
-    private ImageView friends;
+    private ImageView friends, sigleFriend;
+    private TextView wxShareCancel;
 
 
     @Override
@@ -180,11 +180,11 @@ public class InforDetailsActivity extends WDActivity {
         homeListId = Integer.parseInt(getIntent().getStringExtra("homeListId"));
 
         if (user != null) {
+            mLoadDialog.show();
             mDetailsPresenter.request(user.getUserId(), user.getSessionId(), homeListId);
         } else {
-            mInforDetailsLlNoLogin.setVisibility(View.VISIBLE);
-            mInforDetailsLlData.setVisibility(View.GONE);
-            Toast.makeText(getBaseContext(), "请先登录", Toast.LENGTH_SHORT).show();
+            mLoadDialog.show();
+            mDetailsPresenter.request(0, "", homeListId);
         }
 
 
@@ -202,11 +202,10 @@ public class InforDetailsActivity extends WDActivity {
         mIforDetailCommR.setAdapter(mDetailAllCommentA);
 
         if (user != null) {
-            //详情  p层请求
+            //详情 所有评论查看 p层请求
             mDetAllCommP.request(user.getUserId(), user.getSessionId(), homeListId, 1, 20);
         } else {
-            mInforDetailsLlNoLogin.setVisibility(View.VISIBLE);
-            mInforDetailsLlData.setVisibility(View.GONE);
+            mDetAllCommP.request(0, "", homeListId, 1, 20);
         }
 
         View contentView = View.inflate(getContext(), R.layout.share_layout, null);
@@ -217,19 +216,29 @@ public class InforDetailsActivity extends WDActivity {
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         //通过popupwindow的视图对象去找到里面的控件
         friends = contentView.findViewById(R.id.friends);
+        sigleFriend = contentView.findViewById(R.id.sigle_friends);
+        wxShareCancel = contentView.findViewById(R.id.wx_share_cancel);
         //点击按钮,,弹出popupwindow
         friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (user != null) {
-                    wechatShare(1);
-                } else {
-                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
-                }
+                wechatShare(1);
             }
         });
-
-
+        //好友分享
+        sigleFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                wechatShare(0);
+            }
+        });
+        //取消 按钮
+        wxShareCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
     }
 
     /**
@@ -345,21 +354,21 @@ public class InforDetailsActivity extends WDActivity {
         }
     }
 
-    //为弹出窗口实现监听类
+    //vip   积分 为弹出窗口实现监听类
     private View.OnClickListener itemsOnClick = new View.OnClickListener() {
 
         public void onClick(View v) {
             menuWindow.dismiss();
             switch (v.getId()) {
-                case R.id.pay_way_go_exchage:
+                case R.id.r:
                     Intent intent = new Intent(InforDetailsActivity.this, PointsActivity.class);
                     intent.putExtra("DataId", homeListId + "");
                     startActivity(intent);
-//                    finish();
+                    finish();
                     break;
-                case R.id.pay_way_go_vip:
+                case R.id.t:
                     startActivity(new Intent(InforDetailsActivity.this, VipActivity.class));
-//                    finish();
+                    finish();
                     break;
             }
         }
@@ -411,9 +420,12 @@ public class InforDetailsActivity extends WDActivity {
 
         @Override
         public void success(Result data) {
+            mLoadDialog.cancel();
             if (data.getStatus().equals("0000")) {
                 mInforDetailsBean = (InforDetailsBean) data.getResult();
-                List<AllInfoPlateBean> plateBeans = mInforDetailsBean.getPlate();
+                //分类 条目
+                final List<AllInfoPlateBean> plateBeans = mInforDetailsBean.getPlate();
+                //推荐列表集合
                 List<InformationListBean> informationList = mInforDetailsBean.getInformationList();
                 mInforDetailsTitle.setText(mInforDetailsBean.getTitle());
                 try {
@@ -436,6 +448,17 @@ public class InforDetailsActivity extends WDActivity {
                         mInforAfltZi = item.findViewById(R.id.infor_details_afl_zi);
                         mInforAfltZi.setText(plateBeans.get(i).getName());
                         mInforAflt.addView(item);
+                        final int finalI = i;
+                        mInforAfltZi.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(InforDetailsActivity.this, SortListActivity.class);
+                                intent.putExtra("id", plateBeans.get(finalI).getId() + "");
+                                intent.putExtra("title", plateBeans.get(finalI).getName() + "");
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
                     }
 
                 }
@@ -463,6 +486,7 @@ public class InforDetailsActivity extends WDActivity {
 
         @Override
         public void fail(ApiException e) {
+            mLoadDialog.cancel();
             Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }
@@ -530,7 +554,6 @@ public class InforDetailsActivity extends WDActivity {
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 mInforDetailsZanTxt.setText(String.valueOf(mInforDetailsBean.getPraise() + 1));
             } else {
-//                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 mCancelGreatP.request(user.getUserId(), user.getSessionId(), homeListId);
                 mInforDetailsZanImg.setImageResource(R.drawable.common_icon_prise_n);
                 mInforDetailsZanTxt.setText(String.valueOf(mInforDetailsBean.getPraise()));
@@ -567,10 +590,12 @@ public class InforDetailsActivity extends WDActivity {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
+                //收藏成功
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             } else {
+                //收藏成功  不能重复收藏
 //                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
-//                mCancelP.request(user.getUserId(), user.getSessionId(), homeListId + "");
+                mCancelP.request(user.getUserId(), user.getSessionId(), homeListId + "");
 //                mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_n);
             }
         }
@@ -587,9 +612,13 @@ public class InforDetailsActivity extends WDActivity {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
+                //取消成功
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+                //请取消收藏的资讯
+//                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+                mAddCollectP.request(user.getUserId(), user.getSessionId(), homeListId + "");
+//                mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_s);
             }
         }
 
@@ -599,10 +628,21 @@ public class InforDetailsActivity extends WDActivity {
         }
     }
 
+    /**
+     * 内存释放
+     */
     @Override
     protected void destoryData() {
         mDetailsPresenter.unBind();
         mDetAllCommP.unBind();
+        detailAddCommentPresenter.unBind();
+        mAddCollectP.unBind();
+        mCancelP.unBind();
+        mAddGreatP.unBind();
+        mCancelGreatP.unBind();
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+        }
     }
 
 }

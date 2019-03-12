@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.UserManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,7 +23,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
-import com.jcodecraeer.xrecyclerview.XRecyclerView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadmoreListener;
@@ -43,30 +41,26 @@ import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
-import com.wd.tech.dao.UserDao;
 import com.wd.tech.presenter.AddCollectPresenter;
-import com.wd.tech.presenter.AllInfoPresenter;
 import com.wd.tech.presenter.BannerPresenter;
 import com.wd.tech.presenter.CancelPresenter;
+import com.wd.tech.presenter.DoTheTaskPresenter;
 import com.wd.tech.presenter.RecommendPresenter;
+import com.wd.tech.view.AddCircleActivity;
 import com.wd.tech.view.AdvertWebActivity;
+import com.wd.tech.view.InforDetailsActivity;
 import com.wd.tech.view.SearchActivity;
 import com.wd.tech.view.SortActivity;
 import com.zhouwei.mzbanner.MZBannerView;
 import com.zhouwei.mzbanner.holder.MZHolderCreator;
 import com.zhouwei.mzbanner.holder.MZViewHolder;
 
-import org.greenrobot.greendao.Property;
-
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-
-import static vi.com.gdi.bgl.android.java.EnvDrawText.bmp;
 
 /**
  * 资讯页面
@@ -83,27 +77,29 @@ public class FragInForMation extends Fragment {
     RecyclerView mHomeXrecyclerView;
     @BindView(R.id.home_banner)
     MZBannerView mHomeBanner;
-    //p层
+    //资讯首页请求数据
     private RecommendPresenter mRecommendPresenter;
+    //banner数据
     private BannerPresenter mBanPresenter = new BannerPresenter(new BannerCall());
     //收藏 和 取消 收藏
     private AddCollectPresenter mAddCollectP = new AddCollectPresenter(new AddCollectCall());
     private CancelPresenter mCancelP = new CancelPresenter(new CancelCollectCall());
-    //适配器
+    //资讯首页适配器
     private HomeListAdapter mHomeListAdapter;
     //线性布局
     private LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getContext());
     private View view;
     private Unbinder unbinder;
     private SmartRefreshLayout mRefreshLayout;
-    private int itemId1;
     private User user;
     private int uid1;
+    //微信（朋友圈和好友）分享
     private PopupWindow popupWindow;
-    private ImageView friends;
+    private ImageView friends, sigleFriend;
+    private TextView wxShareCancel;
     private String title1;
     private String summary1;
-
+    private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
 
     @Nullable
     @Override
@@ -113,22 +109,25 @@ public class FragInForMation extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         mRefreshLayout = view.findViewById(R.id.refreshLayout);
 
+
+        //获取用户信息
         user = WDActivity.getUser(getContext());
 
-
+        //下拉刷新
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
 
                 refreshlayout.finishRefresh(2000);
                 if (user != null) {
-                    mRecommendPresenter.request(false, user.getUserId(), user.getSessionId(), 0);
+                    mRecommendPresenter.request(true, user.getUserId(), user.getSessionId(), 0);
                 } else {
-                    mRecommendPresenter.request(false, 1010, "15320748258726", 0);
+                    mRecommendPresenter.request(true, 1010, "15320748258726", 0);
                 }
             }
         });
 
+        //上拉加载
         mRefreshLayout.setOnLoadmoreListener(new OnLoadmoreListener() {
             @Override
             public void onLoadmore(RefreshLayout refreshlayout) {
@@ -148,6 +147,7 @@ public class FragInForMation extends Fragment {
 
         //布局管理器
         mHomeXrecyclerView.setLayoutManager(mLinearLayoutManager);
+        //判断用户是否登录
         if (user != null) {
             mRecommendPresenter.request(true, user.getUserId(), user.getSessionId(), 0);
         } else {
@@ -155,7 +155,6 @@ public class FragInForMation extends Fragment {
         }
         //banner图请求数据
         mBanPresenter.request();
-
 
         //实现收藏
         mHomeListAdapter.setCommPriceListener(new HomeListAdapter.CommPriceListener() {
@@ -166,7 +165,6 @@ public class FragInForMation extends Fragment {
                     //请求收藏的接口
                     mAddCollectP.request(user.getUserId(), user.getSessionId(), uid);
                 } else {
-
                     Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
                 }
 
@@ -184,7 +182,7 @@ public class FragInForMation extends Fragment {
             }
         });
 
-
+        //微信分享  popupwindow弹出
         View contentView = View.inflate(getContext(), R.layout.share_layout, null);
         popupWindow = new PopupWindow(contentView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         popupWindow.setTouchable(true);
@@ -193,20 +191,31 @@ public class FragInForMation extends Fragment {
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         //通过popupwindow的视图对象去找到里面的控件
         friends = contentView.findViewById(R.id.friends);
-        //点击按钮,,弹出popupwindow
+        sigleFriend = contentView.findViewById(R.id.sigle_friends);
+        wxShareCancel = contentView.findViewById(R.id.wx_share_cancel);
+        //朋友圈分享
         friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (user != null) {
-                    wechatShare(1);
-                } else {
-                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
-                }
+                wechatShare(1);
+            }
+        });
+        //好友分享
+        sigleFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                wechatShare(0);
+            }
+        });
+        //取消 按钮
+        wxShareCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
             }
         });
 
-
-        //实现分享
+        //实现分享  弹框弹出
         mHomeListAdapter.setOnItemClickListener(new HomeListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(String title, String summary) {
@@ -254,15 +263,27 @@ public class FragInForMation extends Fragment {
         req.message = msg;
         req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
         api.sendReq(req);
-
+        doTheTaskPresenter.request(user.getUserId(),user.getSessionId(),1004);
     }
+    //实现做任务接口
+    private class DoTheTaskCall implements DataCall<Result>{
+        @Override
+        public void success(Result data) {
+            if (data.getStatus().equals("0000")){
 
+            }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
 
     @Override
     public void onPause() {
         super.onPause();
         mHomeBanner.pause();//暂停轮播
-
     }
 
     @Override
@@ -284,6 +305,10 @@ public class FragInForMation extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+        mRecommendPresenter.unBind();
+        mBanPresenter.unBind();
+        mAddCollectP.unBind();
+        mCancelP.unBind();
     }
 
 
@@ -334,9 +359,17 @@ public class FragInForMation extends Fragment {
             mImageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), AdvertWebActivity.class);
-                    intent.putExtra("AdvertUrl", jumpUrl + "");
-                    startActivity(intent);
+                    //网址需判断  原生  还是 webview
+                    if (jumpUrl.contains("wd://information")) {
+                        Intent intent = new Intent(getContext(), InforDetailsActivity.class);
+                        intent.putExtra("homeListId", 1 + "");
+                        startActivity(intent);
+                    } else {
+                        Intent intent = new Intent(getContext(), AdvertWebActivity.class);
+                        intent.putExtra("AdvertUrl", jumpUrl + "");
+                        startActivity(intent);
+                    }
+
                 }
             });
             return view;
@@ -425,8 +458,10 @@ public class FragInForMation extends Fragment {
         mBanPresenter.unBind();
         mAddCollectP.unBind();
         mCancelP.unBind();
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+        }
     }
-
 
 
 }

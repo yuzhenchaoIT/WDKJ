@@ -28,7 +28,7 @@ public class PlateListPresenter extends BasePresenter {
         } else {
             page++;
         }
-        return iRequest.plateList((int) args[1], (String) args[2], (int) args[3], page, 10);
+        return iRequest.plateList((int) args[1], (String) args[2], (int) args[3], page, 5);
     }
 
 

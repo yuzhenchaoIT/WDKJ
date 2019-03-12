@@ -1,6 +1,7 @@
 package com.wd.tech.adapter;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -64,7 +65,13 @@ public class IntegralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String s = format.format(date);
         myHolder.textView2.setText(s);
-        myHolder.textView3.setText("+"+list.get(i).getAmount());
+        int direction = list.get(i).getDirection();
+        if (direction == 1){
+            myHolder.textView3.setText("+"+list.get(i).getAmount());
+        }else {
+            myHolder.textView3.setText("-"+list.get(i).getAmount());
+            myHolder.textView3.setTextColor(Color.BLUE);
+        }
     }
 
     @Override
@@ -86,6 +93,7 @@ public class IntegralAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         TextView textView1;
         TextView textView2;
         TextView textView3;
+        TextView textView4;
         public MyHolder(@NonNull View itemView) {
             super(itemView);
             textView1 = itemView.findViewById(R.id.mtext_content_int);

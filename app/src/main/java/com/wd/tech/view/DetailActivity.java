@@ -29,7 +29,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_details);
         //透明状态栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+       /* setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);*/
         initView();
         initData();
     }

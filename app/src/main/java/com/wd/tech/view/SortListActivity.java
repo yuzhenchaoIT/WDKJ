@@ -70,9 +70,10 @@ public class SortListActivity extends WDActivity {
     private CancelPresenter mCancelP = new CancelPresenter(new CancelCollectCalls());
     private int uid1;
     private PopupWindow popupWindow;
-    private ImageView friends;
     private String title1;
     private String summary1;
+    private ImageView friends, sigleFriend;
+    private TextView wxShareCancel;
 
 
     @Override
@@ -124,8 +125,10 @@ public class SortListActivity extends WDActivity {
         //布局管理器
         mSortListRecy.setLayoutManager(mLinearLayoutManager);
         if (user != null) {
+            mLoadDialog.show();
             mPlateListP.request(true, user.getUserId(), user.getSessionId(), plateId);
         } else {
+            mLoadDialog.show();
             mPlateListP.request(true, 1010, "15320748258726", plateId);
         }
 
@@ -137,17 +140,30 @@ public class SortListActivity extends WDActivity {
         popupWindow.setBackgroundDrawable(new BitmapDrawable());
         //通过popupwindow的视图对象去找到里面的控件
         friends = contentView.findViewById(R.id.friends);
+        sigleFriend = contentView.findViewById(R.id.sigle_friends);
+        wxShareCancel = contentView.findViewById(R.id.wx_share_cancel);
         //点击按钮,,弹出popupwindow
         friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (user != null) {
-                    wechatShare(1);
-                } else {
-                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
-                }
+                wechatShare(1);
             }
         });
+        //好友分享
+        sigleFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                wechatShare(0);
+            }
+        });
+        //取消 按钮
+        wxShareCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popupWindow.dismiss();
+            }
+        });
+
 
         //实现收藏
         mHomeListAdapter.setCommPriceListener(new HomeListAdapter.CommPriceListener() {
@@ -233,6 +249,7 @@ public class SortListActivity extends WDActivity {
         @Override
         public void success(Result<List<HomeListBean>> data) {
             if (data.getStatus().equals("0000")) {
+                mLoadDialog.cancel();
 //                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 //添加列表并刷新
                 if (mPlateListP.getPage() == 1) {
@@ -248,6 +265,7 @@ public class SortListActivity extends WDActivity {
 
         @Override
         public void fail(ApiException e) {
+            mLoadDialog.cancel();
             Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }
@@ -295,5 +313,8 @@ public class SortListActivity extends WDActivity {
     @Override
     protected void destoryData() {
         mPlateListP.unBind();
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+        }
     }
 }
