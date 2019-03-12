@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'tech'
             keyPassword '123456'
-            storeFile file('D:/tech.keystore')
+            storeFile file('C:/Users/asus/Desktop/tech.keystore')
             storePassword '123456'
         }
     }
