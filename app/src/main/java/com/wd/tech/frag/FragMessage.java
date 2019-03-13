@@ -91,8 +91,8 @@ public class FragMessage extends WDFragment implements View.OnClickListener {
 
                     Intent intent = new Intent(getContext(), ChatActivity.class);
                     intent.putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId());
-                  //  intent.putExtra("userNames", conversation.conversationId());
-                   // intent.putExtra("friendInfoList",friendInfoList);
+                    //intent.putExtra("userNames", conversation.conversationId());
+                    //intent.putExtra("friendInfoList",friendInfoList);
                     startActivity(intent);
                 }else {
 //                    Intent intent = new Intent(getContext(), WantGroupChatActivity.class);
