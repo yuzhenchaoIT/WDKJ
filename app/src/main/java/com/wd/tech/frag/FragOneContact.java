@@ -29,6 +29,7 @@ import com.hyphenate.easeui.domain.EaseUser;
 import com.nostra13.universalimageloader.utils.L;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.wd.tech.R;
+import com.wd.tech.bean.Conversation;
 import com.wd.tech.bean.FriendInfoList;
 import com.wd.tech.bean.InitFriendlist;
 import com.wd.tech.bean.Result;
@@ -38,8 +39,10 @@ import com.wd.tech.core.WDFragment;
 import com.wd.tech.core.exception.ApiException;
 import com.wd.tech.core.http.DataCall;
 import com.wd.tech.presenter.DeleteFriendRelationPresenter;
+import com.wd.tech.presenter.FindConversationListPresenter;
 import com.wd.tech.presenter.GroupListPersenter;
 import com.wd.tech.presenter.TransferFriendGroupPresenter;
+import com.wd.tech.util.DaoUtils;
 import com.wd.tech.util.UIUtils;
 import com.wd.tech.view.ChatActivity;
 import com.wd.tech.view.HomeActivity;
@@ -83,6 +86,8 @@ public class FragOneContact extends WDFragment {
     private TransferFriendGroupPresenter transferFriendGroupPresenter;
     private PopupWindow window;
     private View inflate;
+    private FindConversationListPresenter findConversationListPresenter;
+
 
 
     @Override
@@ -101,6 +106,7 @@ public class FragOneContact extends WDFragment {
         listPresenter = new GroupListPersenter(new InitFr());
         deleteFriendRelationPresenter = new DeleteFriendRelationPresenter(new DeleteFriend());
         transferFriendGroupPresenter = new TransferFriendGroupPresenter(new DeleteFriend());
+        findConversationListPresenter = new FindConversationListPresenter(new FindConversation());
         bean = WDActivity.getUser(getContext());
         if (bean != null) {
             sessionId = bean.getSessionId();
@@ -326,6 +332,14 @@ public class FragOneContact extends WDFragment {
         public void success(Result<List<InitFriendlist>> data) {
             if (data.getStatus().equals("0000")){
                 groups = data.getResult();
+                StringBuffer userHxIds=new StringBuffer();
+                for (int i = 0; i < groups.size(); i++) {
+                    for (int j = 0; j < groups.get(i).getFriendInfoList().size(); j++) {
+                        userHxIds.append(groups.get(i).getFriendInfoList().get(j).getUserName()+",");
+                    }
+                }
+                findConversationListPresenter.request(userId,sessionId,userHxIds.toString());
+
                 exPandableListview.setAdapter(new MyExpandableListView());
             }
         }
@@ -344,6 +358,22 @@ public class FragOneContact extends WDFragment {
                 listPresenter.request(userId,sessionId);
 
             }
+        }
+
+        @Override
+        public void fail(ApiException e) {
+
+        }
+    }
+
+    private class FindConversation implements DataCall<Result<List<Conversation>>> {
+        @Override
+        public void success(Result<List<Conversation>> data) {
+            List<Conversation> conversationList = data.getResult();
+            for(Conversation conversation:conversationList){
+                conversation.setUserName(conversation.getUserName().toLowerCase());
+            }
+            DaoUtils.getInstance().getConversationDao().insertOrReplaceInTx(conversationList);
         }
 
         @Override

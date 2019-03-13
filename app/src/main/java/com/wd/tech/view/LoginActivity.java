@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
 import com.wd.tech.R;
+import com.wd.tech.bean.Conversation;
 import com.wd.tech.bean.Result;
 import com.wd.tech.bean.User;
 import com.wd.tech.core.WDActivity;
@@ -28,6 +29,7 @@ import com.wd.tech.dao.DaoSession;
 import com.wd.tech.dao.UserDao;
 import com.wd.tech.face.DetecterActivity;
 import com.wd.tech.presenter.LoginPresenter;
+import com.wd.tech.util.DaoUtils;
 import com.wd.tech.util.RsaCoder;
 
 import org.greenrobot.eventbus.EventBus;
@@ -140,6 +142,12 @@ public class LoginActivity extends WDActivity {
                 UserDao userDao = daoSession.getUserDao();
                 result.setStatu("1");
                 userDao.insertOrReplace(result);
+                Conversation conversation = new Conversation();
+                conversation.setUserName(data.getResult().getUserName().toLowerCase());
+                conversation.setHeadPic(data.getResult().getHeadPic());
+                conversation.setNickName(data.getResult().getNickName());
+                conversation.setUserId(data.getResult().getUserId());
+                DaoUtils.getInstance().getConversationDao().insertOrReplaceInTx(conversation);
                 Log.i("ee", data.getResult().getUserName()+"--"+data.getResult().getPwd());
                 EMClient.getInstance().login(data.getResult().getUserName(),data.getResult().getPwd()
                         ,new EMCallBack() {//回调
