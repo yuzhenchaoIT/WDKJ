@@ -1,7 +1,9 @@
 package com.wd.tech.view;
 
 
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.Toast;
@@ -30,6 +32,7 @@ public class SortActivity extends WDActivity {
     private PlateAdapter mPlateAdapter;
     private GridLayoutManager manager;
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,7 @@ public class SortActivity extends WDActivity {
         mPlateAdapter = new PlateAdapter(getBaseContext());
         mPlateRecy.setAdapter(mPlateAdapter);
         //请求数据
+        mLoadDialog.show();
         mPlatePresenter.request();
 
     }
@@ -62,6 +66,7 @@ public class SortActivity extends WDActivity {
 
         @Override
         public void success(Result data) {
+            mLoadDialog.cancel();
             if (data.getStatus().equals("0000")) {
 //                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 List<AllInfoPlateBean> beanList = (List<AllInfoPlateBean>) data.getResult();
@@ -75,6 +80,7 @@ public class SortActivity extends WDActivity {
 
         @Override
         public void fail(ApiException e) {
+            mLoadDialog.cancel();
             Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }

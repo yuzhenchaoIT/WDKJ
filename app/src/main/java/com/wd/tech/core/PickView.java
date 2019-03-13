@@ -106,8 +106,7 @@ public class PickView extends View {
         invalidate();
     }
 
-    public void setSelected(int selected)
-    {
+    public void setSelected(int selected) {
         mCurrentSelected = selected;
     }
 

@@ -76,7 +76,11 @@ public class AdvertWebActivity extends WDActivity {
                 if (newProgress == 100) {
                     // 网页加载完成
                     mProgressBar.setVisibility(View.GONE);//加载完网页进度条消失
-                    doTheTaskPresenter.request(user.getUserId(), user.getSessionId(), 1005);
+                    if (user != null) {
+                        doTheTaskPresenter.request(user.getUserId(), user.getSessionId(), 1005);
+                    } else {
+                        doTheTaskPresenter.request(0, "", 1005);
+                    }
                 } else {
                     // 加载中
                     mProgressBar.setVisibility(View.VISIBLE);//开始加载网页时显示进度条

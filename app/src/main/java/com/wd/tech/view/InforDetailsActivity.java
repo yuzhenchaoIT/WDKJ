@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -123,8 +124,6 @@ public class InforDetailsActivity extends WDActivity {
     LinearLayout mInforDetailsBottom;
     @BindView(R.id.infor_details_go_pay)
     TextView mInforDetailsGoPay;
-    @BindView(R.id.infor_details_ll_no_login)
-    LinearLayout mInforDetailsLlNoLogin;
     @BindView(R.id.infor_details_ll_data)
     LinearLayout mInforDetailsLlData;
 
@@ -162,12 +161,16 @@ public class InforDetailsActivity extends WDActivity {
 
     @Override
     protected int getLayoutId() {
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+
         return R.layout.activity_infor_details;
     }
 
     @Override
     protected void initView() {
         ButterKnife.bind(this);
+
 
         user = WDActivity.getUser(this);
 
@@ -182,11 +185,11 @@ public class InforDetailsActivity extends WDActivity {
         homeListId = Integer.parseInt(getIntent().getStringExtra("homeListId"));
 
         if (user != null) {
+            mLoadDialog.show();
             mDetailsPresenter.request(user.getUserId(), user.getSessionId(), homeListId);
         } else {
-            mInforDetailsLlNoLogin.setVisibility(View.VISIBLE);
-            mInforDetailsLlData.setVisibility(View.GONE);
-            Toast.makeText(getBaseContext(), "请先登录", Toast.LENGTH_SHORT).show();
+            mLoadDialog.show();
+            mDetailsPresenter.request(0, "", homeListId);
         }
 
 
@@ -207,8 +210,7 @@ public class InforDetailsActivity extends WDActivity {
             //详情 所有评论查看 p层请求
             mDetAllCommP.request(user.getUserId(), user.getSessionId(), homeListId, 1, 20);
         } else {
-            mInforDetailsLlNoLogin.setVisibility(View.VISIBLE);
-            mInforDetailsLlData.setVisibility(View.GONE);
+            mDetAllCommP.request(0, "", homeListId, 1, 20);
         }
 
         View contentView = View.inflate(getContext(), R.layout.share_layout, null);
@@ -341,6 +343,8 @@ public class InforDetailsActivity extends WDActivity {
                     if (user != null) {
                         text = mCommentContent.getText().toString().trim();
                         detailAddCommentPresenter.request(user.getUserId(), user.getSessionId(), text, homeListId);
+                        mDetAllCommP.request(user.getUserId(), user.getSessionId(), homeListId, 1, 20);
+                        mDetailAllCommentA.notifyDataSetChanged();
                         // 发送完，清空输入框
                         mCommentContent.setText("");
                     } else {
@@ -367,11 +371,11 @@ public class InforDetailsActivity extends WDActivity {
                     Intent intent = new Intent(InforDetailsActivity.this, PointsActivity.class);
                     intent.putExtra("DataId", homeListId + "");
                     startActivity(intent);
-//                    finish();
+                    finish();
                     break;
                 case R.id.t:
                     startActivity(new Intent(InforDetailsActivity.this, VipActivity.class));
-//                    finish();
+                    finish();
                     break;
             }
         }
@@ -423,9 +427,12 @@ public class InforDetailsActivity extends WDActivity {
 
         @Override
         public void success(Result data) {
+            mLoadDialog.cancel();
             if (data.getStatus().equals("0000")) {
                 mInforDetailsBean = (InforDetailsBean) data.getResult();
-                List<AllInfoPlateBean> plateBeans = mInforDetailsBean.getPlate();
+                //分类 条目
+                final List<AllInfoPlateBean> plateBeans = mInforDetailsBean.getPlate();
+                //推荐列表集合
                 List<InformationListBean> informationList = mInforDetailsBean.getInformationList();
                 mInforDetailsTitle.setText(mInforDetailsBean.getTitle());
                 try {
@@ -448,6 +455,17 @@ public class InforDetailsActivity extends WDActivity {
                         mInforAfltZi = item.findViewById(R.id.infor_details_afl_zi);
                         mInforAfltZi.setText(plateBeans.get(i).getName());
                         mInforAflt.addView(item);
+                        final int finalI = i;
+                        mInforAfltZi.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(InforDetailsActivity.this, SortListActivity.class);
+                                intent.putExtra("id", plateBeans.get(finalI).getId() + "");
+                                intent.putExtra("title", plateBeans.get(finalI).getName() + "");
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
                     }
 
                 }
@@ -475,6 +493,7 @@ public class InforDetailsActivity extends WDActivity {
 
         @Override
         public void fail(ApiException e) {
+            mLoadDialog.cancel();
             Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }
@@ -489,6 +508,8 @@ public class InforDetailsActivity extends WDActivity {
                 if (beanList.size() == 0) {
                     mInforDetailsLlNoComment.setVisibility(View.VISIBLE);
                     mIforDetailCommR.setVisibility(View.GONE);
+                    mDetailAllCommentA.notifyDataSetChanged();
+
                 } else {
                     mDetailAllCommentA.addItem(beanList);
                     mDetailAllCommentA.notifyDataSetChanged();
@@ -513,7 +534,7 @@ public class InforDetailsActivity extends WDActivity {
             if (data.getStatus().equals("0000")) {
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 //详情  p层请求
-                mDetAllCommP.request(user.getUserId(), user.getSessionId(), homeListId, 1, 20);
+                mDetAllCommP.request(user.getUserId(), user.getSessionId(), homeListId, 1, 10);
                 mDetailAllCommentA.clear();
                 mDetailAllCommentA.notifyDataSetChanged();
                 // 隐藏评论框
@@ -542,7 +563,6 @@ public class InforDetailsActivity extends WDActivity {
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 mInforDetailsZanTxt.setText(String.valueOf(mInforDetailsBean.getPraise() + 1));
             } else {
-//                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 mCancelGreatP.request(user.getUserId(), user.getSessionId(), homeListId);
                 mInforDetailsZanImg.setImageResource(R.drawable.common_icon_prise_n);
                 mInforDetailsZanTxt.setText(String.valueOf(mInforDetailsBean.getPraise()));
@@ -579,10 +599,12 @@ public class InforDetailsActivity extends WDActivity {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
+                //收藏成功
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             } else {
+                //收藏成功  不能重复收藏
 //                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
-//                mCancelP.request(user.getUserId(), user.getSessionId(), homeListId + "");
+                mCancelP.request(user.getUserId(), user.getSessionId(), homeListId + "");
 //                mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_n);
             }
         }
@@ -599,9 +621,13 @@ public class InforDetailsActivity extends WDActivity {
         @Override
         public void success(Result data) {
             if (data.getStatus().equals("0000")) {
+                //取消成功
                 Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+                //请取消收藏的资讯
+//                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
+                mAddCollectP.request(user.getUserId(), user.getSessionId(), homeListId + "");
+//                mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_s);
             }
         }
 
@@ -623,6 +649,9 @@ public class InforDetailsActivity extends WDActivity {
         mCancelP.unBind();
         mAddGreatP.unBind();
         mCancelGreatP.unBind();
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+        }
     }
 
 }

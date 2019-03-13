@@ -473,10 +473,25 @@ public class SetUpActivity extends WDActivity implements View.OnClickListener {
     public void tui() {
         User user = WDActivity.getUser(this);
         if (user != null) {
-            DaoSession daoSession = DaoMaster.newDevSession(SetUpActivity.this, UserDao.TABLENAME);
-            UserDao userDao = daoSession.getUserDao();
-            userDao.deleteAll();
-            finish();
+            AlertDialog alertDialog = new AlertDialog.Builder(SetUpActivity.this)
+                    .setTitle("退出程序")
+                    .setMessage("是否退出程序")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            DaoSession daoSession = DaoMaster.newDevSession(SetUpActivity.this, UserDao.TABLENAME);
+                            UserDao userDao = daoSession.getUserDao();
+                            userDao.deleteAll();
+                            finish();
+                        }
+                    })
+                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            return;
+                        }
+                    }).create();
+            alertDialog.show();
         }
     }
     //点击修改密码

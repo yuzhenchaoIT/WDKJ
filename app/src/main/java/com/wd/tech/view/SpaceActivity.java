@@ -114,12 +114,17 @@ public class SpaceActivity extends WDActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.as_haoyou:
-                Intent intent = new Intent(this, FindUserActivity.class);
-                intent.putExtra("name", communityUserVo.getNickName());
-                intent.putExtra("headPic", communityUserVo.getHeadPic());
-                intent.putExtra("qian", communityUserVo.getSignature());
-                intent.putExtra("userids", communityUserVo.getUserId());
-                startActivity(intent);
+                if(hyText.getText().equals("+好友")){
+                    Intent intent = new Intent(this, FindUserActivity.class);
+                    intent.putExtra("name", communityUserVo.getNickName());
+                    intent.putExtra("headPic", communityUserVo.getHeadPic());
+                    intent.putExtra("qian", communityUserVo.getSignature());
+                    intent.putExtra("userids", communityUserVo.getUserId());
+                    startActivity(intent);
+                }else {
+                    Toast.makeText(this, "已添加", Toast.LENGTH_SHORT).show();
+                }
+
                 break;
         }
 

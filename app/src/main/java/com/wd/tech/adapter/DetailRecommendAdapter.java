@@ -47,7 +47,7 @@ public class DetailRecommendAdapter extends RecyclerView.Adapter<DetailRecommend
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, int i) {
         final InformationListBean listBean = mList.get(i);
-        myViewHolder.img.setImageURI(Uri.parse(listBean.getThumbnail()));
+        myViewHolder.img.setImageURI((listBean.getThumbnail()));
         myViewHolder.title.setText(listBean.getTitle());
         myViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +55,7 @@ public class DetailRecommendAdapter extends RecyclerView.Adapter<DetailRecommend
                 Intent intent = new Intent(mContext, InforDetailsActivity.class);
                 intent.putExtra("homeListId", listBean.getId() + "");
                 mContext.startActivity(intent);
+
             }
         });
     }

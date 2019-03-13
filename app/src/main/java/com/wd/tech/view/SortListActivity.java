@@ -125,8 +125,10 @@ public class SortListActivity extends WDActivity {
         //布局管理器
         mSortListRecy.setLayoutManager(mLinearLayoutManager);
         if (user != null) {
+            mLoadDialog.show();
             mPlateListP.request(true, user.getUserId(), user.getSessionId(), plateId);
         } else {
+            mLoadDialog.show();
             mPlateListP.request(true, 1010, "15320748258726", plateId);
         }
 
@@ -144,7 +146,6 @@ public class SortListActivity extends WDActivity {
         friends.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 wechatShare(1);
             }
         });
@@ -248,6 +249,7 @@ public class SortListActivity extends WDActivity {
         @Override
         public void success(Result<List<HomeListBean>> data) {
             if (data.getStatus().equals("0000")) {
+                mLoadDialog.cancel();
 //                Toast.makeText(getBaseContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
                 //添加列表并刷新
                 if (mPlateListP.getPage() == 1) {
@@ -263,6 +265,7 @@ public class SortListActivity extends WDActivity {
 
         @Override
         public void fail(ApiException e) {
+            mLoadDialog.cancel();
             Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }
@@ -310,5 +313,8 @@ public class SortListActivity extends WDActivity {
     @Override
     protected void destoryData() {
         mPlateListP.unBind();
+        if (popupWindow != null) {
+            popupWindow.dismiss();
+        }
     }
 }
