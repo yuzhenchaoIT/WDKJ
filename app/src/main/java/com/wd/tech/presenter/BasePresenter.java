@@ -68,7 +68,7 @@ public abstract class BasePresenter {
 
 
                         if (dataCall != null) {
-                            dataCall.fail(CustomException.handleException(throwable));
+//                            dataCall.fail(CustomException.handleException(throwable));
                         }
                     }
                 });

@@ -81,7 +81,7 @@ public class SortActivity extends WDActivity {
         @Override
         public void fail(ApiException e) {
             mLoadDialog.cancel();
-            Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -353,7 +353,7 @@ public class FragInForMation extends Fragment {
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -422,7 +422,7 @@ public class FragInForMation extends Fragment {
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
             //数据缓存
             int size = mHomeListAdapter.getItemCount();
             if (size == 0) {
@@ -448,7 +448,7 @@ public class FragInForMation extends Fragment {
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -467,7 +467,7 @@ public class FragInForMation extends Fragment {
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
 
     }
