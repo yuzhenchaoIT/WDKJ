@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.wd.tech.bean.CommunityListBean;
+import com.wd.tech.bean.HomeListBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ public class ListDataSave {
 
     /**
      * 保存List
+     *
      * @param tag
      * @param datalist
      */
@@ -36,13 +38,15 @@ public class ListDataSave {
         editor.commit();
 
     }
+
     /**
      * 获取List
+     *
      * @param tag
      * @return
      */
     public <T> List<CommunityListBean> getDataList(String tag) {
-        List<CommunityListBean> datalist=new ArrayList<CommunityListBean>();
+        List<CommunityListBean> datalist = new ArrayList<CommunityListBean>();
         String strJson = preferences.getString(tag, null);
         if (null == strJson) {
             return datalist;
@@ -53,4 +57,24 @@ public class ListDataSave {
         return datalist;
 
     }
+
+    /**
+     * 获取List
+     *
+     * @param tag
+     * @return
+     */
+    public <T> List<HomeListBean> getDataList1(String tag1) {
+        List<HomeListBean> datalist1 = new ArrayList<HomeListBean>();
+        String strJson = preferences.getString(tag1, null);
+        if (null == strJson) {
+            return datalist1;
+        }
+        Gson gson = new Gson();
+        datalist1 = gson.fromJson(strJson, new TypeToken<List<HomeListBean>>() {
+        }.getType());
+        return datalist1;
+
+    }
+
 }

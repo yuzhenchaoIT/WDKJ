@@ -46,6 +46,7 @@ import com.wd.tech.presenter.BannerPresenter;
 import com.wd.tech.presenter.CancelPresenter;
 import com.wd.tech.presenter.DoTheTaskPresenter;
 import com.wd.tech.presenter.RecommendPresenter;
+import com.wd.tech.util.ListDataSave;
 import com.wd.tech.view.AddCircleActivity;
 import com.wd.tech.view.AdvertWebActivity;
 import com.wd.tech.view.InforDetailsActivity;
@@ -100,6 +101,7 @@ public class FragInForMation extends Fragment {
     private String title1;
     private String summary1;
     private DoTheTaskPresenter doTheTaskPresenter = new DoTheTaskPresenter(new DoTheTaskCall());
+    private ListDataSave listDataSave;
 
     @Nullable
     @Override
@@ -225,6 +227,10 @@ public class FragInForMation extends Fragment {
             }
         });
 
+
+        listDataSave = new ListDataSave(getActivity(), "Infor");
+
+
         return view;
     }
 
@@ -263,13 +269,14 @@ public class FragInForMation extends Fragment {
         req.message = msg;
         req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
         api.sendReq(req);
-        doTheTaskPresenter.request(user.getUserId(),user.getSessionId(),1004);
+        doTheTaskPresenter.request(user.getUserId(), user.getSessionId(), 1004);
     }
+
     //实现做任务接口
-    private class DoTheTaskCall implements DataCall<Result>{
+    private class DoTheTaskCall implements DataCall<Result> {
         @Override
         public void success(Result data) {
-            if (data.getStatus().equals("0000")){
+            if (data.getStatus().equals("0000")) {
 
             }
         }
@@ -403,11 +410,20 @@ public class FragInForMation extends Fragment {
                 Toast.makeText(getContext(), data.getMessage() + "", Toast.LENGTH_SHORT).show();
             }
             mHomeListAdapter.notifyDataSetChanged();
+            //数据缓存
+            listDataSave.setDataList("data", data.getResult());
         }
 
         @Override
         public void fail(ApiException e) {
             Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
+            //数据缓存
+            int size = mHomeListAdapter.getItemCount();
+            if (size == 0) {
+                List<HomeListBean> list = listDataSave.getDataList1("data");
+                mHomeListAdapter.addItem(list);
+                mHomeListAdapter.notifyDataSetChanged();
+            }
         }
     }
 
