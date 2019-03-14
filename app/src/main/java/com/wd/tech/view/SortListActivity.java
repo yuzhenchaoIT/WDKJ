@@ -283,7 +283,7 @@ public class SortListActivity extends WDActivity {
         @Override
         public void fail(ApiException e) {
             mLoadDialog.cancel();
-            Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -303,7 +303,7 @@ public class SortListActivity extends WDActivity {
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -322,7 +322,7 @@ public class SortListActivity extends WDActivity {
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
 
     }

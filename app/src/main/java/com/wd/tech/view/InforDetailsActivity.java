@@ -7,6 +7,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -298,7 +299,15 @@ public class InforDetailsActivity extends WDActivity {
                     mInforDetailsZanImg.setImageResource(R.drawable.common_icon_praise_s);
                     mAddGreatP.request(user.getUserId(), user.getSessionId(), homeListId);
                 } else {
-                    Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(mIforDetailCommR, "未登录", Snackbar.LENGTH_LONG)
+                            .setAction("请登陆", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                    snackbar.show();
                 }
 
                 break;
@@ -310,7 +319,15 @@ public class InforDetailsActivity extends WDActivity {
                         mCancelP.request(user.getUserId(), user.getSessionId(), homeListId + "");
                         mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_n);
                     } else {
-                        Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar.make(mIforDetailCommR, "未登录", Snackbar.LENGTH_LONG)
+                                .setAction("请登陆", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                        snackbar.show();
                     }
 
                 } else if (isCollection == 2) {
@@ -319,7 +336,15 @@ public class InforDetailsActivity extends WDActivity {
                         mAddCollectP.request(user.getUserId(), user.getSessionId(), homeListId);
                         mInforDetailsCollImg.setImageResource(R.drawable.common_icon_collect_s);
                     } else {
-                        Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar.make(mIforDetailCommR, "未登录", Snackbar.LENGTH_LONG)
+                                .setAction("请登陆", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(getContext(), LoginActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                        snackbar.show();
                     }
 
                 }
@@ -494,7 +519,7 @@ public class InforDetailsActivity extends WDActivity {
         @Override
         public void fail(ApiException e) {
             mLoadDialog.cancel();
-            Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -522,7 +547,7 @@ public class InforDetailsActivity extends WDActivity {
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -550,7 +575,7 @@ public class InforDetailsActivity extends WDActivity {
 
         @Override
         public void fail(ApiException e) {
-            Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(getBaseContext(), "网络异常", Toast.LENGTH_SHORT).show();
         }
     }
 
