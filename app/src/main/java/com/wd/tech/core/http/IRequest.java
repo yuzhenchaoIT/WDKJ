@@ -7,6 +7,7 @@ import com.wd.tech.bean.AllInfoPlateBean;
 import com.wd.tech.bean.BannerBean;
 import com.wd.tech.bean.CommentList;
 import com.wd.tech.bean.CommunityListBean;
+import com.wd.tech.bean.Conversation;
 import com.wd.tech.bean.FindTitleBean;
 import com.wd.tech.bean.FindGroupByid;
 import com.wd.tech.bean.FindUserByPhone;
@@ -898,6 +899,18 @@ public interface IRequest {
     @POST("user/v1/faceLogin")
     @FormUrlEncoded
     Observable<Result<User>> faceLogin(@Field("faceId")String faceId);
+    /**
+     * 根据环信userNames批量查询会话列表需要的用户信息
+     * @param userId
+     * @param sessionId
+     * @param userNames
+     * @return
+     */
+
+    @GET("user/verify/v1/findConversationList")
+    Observable<Result<List<Conversation>>> findConversationList(@Header("userId") int userId,
+                                                                @Header("sessionId") String sessionId,
+                                                                @Query("userNames") String userNames);
 
 
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -27,6 +28,7 @@ import com.wd.tech.presenter.CancelGreatPresenter;
 import com.wd.tech.util.DateUtils;
 import com.wd.tech.util.StringUtils;
 import com.wd.tech.view.CommentActivity;
+import com.wd.tech.view.LoginActivity;
 import com.wd.tech.view.SpaceActivity;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -93,7 +95,15 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
                         mlist.get(i).setPraise(mlist.get(i).getPraise() - 1);
                         myHodler.text_sum.setText("" + mlist.get(i).getPraise());
                     }else {
-                        Toast.makeText(context, "请登录", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
+                                .setAction("请登陆", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(context, LoginActivity.class);
+                                        context.startActivity(intent);
+                                    }
+                                });
+                        snackbar.show();
                     }
                 }else {
                     if (user!=null){
@@ -104,7 +114,15 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
                         mlist.get(i).setPraise(mlist.get(i).getPraise()+1);
                         myHodler.text_sum.setText(""+mlist.get(i).getPraise());
                     }else {
-                        Toast.makeText(context, "请登录", Toast.LENGTH_SHORT).show();
+                        Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
+                                .setAction("请登陆", new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent intent = new Intent(context, LoginActivity.class);
+                                        context.startActivity(intent);
+                                    }
+                                });
+                        snackbar.show();
                     }
 
                 }
@@ -160,7 +178,15 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
                 if (user!=null) {
                     onclick.OnclickPl(view, mlist.get(i).getId());
                 }else {
-                    Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
+                            .setAction("请登陆", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(context, LoginActivity.class);
+                                    context.startActivity(intent);
+                                }
+                            });
+                    snackbar.show();
                     return;
                 }
             }
@@ -175,7 +201,15 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
                     intent.putExtra("id", userId);
                     context.startActivity(intent);
                 }else {
-                    Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
+                            .setAction("请登陆", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(context, LoginActivity.class);
+                                    context.startActivity(intent);
+                                }
+                            });
+                    snackbar.show();
                     return;
                 }
             }

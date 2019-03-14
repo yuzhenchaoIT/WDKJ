@@ -2,9 +2,14 @@ package com.wd.tech.presenter;
 
 
 import com.wd.tech.bean.Result;
+import com.wd.tech.core.WDApplication;
 import com.wd.tech.core.exception.CustomException;
 import com.wd.tech.core.exception.ResponseTransformer;
 import com.wd.tech.core.http.DataCall;
+import com.wd.tech.dao.DaoMaster;
+import com.wd.tech.dao.DaoSession;
+import com.wd.tech.dao.UserDao;
+import com.wd.tech.myview.SetUpActivity;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
@@ -45,6 +50,11 @@ public abstract class BasePresenter {
                     @Override
                     public void accept(Result result) throws Exception {
                         running = false;
+                        if (result.getStatus().equals("9999")){
+                            DaoSession daoSession = DaoMaster.newDevSession(WDApplication.getContext(), UserDao.TABLENAME);
+                            UserDao userDao = daoSession.getUserDao();
+                            userDao.deleteAll();
+                        }
                         if (dataCall != null) {
                             dataCall.success(result);
                         }

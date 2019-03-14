@@ -4,11 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -50,6 +52,7 @@ import com.wd.tech.util.ListDataSave;
 import com.wd.tech.view.AddCircleActivity;
 import com.wd.tech.view.AdvertWebActivity;
 import com.wd.tech.view.InforDetailsActivity;
+import com.wd.tech.view.LoginActivity;
 import com.wd.tech.view.SearchActivity;
 import com.wd.tech.view.SortActivity;
 import com.zhouwei.mzbanner.MZBannerView;
@@ -167,7 +170,15 @@ public class FragInForMation extends Fragment {
                     //请求收藏的接口
                     mAddCollectP.request(user.getUserId(), user.getSessionId(), uid);
                 } else {
-                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
+                            .setAction("去登陆", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                    snackbar.show();
                 }
 
             }
@@ -178,7 +189,16 @@ public class FragInForMation extends Fragment {
                     //请求取消收藏的接口
                     mCancelP.request(user.getUserId(), user.getSessionId(), uid + "");
                 } else {
-                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
+                            .setAction("请登陆", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                    snackbar.show();
+
                 }
 
             }
