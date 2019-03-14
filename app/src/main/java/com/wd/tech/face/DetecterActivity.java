@@ -153,7 +153,7 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 				final String gender = genders.get(0).getGender() == -1 ? "性别未知" : (genders.get(0).getGender() == 0 ? "男" : "女");
 				
 				//crop
-				byte[] data = mImageNV21;
+				final byte[] data = mImageNV21;
 				YuvImage yuv = new YuvImage(data, ImageFormat.NV21, mWidth, mHeight, null);
 				ExtByteArrayOutputStream ops = new ExtByteArrayOutputStream();
 				yuv.compressToJpeg(mAFT_FSDKFace.getRect(), 80, ops);
@@ -164,7 +164,7 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 					e.printStackTrace();
 				}
 
-				if (max > 0.6f) {
+				/*if (max > 0.6f) {*/
 					//fr success.
 					final float max_score = max;
 					Log.d(TAG, "fit Score:" + max + ", NAME:" + name);
@@ -200,7 +200,7 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 						}
 					});
 
-				} else {
+			/*	} *//*else {
 					final String mNameShow = "未识别";
 					DetecterActivity.this.runOnUiThread(new Runnable() {
 						@Override
@@ -219,7 +219,7 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 							mImageView.setImageBitmap(bmp);
 						}
 					});
-				}
+				}*/
 				mImageNV21 = null;
 			}
 
@@ -411,6 +411,7 @@ public class DetecterActivity extends Activity implements OnCameraListener, View
 		@Override
 		public void success(Result<User> data) {
 			if (data.getStatus().equals("0000")){
+				Toast.makeText(DetecterActivity.this, ""+data.getMessage(), Toast.LENGTH_SHORT).show();
 				//添加数据库
 				User result = data.getResult();
 				DaoSession daoSession = DaoMaster.newDevSession(DetecterActivity.this, UserDao.TABLENAME);

@@ -1,9 +1,21 @@
 package com.wd.tech.view;
 
 import android.app.AlertDialog;
+import android.content.ContentUris;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.os.Environment;
 import android.os.Message;
+import android.provider.DocumentsContract;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
@@ -28,6 +40,8 @@ import com.wd.tech.dao.DaoMaster;
 import com.wd.tech.dao.DaoSession;
 import com.wd.tech.dao.UserDao;
 import com.wd.tech.face.DetecterActivity;
+import com.wd.tech.face.Register1Activity;
+import com.wd.tech.myview.SetUpActivity;
 import com.wd.tech.presenter.LoginPresenter;
 import com.wd.tech.util.DaoUtils;
 import com.wd.tech.util.RsaCoder;
@@ -41,12 +55,10 @@ import butterknife.OnClick;
 
 public class LoginActivity extends WDActivity {
 
-
     private EditText mEditPhone,mEditPass;
     private LoginPresenter loginPresenter;
     private CheckBox mCheckEye;
     private static final int REQUEST_CODE_OP = 7;
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
@@ -69,9 +81,9 @@ public class LoginActivity extends WDActivity {
         mface_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if( ((WDApplication)getApplicationContext()).mFaceDB.mRegister.isEmpty() ) {
+              if( ((WDApplication)getApplicationContext()).mFaceDB.mRegister.isEmpty() ) {
                     Toast.makeText(LoginActivity.this, "没有注册人脸，请先注册！", Toast.LENGTH_SHORT).show();
-                } else {
+                }else {
                     new AlertDialog.Builder(LoginActivity.this)
                             .setTitle("请选择相机")
                             .setIcon(android.R.drawable.ic_dialog_info)
@@ -79,6 +91,7 @@ public class LoginActivity extends WDActivity {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     startDetector(which);
+
                                     finish();
                                 }
                             })
@@ -192,7 +205,6 @@ public class LoginActivity extends WDActivity {
     protected void destoryData() {
 
     }
-
     private void startDetector(int camera) {
         Intent it = new Intent(LoginActivity.this, DetecterActivity.class);
         it.putExtra("Camera", camera);

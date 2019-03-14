@@ -287,7 +287,6 @@ public class Register1Activity extends Activity implements SurfaceHolder.Callbac
 									byte[] featureData = mAFR_FSDKFace.getFeatureData();
 									bindFaceidPresenter.request(userId,sessionId,featureData.toString());
 
-
 									((WDApplication)Register1Activity.this.getApplicationContext()).mFaceDB.addFace(mEditText.getText().toString(), mAFR_FSDKFace);
 									mRegisterViewAdapter.notifyDataSetChanged();
 									dialog.dismiss();
