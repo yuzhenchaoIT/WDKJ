@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -174,7 +175,15 @@ public class SortListActivity extends WDActivity {
                     //请求收藏的接口
                     mAddCollectP.request(user.getUserId(), user.getSessionId(), uid);
                 } else {
-                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(mSortListRecy, "未登录", Snackbar.LENGTH_LONG)
+                            .setAction("去登陆", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                    snackbar.show();
                 }
 
             }
@@ -185,7 +194,15 @@ public class SortListActivity extends WDActivity {
                     //请求取消收藏的接口
                     mCancelP.request(user.getUserId(), user.getSessionId(), uid + "");
                 } else {
-                    Toast.makeText(getContext(), "请先登录", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(mSortListRecy, "未登录", Snackbar.LENGTH_LONG)
+                            .setAction("去登陆", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(getContext(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                    snackbar.show();
                 }
 
             }
