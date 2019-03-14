@@ -328,7 +328,14 @@ public class HomeActivity extends AppCompatActivity {
         @Override
         public void fail(ApiException e) {
             User user = WDActivity.getUser(HomeActivity.this);
-
+            mSimple.setImageURI(user.getHeadPic());
+            mTextName.setText(user.getNickName());
+            int whetherVip = user.getWhetherVip();
+            if (whetherVip == 1) {
+                vip.setVisibility(View.VISIBLE);
+            } else {
+                vip.setVisibility(View.GONE);
+            }
         }
     }
 
