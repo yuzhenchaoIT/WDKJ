@@ -75,15 +75,8 @@ public class FragCommunity extends WDFragment  {
                 if (user!=null){
                     startActivity(new Intent(getActivity(),AddCircleActivity.class));
                 }else {
-                    Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
-                            .setAction("请登陆", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-                    snackbar.show();
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
                 }
 
             }
@@ -118,15 +111,8 @@ public class FragCommunity extends WDFragment  {
                     });
 
                 }else {
-                    Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
-                            .setAction("请登陆", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-                    snackbar.show();
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
                 }
             }
         });

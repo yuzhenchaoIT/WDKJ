@@ -95,15 +95,8 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
                         mlist.get(i).setPraise(mlist.get(i).getPraise() - 1);
                         myHodler.text_sum.setText("" + mlist.get(i).getPraise());
                     }else {
-                        Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
-                                .setAction("请登陆", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent intent = new Intent(context, LoginActivity.class);
-                                        context.startActivity(intent);
-                                    }
-                                });
-                        snackbar.show();
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        context.startActivity(intent);
                     }
                 }else {
                     if (user!=null){
@@ -114,15 +107,9 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
                         mlist.get(i).setPraise(mlist.get(i).getPraise()+1);
                         myHodler.text_sum.setText(""+mlist.get(i).getPraise());
                     }else {
-                        Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
-                                .setAction("请登陆", new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        Intent intent = new Intent(context, LoginActivity.class);
-                                        context.startActivity(intent);
-                                    }
-                                });
-                        snackbar.show();
+                        Intent intent = new Intent(context, LoginActivity.class);
+                        context.startActivity(intent);
+   ;
                     }
 
                 }
@@ -178,15 +165,8 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
                 if (user!=null) {
                     onclick.OnclickPl(view, mlist.get(i).getId());
                 }else {
-                    Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
-                            .setAction("请登陆", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(context, LoginActivity.class);
-                                    context.startActivity(intent);
-                                }
-                            });
-                    snackbar.show();
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
                     return;
                 }
             }
@@ -201,15 +181,8 @@ public class CommunityAdapter extends  RecyclerView.Adapter {
                     intent.putExtra("id", userId);
                     context.startActivity(intent);
                 }else {
-                    Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
-                            .setAction("请登陆", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(context, LoginActivity.class);
-                                    context.startActivity(intent);
-                                }
-                            });
-                    snackbar.show();
+                    Intent intent = new Intent(context, LoginActivity.class);
+                    context.startActivity(intent);
                     return;
                 }
             }

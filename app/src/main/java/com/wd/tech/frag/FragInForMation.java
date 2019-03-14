@@ -170,15 +170,8 @@ public class FragInForMation extends Fragment {
                     //请求收藏的接口
                     mAddCollectP.request(user.getUserId(), user.getSessionId(), uid);
                 } else {
-                    Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
-                            .setAction("去登陆", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-                    snackbar.show();
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
                 }
 
             }
@@ -189,15 +182,8 @@ public class FragInForMation extends Fragment {
                     //请求取消收藏的接口
                     mCancelP.request(user.getUserId(), user.getSessionId(), uid + "");
                 } else {
-                    Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
-                            .setAction("请登陆", new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
-                                    startActivity(intent);
-                                }
-                            });
-                    snackbar.show();
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
 
                 }
 
