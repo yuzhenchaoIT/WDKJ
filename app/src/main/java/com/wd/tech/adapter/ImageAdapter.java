@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.wd.tech.R;
@@ -43,14 +44,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                 viewHolder.itemView.getContext().startActivity(intent);
             }
         });
-//        viewHolder.image.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(viewHolder.itemView.getContext(), ImageActivity.class);
-//                intent.putExtra("image", mList.get(i));
-//                viewHolder.itemView.getContext().startActivity(intent);
-//            }
-//        });
+
     }
 
     @Override
@@ -68,6 +62,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.circle_image);
+
         }
     }
+
 }

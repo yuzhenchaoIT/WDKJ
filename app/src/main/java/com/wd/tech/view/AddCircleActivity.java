@@ -69,7 +69,6 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
     private Dialog dialog;
     private String picturePath;
     List<File> files = new ArrayList<>();
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_adcircle;
@@ -91,11 +90,21 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
         RecyclerView bo_image_list = (RecyclerView) findViewById(R.id.bo_image_list);
         addCircilePresenter = new AddCircilePresenter(new AddData());
         objects.add(R.drawable.adds);
+
         bo_image_list.setLayoutManager(new GridLayoutManager(this,4));
         add_image_adapter = new AddImageAdapter(this, objects, new AddImageAdapter.Dakai() {
             @Override
             public void onDakaiXiangCe() {
                 doaLog();
+            }
+        });
+        add_image_adapter.onitemclick(new AddImageAdapter.Onitemclick() {
+            @Override
+            public void Onitemclick(View view, int s) {
+
+                objects.remove(s);
+                files.remove((s-1));
+                add_image_adapter.notifyDataSetChanged();
             }
         });
         bo_image_list.setAdapter(add_image_adapter);
@@ -108,16 +117,12 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
         if(ActivityCompat.checkSelfPermission(this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
             //权限发生了改变 true  //  false 小米
             if(ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.CAMERA)){
-
-
-
                 new AlertDialog.Builder(this).setTitle("title")
-                        .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                        .setPositiveButton("ok", new DialogInterface.OnClickListener(){
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 // 请求授权
                                 ActivityCompat.requestPermissions(AddCircleActivity.this,new String[]{Manifest.permission.CAMERA},1);
-
                             }
                         }).setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -125,21 +130,12 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
 
                     }
                 }).create().show();
-
-
-
             }else {
                 ActivityCompat.requestPermissions(AddCircleActivity.this,new String[]{Manifest.permission.CAMERA},1);
-
             }
-
         }else{
-
-
         }
-
     }
-
     @Override
     protected void destoryData() {
 
@@ -154,7 +150,6 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
             String filePath = getFilePath(null,requestCode,data);
             objects.add(filePath);
             add_image_adapter.notifyDataSetChanged();
-
             Uri data1 = data.getData();
             String[] proj = { MediaStore.Images.Media.DATA };
             Cursor actualimagecursor = managedQuery(data1,proj,null,null,null);
@@ -163,7 +158,6 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
             String img_path = actualimagecursor.getString(actual_image_column_index);
              File file = new File(img_path);
             files.add(file);
-
         }
         if (requestCode==2){
                 Bundle extras = data.getExtras();
@@ -174,7 +168,6 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
                 files.add(file);
             add_image_adapter.notifyDataSetChanged();
         }
-
     }
     //申请权限
     @Override
@@ -190,25 +183,15 @@ public class AddCircleActivity extends WDActivity implements View.OnClickListene
         }
         if(requestCode == 1){
             // camear 权限回调
-
             if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-
                 // 表示用户授权
                 Toast.makeText(this, " user Permission" , Toast.LENGTH_SHORT).show();
-
-
-
             } else {
-
                 //用户拒绝权限
                 Toast.makeText(this, " no Permission" , Toast.LENGTH_SHORT).show();
                 finish();
             }
-
-
-
         }
-
     }
     @Override
     public void onClick(View view) {
