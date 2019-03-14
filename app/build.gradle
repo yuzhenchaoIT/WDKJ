@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'tech'
             keyPassword '123456'
-            storeFile file('C:/Users/王子龙/Desktop/tech.keystore')
+            storeFile file('C:/Users/asus/Desktop/tech.keystore')
             storePassword '123456'
         }
     }
@@ -15,7 +15,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 2
-        versionName "1.2"
+        versionName "1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.config
         multiDexEnabled true
@@ -38,7 +38,6 @@ android {
         }
     }
     productFlavors {
-
     }
 
     sourceSets {

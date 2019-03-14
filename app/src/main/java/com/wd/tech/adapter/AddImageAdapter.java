@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -30,6 +31,10 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.MyView
         this.mDatas=datas;
         this.dakai=dakai;
         inflater=LayoutInflater.from(mContext);
+    }
+    private Onitemclick onitemclick;
+    public void onitemclick(Onitemclick onitemclick){
+        this.onitemclick=onitemclick;
     }
     public void add(Object c){
         mDatas.add(c);
@@ -69,8 +74,18 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.MyView
                 }
             }
         });
+        if (position==0){
+            holder.del.setVisibility(View.GONE);
+        }else {
+            holder.del.setVisibility(View.VISIBLE);
+        }
+        holder.del.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onitemclick.Onitemclick(view,position);
+            }
+        });
     }
-
     //重写onCreateViewHolder方法，返回一个自定义的ViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -81,15 +96,19 @@ public class AddImageAdapter extends RecyclerView.Adapter<AddImageAdapter.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder { //承载Item视图的子布局
         SimpleDraweeView iv15;
-
+        ImageView del;
         public MyViewHolder(View view) {
             super(view);
            iv15 = view.findViewById(R.id.iv15);
-
+            del = itemView.findViewById(R.id.circle_del);
         }
     }
 
    public interface Dakai{
         void onDakaiXiangCe();
    }
+    public  interface Onitemclick{
+        void Onitemclick(View view,int s);
+
+    }
 }
