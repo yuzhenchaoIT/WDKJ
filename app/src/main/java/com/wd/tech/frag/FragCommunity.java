@@ -3,6 +3,7 @@ package com.wd.tech.frag;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -32,6 +33,8 @@ import com.wd.tech.presenter.CommunitPresenter;
 import com.wd.tech.presenter.DoTheTaskPresenter;
 import com.wd.tech.util.ListDataSave;
 import com.wd.tech.view.AddCircleActivity;
+import com.wd.tech.view.LoginActivity;
+
 import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,7 +75,15 @@ public class FragCommunity extends WDFragment  {
                 if (user!=null){
                     startActivity(new Intent(getActivity(),AddCircleActivity.class));
                 }else {
-                    Toast.makeText(getActivity(), "请先登录", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
+                            .setAction("请登陆", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                    snackbar.show();
                 }
 
             }
@@ -107,7 +118,15 @@ public class FragCommunity extends WDFragment  {
                     });
 
                 }else {
-                    Toast.makeText(getActivity(), "请先登录!", Toast.LENGTH_SHORT).show();
+                    Snackbar snackbar = Snackbar.make(view,"未登录",Snackbar.LENGTH_LONG)
+                            .setAction("请登陆", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+                    snackbar.show();
                 }
             }
         });
