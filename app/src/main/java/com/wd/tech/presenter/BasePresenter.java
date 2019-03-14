@@ -65,6 +65,8 @@ public abstract class BasePresenter {
                     public void accept(Throwable throwable) throws Exception {
                         //处理异常
                         running = false;
+
+
                         if (dataCall != null) {
                             dataCall.fail(CustomException.handleException(throwable));
                         }
