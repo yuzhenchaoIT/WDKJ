@@ -93,9 +93,18 @@ public class PointsActivity extends WDActivity {
 
         mDataId = Integer.parseInt(getIntent().getStringExtra("DataId"));
         //获取当前条目的数据
-        mDetailsPresenter.request(user.getUserId(), user.getSessionId(), mDataId);
+        if (user != null) {
+            mDetailsPresenter.request(user.getUserId(), user.getSessionId(), mDataId);
+        } else {
+            mDetailsPresenter.request(0, "", mDataId);
+        }
         //积分请求接口
-        mIntegralPresenter.request(user.getUserId(), user.getSessionId());
+        if (user != null) {
+            mIntegralPresenter.request(user.getUserId(), user.getSessionId());
+        } else {
+            mIntegralPresenter.request(0, "");
+//            Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -115,7 +124,11 @@ public class PointsActivity extends WDActivity {
                 break;
             case R.id.points_once_exchange:
                 //积分请求
-                mPayByIntegralPresenter.request(user.getUserId(), user.getSessionId(), mDataId, mIntegralCost);
+                if (user != null) {
+                    mPayByIntegralPresenter.request(user.getUserId(), user.getSessionId(), mDataId, mIntegralCost);
+                } else {
+                    Toast.makeText(this, "请先登录", Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }

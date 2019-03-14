@@ -22,7 +22,11 @@ import com.facebook.imagepipeline.core.ImagePipelineConfig;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.wd.tech.bean.Conversation;
+import com.wd.tech.dao.ConversationDao;
 import com.wd.tech.face.FaceDB;
+import com.wd.tech.util.DaoUtils;
 
 
 import java.io.File;
@@ -68,6 +72,23 @@ public class WDApplication extends Application {
         Fresco.initialize(this);//图片加载框架初始化
         EaseUI.getInstance().init(this,null);
         EMClient.getInstance().setDebugMode(true);
+        EaseUI.getInstance().init(this,null);
+        EMClient.getInstance().setDebugMode(true);
+        EaseUI.getInstance().setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
+            @Override
+            public EaseUser getUser(String username) {
+                username = username.toLowerCase();
+                EaseUser easeUser = new EaseUser(username);
+                List<Conversation> aa = DaoUtils.getInstance().getConversationDao().loadAll();
+                Conversation conversation = DaoUtils.getInstance().getConversationDao().queryBuilder().where(ConversationDao.Properties.UserName.eq(username)).build().unique();
+                if (conversation!=null) {
+                    easeUser.setNickname(conversation.getNickName());
+                    easeUser.setAvatar(conversation.getHeadPic());
+                }
+                return easeUser;
+            }
+        });
+
 
     }
 

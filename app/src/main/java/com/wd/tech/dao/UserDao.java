@@ -34,6 +34,7 @@ public class UserDao extends AbstractDao<User, Long> {
         public final static Property WhetherVip = new Property(7, int.class, "whetherVip", false, "WHETHER_VIP");
         public final static Property WhetherFaceId = new Property(8, int.class, "whetherFaceId", false, "WHETHER_FACE_ID");
         public final static Property Statu = new Property(9, String.class, "statu", false, "STATU");
+        public final static Property HeadPic = new Property(10, String.class, "headPic", false, "HEAD_PIC");
     }
 
 
@@ -58,7 +59,8 @@ public class UserDao extends AbstractDao<User, Long> {
                 "\"USER_NAME\" TEXT," + // 6: userName
                 "\"WHETHER_VIP\" INTEGER NOT NULL ," + // 7: whetherVip
                 "\"WHETHER_FACE_ID\" INTEGER NOT NULL ," + // 8: whetherFaceId
-                "\"STATU\" TEXT);"); // 9: statu
+                "\"STATU\" TEXT," + // 9: statu
+                "\"HEAD_PIC\" TEXT);"); // 10: headPic
     }
 
     /** Drops the underlying database table. */
@@ -104,6 +106,11 @@ public class UserDao extends AbstractDao<User, Long> {
         if (statu != null) {
             stmt.bindString(10, statu);
         }
+ 
+        String headPic = entity.getHeadPic();
+        if (headPic != null) {
+            stmt.bindString(11, headPic);
+        }
     }
 
     @Override
@@ -143,6 +150,11 @@ public class UserDao extends AbstractDao<User, Long> {
         if (statu != null) {
             stmt.bindString(10, statu);
         }
+ 
+        String headPic = entity.getHeadPic();
+        if (headPic != null) {
+            stmt.bindString(11, headPic);
+        }
     }
 
     @Override
@@ -162,7 +174,8 @@ public class UserDao extends AbstractDao<User, Long> {
             cursor.isNull(offset + 6) ? null : cursor.getString(offset + 6), // userName
             cursor.getInt(offset + 7), // whetherVip
             cursor.getInt(offset + 8), // whetherFaceId
-            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9) // statu
+            cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9), // statu
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10) // headPic
         );
         return entity;
     }
@@ -179,6 +192,7 @@ public class UserDao extends AbstractDao<User, Long> {
         entity.setWhetherVip(cursor.getInt(offset + 7));
         entity.setWhetherFaceId(cursor.getInt(offset + 8));
         entity.setStatu(cursor.isNull(offset + 9) ? null : cursor.getString(offset + 9));
+        entity.setHeadPic(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
      }
     
     @Override

@@ -20,12 +20,15 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hyphenate.chat.EMConversation;
+import com.hyphenate.easeui.EaseConstant;
 import com.hyphenate.easeui.ui.EaseContactListFragment;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
 import com.wd.tech.R;
 import com.wd.tech.adapter.FragmentViewAdapter;
 import com.wd.tech.core.WDFragment;
 import com.wd.tech.view.AddFriendsActivity;
+import com.wd.tech.view.ChatActivity;
 import com.wd.tech.view.FlockActivity;
 
 import java.util.ArrayList;
@@ -48,6 +51,7 @@ public class FragMessage extends WDFragment implements View.OnClickListener {
     Unbinder unbinder;
     private PopupWindow popupWindow;
     private ImageView imageadd;
+    private EaseConversationListFragment easeConversationListFragment;
 
 
     @Override
@@ -66,7 +70,7 @@ public class FragMessage extends WDFragment implements View.OnClickListener {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.frag_02, container, false);
 
         unbinder = ButterKnife.bind(this, view);
@@ -75,9 +79,31 @@ public class FragMessage extends WDFragment implements View.OnClickListener {
         myMessage.setTextColor(Color.WHITE);
         myMessage.setBackgroundResource(R.drawable.text_magess_shape);
         List<Fragment> list = new ArrayList<>();
-        list.add(new EaseConversationListFragment());
+        easeConversationListFragment = new EaseConversationListFragment();
+        list.add(easeConversationListFragment);
         list.add(new FragOneContact());
         FragmentPagerAdapter fragmentPagerAdapter = new FragmentViewAdapter(getActivity().getSupportFragmentManager(), list);
+        easeConversationListFragment.setConversationListItemClickListener(new EaseConversationListFragment.EaseConversationListItemClickListener() {
+            @Override
+            public void onListItemClicked(EMConversation conversation) {
+                EMConversation.EMConversationType type = conversation.getType();
+                if (type== EMConversation.EMConversationType.Chat){
+
+                    Intent intent = new Intent(getContext(), ChatActivity.class);
+                    intent.putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId());
+                    //intent.putExtra("userNames", conversation.conversationId());
+                    //intent.putExtra("friendInfoList",friendInfoList);
+                    startActivity(intent);
+                }else {
+//                    Intent intent = new Intent(getContext(), WantGroupChatActivity.class);
+//                    intent.putExtra(EaseConstant.EXTRA_USER_ID, conversation.conversationId());
+//                    intent.putExtra("userNames", conversation.conversationId());
+//                    startActivity(intent);
+                }
+
+
+            }
+        });
         myMessageViewPager.setAdapter(fragmentPagerAdapter);
         myMessageViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

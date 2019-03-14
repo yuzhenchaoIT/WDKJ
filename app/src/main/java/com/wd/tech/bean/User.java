@@ -26,11 +26,20 @@ public class User {
     private int userId;
     private String userName;
     private int whetherVip;
+
+    public String getHeadPic() {
+        return headPic;
+    }
+
+    public void setHeadPic(String headPic) {
+        this.headPic = headPic;
+    }
+
     private int whetherFaceId;
     private String statu;
-
-    @Generated(hash = 1625773224)
-    public User(long id, String nickName, String phone, String pwd, String sessionId, int userId, String userName, int whetherVip, int whetherFaceId, String statu) {
+    private String headPic;
+    @Generated(hash = 155928060)
+    public User(long id, String nickName, String phone, String pwd, String sessionId, int userId, String userName, int whetherVip, int whetherFaceId, String statu, String headPic) {
         this.id = id;
         this.nickName = nickName;
         this.phone = phone;
@@ -41,6 +50,7 @@ public class User {
         this.whetherVip = whetherVip;
         this.whetherFaceId = whetherFaceId;
         this.statu = statu;
+        this.headPic = headPic;
     }
 
     @Generated(hash = 586692638)
